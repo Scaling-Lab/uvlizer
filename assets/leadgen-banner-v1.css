@@ -1,0 +1,136 @@
+.leadgen__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 19px;
+}
+
+.leadgen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    text-align: left;
+    gap: 15px;
+    max-width: 890px;
+    padding: 46px 16px 39px;
+    border-radius: 25px;
+}
+
+.leadgen__content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.leadgen .leadgen__title {
+    color: #E40202;
+    font-family: Poppins, sans-serif;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 23.4px;
+}
+
+.leadgen__text {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.leadgen__text p,
+.leadgen__content p,
+.leadgen__content em {
+    font-size: 14px;
+    line-height: 22.4px;
+}
+
+.leaden__disclaimer {
+    margin-top: 7px !important;
+    font-size: 12px !important;
+}
+
+em strong {
+    color: #E40202;
+}
+
+.leadgen__image img {
+    max-width: 115px;
+}
+
+.klaviyo-form button {
+    border-radius: 10px !important;
+    background: #D53600 !important;
+    height: 48px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.klaviyo-form input {
+    border-radius: 10px !important;
+    border: 1.5px solid #E2E2E2 !important;
+    background: #EFEFEF !important;
+    height: 48px !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 15px !important;
+}
+
+.desktop {
+    display: none;
+}
+
+.mobile {
+    display: block;
+}
+
+@media screen and (min-width: 768px) {
+    .leadgen {
+        padding: 40px 65px 55px 65px;
+        gap: 20px;
+    }
+
+    .leadgen__content {
+        flex-direction: row;
+    }
+
+    .leadgen__image img {
+        max-width: unset;
+    }
+
+    .leadgen .leadgen__title {
+        font-size: 28px;
+        line-height: 36.4px;
+    }
+
+    .leadgen__text {
+        flex-direction: column;
+    }
+
+    .leadgen__text p {
+        max-width: 753px;
+    }
+
+    .leadgen__content p,
+    .leadgen__content em {
+        font-size: 16px;
+        line-height: 20px;
+    }
+
+    .leadgen__content em {
+        margin-bottom: 15px;
+    }
+
+    .desktop {
+        display: block;
+    }
+    
+    .mobile {
+        display: none;
+    }
+}
+
+.wrapper--bottom {
+    padding-top: 0;
+}

@@ -1,0 +1,130 @@
+.leadgen__wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 19px;
+}
+
+.leadgen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+    gap: 15px;
+    max-width: 890px;
+    padding: 46px 16px 39px;
+    border-radius: 25px;
+}
+
+.leadgen__title {
+    color: #002C6A;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 26px;
+}
+
+.leadgen__text p {
+    font-size: 16px;
+    line-height: 22.4px;
+}
+
+.leadgen__text strong {
+    font-size: 32px;
+    line-height: 150%;
+}
+
+.leadgen__badge,
+.leadgen__confetti {
+    position: absolute;
+    top: 0; 
+    left: 0;
+}
+
+.leadgen__badge {
+    z-index: 5;
+    max-width: 113px;
+}
+
+.leadgen__image img {
+    max-width: 151px;
+}
+
+.klaviyo-form-YikKPq {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.klaviyo-form-YikKPq .needsclick.kl-private-reset-css-Xuajs1 {
+    max-width: 416px;
+    width: 100%;
+}
+
+/* Importans used to re-write default Klaviyo styles */
+
+.klaviyo-form button {
+    border-radius: 0px 0px 20px 20px !important;
+    background: #D53600 !important;
+    height: 48px !important;
+    padding: 0 !important;
+}
+
+.klaviyo-form input[type="email"] {
+    border-radius: 20px 20px 0px 0px !important;
+    border: 1.5px solid #D53600 !important;
+    background: #FFF !important;
+    text-align: center !important;
+    height: 48px !important;
+}
+
+.klaviyo-form .needsclick.kl-private-reset-css-Xuajs1 input[type="email"]:hover {
+    border-color: #D53600 !important;
+}
+
+@media screen and (min-width: 768px) {
+    .klaviyo-form button {
+        border-radius: 0px 0px 35px 35px !important;
+        height: 72px !important;
+        font-size: 24px !important;
+    }
+    
+    .klaviyo-form input[type="email"] {
+        border-radius: 35px 35px 0px 0px !important;
+        height: 72px !important;
+        font-size: 22px !important;
+    }
+
+    .leadgen {
+        padding: 40px 65px 55px 65px;
+        gap: 20px;
+    }
+
+    .leadgen__image img {
+        max-width: unset;
+    }
+
+    .leadgen__title {
+        font-size: 34px;
+        line-height: 51px;
+    }
+
+    .leadgen__text p {
+        font-size: 20px;
+        line-height: 26px;
+        max-width: 753px;
+    }
+
+    .leadgen__text strong {
+        font-size: 48px;
+    }
+
+    .leadgen__badge {
+        max-width: 218px;
+    }
+}
+
+.wrapper--bottom {
+    padding-bottom: 0;
+}
