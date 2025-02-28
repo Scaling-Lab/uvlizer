@@ -1,0 +1,54 @@
+<div class="bundle-wrapper ffff">
+  <p> {{product.title}}</p>
+  {% for product_option in product.options_with_values %}
+{% if product_option.name == 'Quantity' or product_option.name == 'sizes' or product_option.name == 'size' or product_option.name == 'Size' %}
+        <ul class="variant-list">
+           {% for variant in product.variants %}
+          <li data-qty="1" class="{% if variant.available %}available{% else %}not-availbe{% endif %}" v_id="{{ variant.id }}" data-variant="{{ variant.id }}">{{ variant.title }}</li>
+          {% endfor %}
+        </ul>
+{% endif %}
+{% endfor %}
+  
+  <div class="row-block first-block">
+    <div class="blk b1" style="opacity:0">
+       
+    </div>
+  	 <div class="blk b1">
+       <p>Most Popular</p>
+       <p class="bprice">13% OFF</p>
+    </div>
+   
+     <div class="blk b1">
+       <p>Most Popular</p>
+       <p class="bprice">13% OFF</p>
+    </div>
+  </div>
+  <div class="row-block">
+    <div class="blk b1">
+      <div class="img-wrap">
+    	<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/d1.png?v=1654148462">
+        </div>
+      <p>1 Device</p>
+      <p class="bprice">$00.00</p>
+    </div>
+    <div class="blk b1">
+    <div class="img-wrap">
+    	<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/d2.png?v=1654148463">
+        </div>
+       <p>2 Device</p>
+      <p class="bprice">$00.00 <span>Each</span></p>
+      <p>You save $9.00</p>
+    </div>
+    <div class="blk b1">
+    <div class="img-wrap">
+    	<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/d3.png?v=1654148462">
+        </div>
+       <p>3 Device</p>
+      <p class="bprice">$00.00 <span>Each</span></p>
+       <p>You save $9.00</p>
+    </div>
+  
+  </div>
+
+</div>

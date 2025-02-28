@@ -1,0 +1,123 @@
+{% style %}
+.custom-tab .product-container {
+  display: flex;
+  justify-content: space-between;
+}
+.custom-tab .img-wrapper {
+  padding-right: 90px;
+}
+.custom-tab .tabs {
+  width: 605px;
+}
+.tab-wrapper {
+  border-top: 1px solid #CEDCE4;
+}
+.tab-wrapper:last-child {
+  border-bottom: 1px solid #CEDCE4;
+}
+a.tab-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0 16px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #00436C;
+  text-decoration: none;
+}
+a.tab-btn.active svg {
+  transform: rotate(180deg);
+}
+.tab-content {
+  margin-bottom: 8px;
+  font-size: 16px;
+  color: #1F1F1F;
+  line-height: 1.4;
+}
+.custom-tab ul {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.custom-tab ul li {
+  width: 50%;
+  display: flex;
+  align-items: flex-start;
+  font-weight: 400;
+}
+{% endstyle %}
+
+<section class="custom-tab">
+  <div class="product-container">
+    <div class="img-wrapper"><img src="{{ section.settings.image.src | image_url }}"></div>
+    <div class="tabs">
+    {% for block in section.blocks %}
+      <div class="tab-wrapper">
+        <a class="tab-btn">
+          {{ block.settings.title }}
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+          <path d="M5.88 8L12 13.5674L18.12 8L20 9.72237L12 17L4 9.72237L5.88 8Z" fill="#00436C"/>
+          </svg>
+        </a>
+        <div class="tab-content" style="display: none;">
+          {{ block.settings.description }}
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+  var tabBtns = document.querySelectorAll('.tab-btn');
+  var allContents = document.querySelectorAll('.tab-content');
+
+  // Add "active" class and set display to "block" for the first block
+  tabBtns[0].classList.add('active');
+  allContents[0].style.display = 'block';
+
+  tabBtns.forEach(function(button, index) {
+      button.addEventListener('click', function() {
+          tabBtns.forEach(function(btn, i) {
+              if (i !== index) {
+                  btn.classList.remove('active');
+                  allContents[i].style.display = 'none';
+              }
+          });
+
+          this.classList.toggle('active');
+          allContents[index].style.display = allContents[index].style.display === 'block' ? 'none' : 'block';
+      });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Custom Tab-DE",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hover Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

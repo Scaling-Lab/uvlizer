@@ -1,0 +1,35 @@
+<div>
+    {%- if block.settings.heading != blank -%}<span class="footer__title">{{ block.settings.heading }}</span>{%- endif -%}
+    {% comment %}orirginal old version{% endcomment %}
+    {% comment %}<div class="footer__text">{{block.settings.text}}</div>{% endcomment %}
+
+
+    {% comment %}new version for Lp Fda{% endcomment %}
+    <div class="footer__text">
+        {{ block.settings.text }}
+    </div>
+
+    {% if page.template_suffix contains 'device-second-updated-2x-offer-summer-sale-lp-fda' %}
+        <style>
+            .footer__text {
+                display: none;
+            }
+
+            .footer__text-fda {
+                display: block;
+            }
+        </style>
+        <div class="footer__text-fda">
+            UV-C technology has been shown to reduce the presence of dust mites, mold, bacteria, germs, foul smells and
+            other microorganisms on treated surfaces.
+        </div>
+    {% else %}
+        <style>
+            .footer__text-fda {
+                display: none;
+            }
+        </style>
+    {% endif %}
+    {% comment %}new version for Lp Fda{% endcomment %}
+
+</div>

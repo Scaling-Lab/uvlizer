@@ -1,0 +1,170 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background: {{ section.settings.background_color }}
+  }
+
+  .surviors__wrapper .surviors__left p {
+    color: {{ section.settings.text_color }};
+    font-family: Poppins, sans-serif;
+    font-size: {{ section.settings.text_size_mobile }}px;
+    line-height: 130%;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .surviors__wrapper .surviors__left p {
+      font-size: {{ section.settings.text_size_tablet }}px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .surviors__wrapper .surviors__left p {
+      font-size: {{ section.settings.text_size }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+    .donly {
+        display: none;
+    }
+
+    .monly {
+        display: block;
+    }
+
+    .surviors__wrapper {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .surviors__left {
+        margin-left: 16px;
+    }
+
+    .surviors__right img {
+        width: 100%;
+    }
+
+    @media screen and (min-width: 1024px) {
+        .donly {
+            display: block;
+        }
+
+        .monly {
+            display: none;
+        }
+
+        .surviors__wrapper {
+            flex-direction: row;
+            align-items: center;
+            padding: 0 40px;
+        }
+
+        .surviors__left {
+            min-width: 671px;
+        }
+    }
+</style>
+
+<div class="isolate">
+  <div class="section-{{ section.id }}-padding">
+    <div class="surviors__wrapper">
+        <div class="surviors__left">
+            {{ section.settings.text }}
+        </div>
+        <div class="surviors__right">
+            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/uvlizer-reviews-d_f83856cd-dd6d-4843-a53a-1016002bd0dc.jpg?v=1738239029" alt="surviors image" class="surviors__image donly">
+            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/uvlizer-reviews-m_37b600c6-d30d-484f-b70d-c5fe7a834cff.jpg?v=1738239028" alt="surviors image" class="surviors__image monly">
+        </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle page surviors",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "default": 96,
+      "min": 16,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "default": 40,
+      "min": 12,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_tablet",
+      "label": "Text size tablet",
+      "default": 60,
+      "min": 12,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#004587"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle page surviors"
+    }
+  ]
+}
+{% endschema %}

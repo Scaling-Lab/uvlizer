@@ -1,0 +1,178 @@
+{% style %}
+  .video-testimonial {
+  padding: 80px 0;
+  background: #fff;
+  padding-top: 40px;
+  }
+
+  .video-testimonial__container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+  align-items: center;
+  }
+
+  .video-testimonial__video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%;
+  background: #f5f5f5;
+  border-radius: 10px;
+  overflow: hidden;
+  height: 370px;
+  }
+
+  .video-testimonial__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  }
+
+  .video-testimonial__title {
+  font-size: 48px;
+  line-height: 1.2;
+  color: #000;
+  font-weight: 600;
+  }
+
+  .video-testimonial__subtitle {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #666;
+  }
+
+  .video-testimonial__review {
+  background: #F8F9FB;
+  padding: 30px;
+  border-radius: 10px;
+  height: 100%;
+  margin-left: -45px;
+  padding-left: 50px;
+  }
+
+  .video-testimonial__stars {
+  color: #4756DF;
+  font-size: 20px;
+  margin-bottom: 15px;
+  }
+
+  .video-testimonial__heading {
+  font-size: 24px;
+  font-weight: 600;
+  color: #000;
+  padding-bottom: 20px;
+  }
+
+  .video-testimonial__text {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
+  }
+
+  .video-testimonial__author {
+  font-size: 18px;
+  font-weight: 600;
+  color: #000;
+  }
+
+  @media (max-width: 1024px) {
+  .video-testimonial__title {
+  font-size: 34px;
+  }
+  .video-testimonial__container {
+  grid-template-columns: 1fr;
+  text-align: center;
+  gap: 40px;
+  }
+
+  .video-testimonial {
+  padding: 40px 20px;
+  padding-top: 20px;
+  }
+
+  .video-testimonial__video-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+  }
+
+  .video-testimonial__review {
+  max-width: 600px;
+  margin: 0 auto;
+  }
+  }
+{% endstyle %}
+
+<div class="video-testimonial">
+  <div class="video-testimonial__container">
+    <div>
+      <h2 class="video-testimonial__title">{{ section.settings.title }}</h2>
+      <div class="video-testimonial__subtitle">{{ section.settings.subtitle }}</div>
+    </div>
+
+    <div class="video-testimonial__video-wrapper">
+      <video class="video-testimonial__video" controls playsinline muted>
+        <source src="https://cdn.shopify.com/videos/c/o/v/0fefa92121904d8fbad658474bccfdc5.mov" type="video/quicktime">
+        <source src="https://cdn.shopify.com/videos/c/o/v/0fefa92121904d8fbad658474bccfdc5.mov" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+
+    <div class="video-testimonial__review">
+      <div class="video-testimonial__stars">★★★★★</div>
+      <h3 class="video-testimonial__heading">{{ section.settings.review_title }}</h3>
+      <div class="video-testimonial__text">{{ section.settings.review_text }}</div>
+      <div class="video-testimonial__author">{{ section.settings.author }}</div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Video Testimonial-De",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title",
+      "default": "Was unsere Kunden sagen..."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Nach rechts wischen, um mehr Bewertungen zu sehen."
+    },
+    {
+      "type": "text",
+      "id": "review_title",
+      "label": "Review Title",
+      "default": "Ich empfehle diesen Turm meinen Patienten!"
+    },
+    {
+      "type": "richtext",
+      "id": "review_text",
+      "label": "Review Text",
+      "default": "<p>\"Ich persönlich empfehle diesen Turm Jedem, der mit häuslichen Allergenen zu kämpfen hat. Verwenden Sie den Turm für mindestens 30 Minuten in Ihren Innenräumen 1-3x pro Woche.\"</p>"
+    },
+    {
+      "type": "text",
+      "id": "author",
+      "label": "Author Name",
+      "default": "Dr. Monika Weber"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Video Testimonial",
+      "category": "Testimonials"
+    }
+  ]
+}
+{% endschema %}

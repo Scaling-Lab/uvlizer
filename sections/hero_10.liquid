@@ -1,0 +1,200 @@
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Headline Text",
+      "default": "New Tool Eradicates the #1 Root Cause of Allergies"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading_text",
+      "label": "Subheading Text",
+      "default": "If you'd like to relieve sneezing, coughing, itchy, runny, or stuffy nose... and"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Brand Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_image_donly",
+      "label": "Header Image (Desktop Only)"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_image_monly",
+      "label": "Header Image (Mobile Only)"
+    },
+    {
+      "type": "url",
+      "id": "order_link",
+      "label": "Order Link"
+    },
+    {
+      "type": "text",
+      "id": "nav_home",
+      "label": "Navigation Home Text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "nav_what_is",
+      "label": "Navigation What's UVO254 Text",
+      "default": "What's UVO254?"
+    },
+    {
+      "type": "text",
+      "id": "nav_benefits",
+      "label": "Navigation Benefits Text",
+      "default": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "nav_reviews",
+      "label": "Navigation Reviews Text",
+      "default": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "nav_faq",
+      "label": "Navigation FAQ Text",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "nav_order",
+      "label": "Navigation Order Text",
+      "default": "Order"
+    },
+    {
+      "type": "text",
+      "id": "final_text",
+      "label": "Final Text",
+      "default": "FINALLY, start enjoying a clean, allergy-free, and disease-free space"
+    },
+    {
+      "type": "text",
+      "id": "bullet_heading1",
+      "label": "Bullet Heading Text",
+      "default": "WITHOUT"
+    },
+    {
+      "type": "text",
+      "id": "bullet_heading2",
+      "label": "Bullet Heading Text",
+      "default": "worrying about"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_1",
+      "label": "Bullet Point 1",
+      "default": "Buying expensive air purifiers and their ongoing filter replacements"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_2",
+      "label": "Bullet Point 2",
+      "default": "Toxic chemicals that kill allergens, but also kill you along the way"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_3",
+      "label": "Bullet Point 3",
+      "default": "Daily pills that only treat the symptoms without a long-term fix"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_4",
+      "label": "Bullet Point 4",
+      "default": "Ongoing, expensive deep-cleaning services"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_5",
+      "label": "Bullet Point 5",
+      "default": "Cleaning your home from top to bottom every day"
+    },
+    {
+      "type": "text",
+      "id": "right_place_text",
+      "label": "Right Place Text",
+      "default": "Then you're invited to act quickly."
+    },
+    {
+      "type": "text",
+      "id": "scroll_donly_text",
+      "label": "Scroll Down Text (Desktop Only)",
+      "default": "Scroll below to learn more"
+    },
+    {
+      "type": "text",
+      "id": "scroll_monly_text",
+      "label": "Scroll Down Text (Mobile Only)",
+      "default": "Scroll below to learn more"
+    }
+  ]
+}
+{% endschema %}
+
+<header class="nheader">
+        <div class="containern">
+            <div id="headertop" class="donly">
+                <div class="brand">
+                    <h2>
+                        {% if section.settings.brand_logo %}
+                        <img src="{{ section.settings.brand_logo | img_url: 'master' }}" alt="Brand Logo">
+                        {% else %}
+                        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/logo-new.png?v=1654107772">
+                        {% endif %}
+                    </h2>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="#">{{ section.settings.nav_home }}</a></li>
+                        <li><a href="#sectionsix" class="back-to-top">{{ section.settings.nav_what_is }}</a></li>
+                        <li><a href="#benefits" class="back-to-top">{{ section.settings.nav_benefits }}</a></li>
+                        <li><a href="#reviewsection" class="back-to-top">{{ section.settings.nav_reviews }}</a></li>
+                        <li><a href="#askquestion" class="back-to-top">{{ section.settings.nav_faq }}</a></li>
+                        <li><a href="{{ section.settings.order_link }}" class="back-to-top">{{ section.settings.nav_order }}</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="headerbottom">
+                <div class="hbleft">
+                    <h1>{{ section.settings.headline_text }}</h1>
+                    <p>{{ section.settings.subheading_text }}</p>
+                    <p class="first">{{ section.settings.final_text }}</p>
+
+                    <p class="bullet-heading"><u>{{ section.settings.bullet_heading1 }}</u> {{ section.settings.bullet_heading2 }}</p>
+                    <ul>
+                        {% if section.settings.bullet_point_1 %}<li>{{ section.settings.bullet_point_1 }}</li>{% endif %}
+                        {% if section.settings.bullet_point_2 %}<li>{{ section.settings.bullet_point_2 }}</li>{% endif %}
+                        {% if section.settings.bullet_point_3 %}<li>{{ section.settings.bullet_point_3 }}</li>{% endif %}
+                        {% if section.settings.bullet_point_4 %}<li>{{ section.settings.bullet_point_4 }}</li>{% endif %}
+                        {% if section.settings.bullet_point_5 %}<li>{{ section.settings.bullet_point_5 }}</li>{% endif %}
+                    </ul>
+                    <p>{{ section.settings.right_place_text }}</p>
+                    <br>
+                    <a href="#commentreview" class="knowmorebtn back-to-top donly">{{ section.settings.scroll_donly_text }}</a>
+                    <a href="#mcontent" class="knowmorebtn back-to-top monly">{{ section.settings.scroll_monly_text }}</a>
+                </div>
+                <div class="hbright">
+                    {% if section.settings.header_image_donly %}
+                    <img class="donly" src="{{ section.settings.header_image_donly }}" alt="Header Image">
+                    {% else %}
+                    <img class="donly" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Group_2583.png?v=1726055884" alt="">
+                    {% endif %}
+                    {% if section.settings.header_image_monly %}
+                    <img class="monly" src="{{ section.settings.header_image_monly }}" alt="Header Image">
+                    {% else %}
+                    <img class="monly" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/image-Photoroom_16_1.png?v=1726058942" alt="">
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>

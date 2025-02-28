@@ -1,0 +1,191 @@
+{% schema %}
+{
+  "name": "Steps Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Section Title",
+      "default": "Steps Title"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Section Subtitle",
+      "default": "Section subtitle text"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#f4f4f4"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "step_image",
+          "label": "Step Image"
+        },
+        {
+          "type": "text",
+          "id": "step_number",
+          "label": "Step Number",
+          "default": "01"
+        },
+        {
+          "type": "text",
+          "id": "step_title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "textarea",
+          "id": "step_description",
+          "label": "Step Description",
+          "default": "Step description text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Steps Section",
+      "blocks": [
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        },
+        {
+          "type": "step"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="steps-section" style="background-color: {{ section.settings.background_color }}">
+  <div class="steps-container">
+    {% if section.settings.title != blank %}
+      <h2 class="steps-title">{{ section.settings.title }}</h2>
+    {% endif %}
+
+    {% if section.settings.subtitle != blank %}
+      <p class="steps-subtitle">{{ section.settings.subtitle }}</p>
+    {% endif %}
+
+    <div class="steps-grid">
+      {% for block in section.blocks %}
+        <div class="step-card" {{ block.shopify_attributes }}>
+          {% if block.settings.step_image %}
+            <div class="step-image-container">
+              <img src="{{ block.settings.step_image | img_url: 'master' }}"
+                   alt="{{ block.settings.step_title }}"
+                   loading="lazy"
+                   class="step-image">
+              <div class="step-number">{{ block.settings.step_number }}</div>
+            </div>
+          {% endif %}
+
+          <div class="step-content">
+            <h3 class="step-title">{{ block.settings.step_title }}</h3>
+            <p class="step-description">{{ block.settings.step_description }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+<style>
+  .steps-section {
+    padding: 80px 20px;
+  }
+
+  .steps-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .steps-title {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 32px;
+  }
+
+  .steps-subtitle {
+    text-align: center;
+    padding: 40px 0;
+    font-size: 18px;
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+
+  .step-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+  }
+
+  .step-image-container {
+    position: relative;
+    margin-bottom: 20px;
+  }
+
+  .step-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+  .step-number {
+    visibility: hidden;
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #4a90e2;
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+  }
+
+  .step-title {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+
+  .step-description {
+    font-size: 16px;
+    line-height: 1.5;
+    color: #666;
+  }
+
+  @media screen and (max-width: 768px) {
+    .steps-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .step-card {
+      margin-bottom: 20px;
+    }
+  }
+</style>

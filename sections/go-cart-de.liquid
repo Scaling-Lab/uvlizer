@@ -1,0 +1,348 @@
+<!--go cart modal fail-->
+<div class="go-cart__modal go-cart__modal--fail js-go-cart-modal-fail">
+
+    <div class="go-cart-modal">
+
+        <!--go cart modal close-->
+        <div class="go-cart-modal__close js-go-cart-modal-fail-close">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                <path d="M15.89 14.696l-4.734-4.734 4.717-4.717c.4-.4.37-1.085-.03-1.485s-1.085-.43-1.485-.03L9.641 8.447 4.97 3.776c-.4-.4-1.085-.37-1.485.03s-.43 1.085-.03 1.485l4.671 4.671-4.688 4.688c-.4.4-.37 1.085.03 1.485s1.085.43 1.485.03l4.688-4.687 4.734 4.734c.4.4 1.085.37 1.485-.03s.43-1.085.03-1.485z"></path>
+            </svg>
+
+        </div>
+        <!--end go cart modal close-->
+
+        <!--go cart modal content-->
+        <div class="go-cart-modal__content js-go-cart-modal-fail-content">
+            Etwas ist schiefgelaufen, bitte kontaktieren Sie uns!
+        </div>
+        <!--end go cart modal content-->
+
+    </div>
+
+</div>
+<!--end go cart modal fail-->
+
+<!--go cart modal-->
+<div class="go-cart__modal js-go-cart-modal">
+
+    <div class="go-cart-modal">
+
+        <!--go cart modal close-->
+        <div class="go-cart-modal__close js-go-cart-modal-close">
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                <path d="M15.89 14.696l-4.734-4.734 4.717-4.717c.4-.4.37-1.085-.03-1.485s-1.085-.43-1.485-.03L9.641 8.447 4.97 3.776c-.4-.4-1.085-.37-1.485.03s-.43 1.085-.03 1.485l4.671 4.671-4.688 4.688c-.4.4-.37 1.085.03 1.485s1.085.43 1.485.03l4.688-4.687 4.734 4.734c.4.4 1.085.37 1.485-.03s.43-1.085.03-1.485z"></path>
+            </svg>
+
+        </div>
+        <!--end go cart modal close-->
+
+        <!--go cart modal content-->
+        <div class="go-cart-modal__content js-go-cart-modal-content"></div>
+        <!--end go cart modal content-->
+
+        <!--go cart modal buttons-->
+        <div class="go-cart-modal__buttons">
+
+            <a class="go-cart__button js-go-cart-modal-close">
+                Weiter einkaufen
+            </a>
+
+            <a href="/cart/" class="go-cart__button">
+                Warenkorb anzeigen
+            </a>
+
+        </div>
+        <!--end go cart modal buttons-->
+
+    </div>
+
+</div>
+<!--end go cart modal-->
+
+<!--go cart drawer-->
+<div class="go-cart__drawer js-go-cart-drawer">
+
+    <div class="go-cart-drawer">
+
+        <!--go cart drawer close-->
+        <div class="go-cart-drawer__header">
+            <div class="cart_header">
+                <div class="cht">
+                    <img nolazyload width="158" height="120" style="width:75px;" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/icc2_2.png?v=1654773076"> <p>Artikel in Ihrem Warenkorb</p>
+                </div>
+                <div class="go-cart-drawer__close js-go-cart-drawer-close">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+                        <path d="M15.89 14.696l-4.734-4.734 4.717-4.717c.4-.4.37-1.085-.03-1.485s-1.085-.43-1.485-.03L9.641 8.447 4.97 3.776c-.4-.4-1.085-.37-1.485.03s-.43 1.085-.03 1.485l4.671 4.671-4.688 4.688c-.4.4-.37 1.085.03 1.485s1.085.43 1.485.03l4.688-4.687 4.734 4.734c.4.4 1.085.37 1.485-.03s.43-1.085.03-1.485z"></path>
+                    </svg>
+                </div>
+            </div>
+
+            {% if page.template_suffix contains 'device-second-updated-2x-offer_US-var-1' or page.template_suffix contains 'device-second-updated-2x-offer_CA-var-1' or page.template_suffix contains 'device-second-updated-2x-offer_AU-var-1' or page.template_suffix contains 'device-second-updated-2x-offer_UK-var-1' %}
+                <!--progress-bar-section-Var-1-->
+                <div class="cart-header-text progress-bar-section">
+
+                    <style>
+                        .go-cart-drawer__header {
+                            height: 135px;
+                        }
+
+                        .cart-header-text.cart-header-text-content {
+                            height: 26px;
+                        }
+
+                        .progress-bar-container {
+                            background-color: #DFDFDF;
+                            height: 6px;
+                            margin: -15px -15px 0;
+                            border-radius: 5px;
+                        }
+
+                        .progress-bar {
+                            background-color: #61A35F;
+                            height: 100%;
+                            border-radius: 5px;
+                        }
+
+                        .progress-bar--red {
+                            background-color: #61A35F;
+                        }
+
+                        .cart-header-text {
+                            height: 50px;
+                        }
+
+                        .cart-header-text-content {
+                            margin: 0;
+                        }
+                    </style>
+
+                    <p class="cart-header-text cart-header-text-content">♥ Sie haben kostenlosen Versand freigeschaltet!</p>
+
+                    <div class="cart-popup">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar{% if total_items == 1 and progress_percentage == 50 %} progress-bar--red{% endif %}" style="width: {{ progress_percentage }}%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            {% elsif page.template_suffix contains 'device-second-updated-2x-offer_US-var-2' or page.template_suffix contains 'device-second-updated-2x-offer_CA-var-2' or page.template_suffix contains 'device-second-updated-2x-offer_AU-var-2' or page.template_suffix contains 'device-second-updated-2x-offer_UK-var-2' %}
+            <!--progress-bar-section-Var-2-->
+            <div class="cart-header-text progress-bar-section">
+
+                <style>
+                    .go-cart-drawer__header {
+                        height: 135px;
+                    }
+
+                    .cart-header-text.cart-header-text-content {
+                        height: 26px;
+                    }
+
+                    .progress-bar-container {
+                        background-color: #DFDFDF;
+                        height: 6px;
+                        margin: -15px -15px 0;
+                        border-radius: 5px;
+                        overflow: hidden;
+                    }
+
+                    .progress-bar {
+                        background-color: #61A35F;
+                        height: 100%;
+                        border-radius: 5px;
+                        transition: width 0.5s ease;
+                    }
+
+                    .progress-bar--red {
+                        background-color: #C93A3A;
+                    }
+
+                    .cart-header-text {
+                        height: 50px;
+                    }
+
+                    .cart-header-text-content {
+                        margin: 0;
+                    }
+                </style>
+
+                {% assign total_price = 0 %}
+                {% for item in cart.items %}
+                    {% assign total_price = total_price | plus: item.final_price %}
+                {% endfor %}
+
+                <p class="cart-header-text cart-header-text-content">♥ Sie haben kostenlosen Versand freigeschaltet!</p>
+
+                {% if page.template_suffix contains 'device-second-updated-2x-offer_AU-var-2' %}
+                    {% comment %}forced styling{% endcomment %}
+                    <style>
+                        .progress-bar {
+                            width: 100% !important;
+                        }
+
+                        .progress-bar--red {
+                            width: 50% !important;
+                        }
+
+                    </style>
+                    <div class="cart-popup">
+                        <div class="progress-bar-container">
+                            <div class="progress-bar{% if total_price <= 123 %} progress-bar--red{% endif %}" style="width: {{ progress_percentage }}%;"></div>
+                        </div>
+                    </div>
+
+                    <script>
+                        var progressBar = document.querySelector('.progress-bar');
+                        var cartHeaderText = document.querySelector('.cart-header-text-content');
+
+                        function updateProgressBar(totalPrice) {
+                            var maxProgressBarValue = 100;
+                            var shippingThreshold = 123;
+
+                            if (totalPrice <= shippingThreshold) {
+                                progress_percentage = 50;
+                                progressBar.classList.add('progress-bar--red');
+                            } else {
+                                progress_percentage = (totalPrice - shippingThreshold) / (maxProgressBarValue - shippingThreshold) * (maxProgressBarValue - 50) + 50;
+                                progress_percentage = Math.min(progress_percentage, maxProgressBarValue);
+                                progressBar.classList.remove('progress-bar--red');
+                            }
+
+                            progressBar.style.width = progress_percentage + '%';
+                        }
+
+                        function updateCartHeaderText(totalPrice) {
+                            if (totalPrice <= 123) {
+                                cartHeaderText.textContent = "Noch 1+ Lampe bis zum kostenlosen Versand";
+                            } else {
+                                cartHeaderText.textContent = "♥ Sie haben kostenlosen Versand freigeschaltet!";
+                            }
+                        }
+
+                        function updateCart() {
+                            var cartDrawer = document.querySelector('.go-cart__drawer.is-open');
+                            if (cartDrawer) {
+                                fetch('/cart.json')
+                                    .then(response => response.json())
+                                    .then(data => {
+                                        var totalPrice = data.total_price / 100;
+                                        updateProgressBar(totalPrice);
+                                        updateCartHeaderText(totalPrice);
+                                    })
+                                    .catch(error => console.error('Error fetching cart data:', error));
+                            }
+                        }
+
+                        setInterval(updateCart, 1600);
+
+                    </script>
+
+
+                {% else %}
+
+                <div class="cart-popup">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar{% if total_price <= 80 %} progress-bar--red{% endif %}" style="width: {{ progress_percentage }}%;"></div>
+                    </div>
+                </div>
+
+                <script>
+                    var progressBar = document.querySelector('.progress-bar');
+                    var cartHeaderText = document.querySelector('.cart-header-text-content');
+
+                    function updateProgressBar(totalPrice) {
+                        var maxProgressBarValue = 100;
+                        var shippingThreshold = 80;
+
+                        if (totalPrice <= shippingThreshold) {
+                            progress_percentage = 50;
+                            progressBar.classList.add('progress-bar--red');
+                        } else {
+                            progress_percentage = (totalPrice - shippingThreshold) / (maxProgressBarValue - shippingThreshold) * (maxProgressBarValue - 50) + 50;
+                            progress_percentage = Math.min(progress_percentage, maxProgressBarValue);
+                            progressBar.classList.remove('progress-bar--red');
+                        }
+
+                        progressBar.style.width = progress_percentage + '%';
+                    }
+
+                    function updateCartHeaderText(totalPrice) {
+                        if (totalPrice <= 80) {
+                            cartHeaderText.textContent = "Noch 1+ Lampe bis zum kostenlosen Versand";
+                        } else {
+                            cartHeaderText.textContent = "♥ Sie haben kostenlosen Versand freigeschaltet!";
+                        }
+                    }
+
+                    function updateCart() {
+                        var cartDrawer = document.querySelector('.go-cart__drawer.is-open');
+                        if (cartDrawer) {
+                            fetch('/cart.json')
+                                .then(response => response.json())
+                                .then(data => {
+                                    var totalPrice = data.total_price / 100;
+                                    updateProgressBar(totalPrice);
+                                    updateCartHeaderText(totalPrice);
+                                })
+                                .catch(error => console.error('Error fetching cart data:', error));
+                        }
+                    }
+
+                    setInterval(updateCart, 1600);
+
+                        </script>
+
+                {% endif %}
+
+            </div>
+
+            {% else %}
+                <p class="cart-header-text"><span>Glückwunsch!</span> Sie haben KOSTENLOSEN VERSAND verdient</p>
+            {% endif %}
+
+        </div>
+        <!--end go cart drawer close-->
+
+        <!--go cart drawer content-->
+        <div class="go-cart-drawer__content js-go-cart-drawer-content">
+            <p class="cart-header-text"><span>Glückwunsch!</span> Sie haben KOSTENLOSEN VERSAND verdient</p>
+        </div>
+        <!--end go cart drawer content-->
+
+        <!--go cart drawer subtotal-->
+        <div class="go-cart-drawer__subtotal">
+            <div class="icon-wrapper"><img nolazyload width="86" height="79" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/icc2_1.png?v=1654773077"> 90 Tage Garantie</div>
+            <div class="subt-wrapper">
+                <span>Zwischensumme: </span>
+                <span class="go-cart-drawer__subtotal-price js-go-cart-drawer-subtotal"></span>
+            </div>
+
+        </div>
+        <!--end go cart drawer subtotal-->
+
+        <!--go cart drawer buttons-->
+        <div class="go-cart-drawer__footer js-go-cart-drawer-footer">
+
+            <a href="/checkout/" class="go-cart__button checkout-button">
+                Zur Kasse gehen
+            </a>
+            <a href="/cart/" class="go-cart__button" style="display:none;" >
+                Warenkorb anzeigen
+            </a>
+
+        </div>
+        <!--end go cart drawer buttons-->
+
+    </div>
+
+</div>
+<!--end go cart drawer-->
+
+<!--go cart overlay-->
+<div class="go-cart__overlay js-go-cart-overlay">
+</div>
+<!--end go cart overlay-->

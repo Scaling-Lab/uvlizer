@@ -1,0 +1,30 @@
+<div class="footer__contact {{block.settings.horizontalAlignment-}}">
+{%- if block.settings.heading != blank -%}<span class="footer__title">{{block.settings.heading}}</span>{%-endif-%}
+
+{% if block.settings.emailText != blank %}
+{% assign email = block.settings.emailText %}
+{% elsif settings.storeEmail != blank %}
+{% assign email = settings.storeEmail %}
+{% else %}
+{% assign email = false %}
+{% endif %}
+{%- if email -%}
+   <a href="mailto:{{email}}">{{email}}</a> 
+{%- endif -%}
+
+{% if block.settings.phoneText != blank %}
+{% assign phone = block.settings.phoneText %}
+{% elsif settings.storePhone != blank %}
+{% assign phone = settings.storestorePhoneEmail %}
+{% else %}
+{% assign phone = false %}
+{% endif %}
+{%- if phone -%}
+    <a href="tel:{{phone}}">tel. {{phone}}</a>
+{%- endif -%}
+
+
+{%- if settings.storeLocation != blank -%}
+   <a>Location: {{settings.storeLocation}}</a> 
+{%- endif -%}
+</div>

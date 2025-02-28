@@ -1,0 +1,54 @@
+<style>
+    .video-section{
+        padding: 100px 0;
+    }
+
+    .video-section--container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+    }
+
+    .video-section h2{
+        color: #00436C;
+        text-align: center;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%; /* 48px */
+        text-transform: capitalize;
+        margin-bottom: 40px !important;
+    }
+
+    .video-section__wrapper{
+        max-width:1050px;
+        margin: auto;
+    }
+
+    video{
+        width: 100%;
+    }
+
+    @media screen and (max-width: 767px) {
+        .video-section{
+            padding: 50px 0;
+        }
+
+        .video-section h2{
+            font-size: 24px;
+            margin-bottom: 25px !important;
+        }
+    }
+</style>
+
+<section class="video-section">
+    <div class="video-section--container">
+        <h2>FR-How does it work?</h2>
+        <div class="video-section__wrapper">
+            <video controls muted>
+                <source src="https://cdn.shopify.com/videos/c/o/v/55d2a759d82e4bd3a2cf339cf320b6b6.mp4" type="video/mp4" />
+            </video>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,137 @@
+{% style %}
+.quad-boxes {
+  margin-top: 80px;
+  padding: 80px 0 105px;
+  background: #EDF5F7;
+}
+.quad-boxes .product-container {
+    display: flex;
+    justify-content: space-between;
+}
+.quad-boxes h3 {
+  color: #00436C;
+  font-size: 40px;
+  font-weight: 600!important;
+  margin-bottom: 65px!important;
+}
+.quad-boxes .img-wrapper {
+  position: relative;
+}
+.quad-boxes .img-wrapper img:not(.hover-img) {
+  height: calc(100% - 27px);
+  object-fit: cover;
+  border-radius: 10px;
+}
+.quad-boxes .img-wrapper .hover-img {
+  position: absolute;
+  top: -45px;
+  right: -36px;
+}
+.quad-boxes .quads {
+    width: 51%;
+    margin-right: 87px;
+}
+
+@media (max-width: 1300px) {
+  .quad-boxes .quads { 
+    width: 100%;
+  }
+}
+.quad-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.quad-boxes .quad-item {
+  width: calc(50% - 12px);
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0px 4px 25px 0px rgba(0, 67, 108, 0.10);
+  font-size: 14px;
+  color: #1F1F1F;
+  line-height: 1.4;
+}
+.quad-boxes .quad-item img {
+  margin-bottom: 16px;
+}
+.quad-boxes .quad-item h4 {
+  color: #00436C;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+{% endstyle %}
+
+<section class="quad-boxes">
+  <div class="product-container">
+      <h3>{{ section.settings.title }}</h3>
+  </div>
+  <div class="product-container">
+    <div class="quads">
+      <div class="quad-wrapper">
+      {% for block in section.blocks %}
+        <div class="quad-item">
+          <img src="{{ block.settings.icon.src | image_url }}">
+          <h4>{{ block.settings.title }}</h4>
+          {{ block.settings.description }}
+        </div>
+      {% endfor %}
+      </div>
+    </div>
+    <div class="img-wrapper">
+      <img src="{{ section.settings.image.src | image_url }}">
+      <img class="hover-img" src="{{ section.settings.image2.src | image_url }}">
+    </div>
+  </div>
+</section>
+
+<script>
+</script>
+
+{% schema %}
+{
+  "name": "Quad Boxes",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hover Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Hover Icon"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "box",
+      "name": "Box",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

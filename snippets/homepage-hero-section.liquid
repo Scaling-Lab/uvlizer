@@ -1,0 +1,134 @@
+<style>
+    html{scroll-behavior:smooth}
+
+    .hero-section__content{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+    }
+
+    .hero-section{
+        position: relative;
+        min-height: 400px;
+    }
+
+    .hero-section h1{
+        font-size: 56px;
+        font-weight: 700;
+        line-height: 73px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #fff;
+        margin-bottom: 10px !important;
+        text-transform: capitalize;
+    }
+
+    .hero-section  p{
+        font-size: 20px;
+        font-weight: 400;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #fff;
+        margin-bottom: 50px !important;
+    }
+
+    .cta{
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        background-color: #D53600;
+        padding: 15px 50px;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .image-desktop{
+        width: 100%;
+        max-height: 100vh;
+        min-height: 400px;
+        object-fit: cover;
+        object-position: right;
+        display: block;
+    }
+
+    .image-mobile{
+        display: none;
+    }
+
+    .wrapper--bottom {
+        padding: 0;
+    }
+
+    @media screen and (max-width: 767px) {
+        .hero-section__content{
+            top: 40px;
+            left: 0;
+            transform: none;
+        }
+
+        .hero-section h1{
+            font-size: 32px;
+            line-height: 43px;
+        }
+
+        .hero-section  p{
+            font-size: 16px;
+            line-height: 24px;
+            margin-bottom: 20px !important;
+        }
+
+        .image-desktop{
+            display: none;
+        }
+
+        .image-mobile{
+            display: block;
+            width: 100%;
+            max-height: 100vh;
+            object-fit: cover;
+            object-position: bottom;
+        }
+    }
+</style>
+
+
+<section class="hero-section">
+    <div class="hero-section__content">
+        <h1>
+            Take Control of Indoor
+            <br>
+            Allergens with Advanced UVO<br>
+            Technology
+        </h1>
+        <p>
+            Proven technology to reduce allergens & micro-organisms
+        </p>
+        <a href="https://uvlizer.co/pages/uvlizer-home-disinfection-device-2-buy" class="cta">
+            Shop Now
+        </a>
+    </div>
+    <div class="hero-section__image">
+        <img 
+            src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/3_UV_with_Offers_Desktop.png?v=1729761325"
+            alt="hero image" 
+            class="image-desktop"
+        >
+        <img 
+            src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/3_UV_with_Offers_Mobile_1.png?v=1729761091"
+            alt="hero image" 
+            class="image-mobile"
+        >
+    </div>
+</section>
+

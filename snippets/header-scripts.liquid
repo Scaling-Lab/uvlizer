@@ -1,0 +1,60 @@
+<script>
+  /**
+   * Dynamically loads a JavaScript file and executes a callback function once the script is loaded.
+   * 
+   * @param {string} url - The URL of the script to load.
+   * @param {boolean} defer - If true, the script will be deferred until after the HTML document is fully parsed.
+   * @param {function} callback - The function to execute once the script is successfully loaded.
+   * 
+   * @example
+   * !! Load a script and run a callback function once the script is loaded
+   * !! Usually called right after the window has loaded
+   * window.addEventListener('load', function() {
+   *    loadScript('https://example.com/script.js', true, function() {
+   *       console.log('Script loaded and callback executed.');
+   *    });
+   * });
+  */
+  function loadScript(url, defer, callback) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = url;
+    script.async = true;
+    script.defer = defer;
+
+    script.onload = function() {
+      if(typeof callback === 'function') callback();
+    };
+
+    script.onerror = function() {
+      console.error('Error loading script: ' + url);
+    };
+
+    document.head.appendChild(script);
+  }
+
+  /**
+   * Dynamically loads a CSS file when the page has loaded.
+   * 
+   * @param {string} href - The URL of the script to load.
+   * 
+   * @example
+   * loadStylesheet('https://example.com/stylesheet.css');
+  */
+  function loadStylesheet(href) {
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = href;
+      document.head.appendChild(link);
+    }
+
+  // Load stylesheet after the window is loaded
+  window.addEventListener('load', function() {
+    loadStylesheet('styles.css');
+    loadScript('https://media.accdn.dev/globalScript/_xlr8d_boilerplate/setup.js', false, function () {
+      console.log('Intelligems loaded!')
+    });
+  });
+
+  
+</script>

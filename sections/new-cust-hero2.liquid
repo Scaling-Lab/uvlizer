@@ -1,0 +1,261 @@
+{% schema %}
+{
+  "name": "Header 4 new",
+  "settings": [
+    {
+      "type": "text",
+      "id": "headline_text",
+      "label": "Headline Text",
+      "default": "New Tool Tackles the #1 Indoor Allergen at the DNA Level in Just 15 Minutes"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading_text",
+      "label": "Subheading Text",
+      "default": "If you'd like to target dust mites, mold, bacteria, or viruses.. and"
+    },
+    {
+      "type": "image_picker",
+      "id": "brand_logo",
+      "label": "Brand Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_image",
+      "label": "Header Image"
+    },
+    {
+      "type": "url",
+      "id": "order_link",
+      "label": "Order Link"
+    },
+    {
+      "type": "text",
+      "id": "nav_home",
+      "label": "Navigation Home Text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "nav_what_is",
+      "label": "Navigation What's UVO254 Text",
+      "default": "What's UVO254?"
+    },
+    {
+      "type": "text",
+      "id": "nav_benefits",
+      "label": "Navigation Benefits Text",
+      "default": "Benefits"
+    },
+    {
+      "type": "text",
+      "id": "nav_reviews",
+      "label": "Navigation Reviews Text",
+      "default": "Reviews"
+    },
+    {
+      "type": "text",
+      "id": "nav_faq",
+      "label": "Navigation FAQ Text",
+      "default": "FAQ"
+    },
+    {
+      "type": "text",
+      "id": "nav_order",
+      "label": "Navigation Order Text",
+      "default": "Order"
+    },
+    {
+      "type": "text",
+      "id": "final_text",
+      "label": "Final Text",
+      "default": "FINALLY, start enjoying a clean, allergy-free, and disease-free space"
+    },
+    {
+      "type": "text",
+      "id": "bullet_heading1",
+      "label": "Bullet Heading Text",
+      "default": "WITHOUT"
+    },
+    {
+      "type": "text",
+      "id": "bullet_heading2",
+      "label": "Bullet Heading Text",
+      "default": "worrying about"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_1",
+      "label": "Bullet Point 1",
+      "default": "Buying expensive air purifiers and their ongoing filter replacements"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_2",
+      "label": "Bullet Point 2",
+      "default": "Toxic chemicals that kill allergens, but also kill you along the way"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_3",
+      "label": "Bullet Point 3",
+      "default": "Daily pills that only treat the symptoms without a long-term fix"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_4",
+      "label": "Bullet Point 4",
+      "default": "Ongoing, expensive deep-cleaning services"
+    },
+    {
+      "type": "text",
+      "id": "bullet_point_5",
+      "label": "Bullet Point 5",
+      "default": "Cleaning your home from top to bottom every day"
+    },
+    {
+      "type": "text",
+      "id": "right_place_text",
+      "label": "Right Place Text",
+      "default": "Then you're invited to act quickly."
+    },
+    {
+      "type": "text",
+      "id": "scroll_donly_text",
+      "label": "Scroll Down Text (Desktop Only)",
+      "default": "Scroll below to learn more"
+    },
+    {
+      "type": "text",
+      "id": "scroll_monly_text",
+      "label": "Scroll Down Text (Mobile Only)",
+      "default": "Scroll below to learn more"
+    }
+  ]
+}
+{% endschema %}
+
+{% style %}
+  .image_part img {
+    max-width: 256px;
+    margin: 0 auto;
+}
+
+div#headernew {
+    text-align: center;
+    margin-top: 17px;
+    margin-bottom: 41px;
+}
+
+.tele_part h1 {
+    color: #FFF;
+    text-align: center !important;!I;!;
+    font-family: Poppins;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 130%; /* 62.4px */
+    text-transform: capitalize;
+    margin-bottom: 41px !important;!I;!;
+    max-width: 992px;
+    text-align: center;
+    margin: 0 auto !important;!I;!;
+    margin-bottom: 40px !important;!I;!;
+}
+
+.tele_part {
+    text-align: center;
+}
+
+.tele_part button {
+    border-radius: 5px;
+    background: #D53600;
+    border: none;
+    color: #FFF;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    padding: 13px 30px;
+    margin-bottom: 60px;
+}
+
+
+
+.overce_he {
+    background-image: url(https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Register_-_Login.gif?v=1736552552);
+    width: 699px;
+    height: 480px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: absolute;
+    bottom: 59px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-position: bottom;
+    z-index: 1;
+    transform: rotate(180deg) translateX(50%);
+    background-position: inherit;
+}
+
+.image_part {
+    position: relative;
+    padding-bottom: 60px;
+}
+
+.image_part img {
+    position: relative;
+    z-index: 2;
+}
+
+{% endstyle %}
+
+<header class="nheader">
+        <div class="containern">
+            <div id="headertop" class="donly">
+                <div class="brand">
+                    <h2>
+                        {% if section.settings.brand_logo %}
+                        <img src="{{ section.settings.brand_logo | img_url: 'master' }}" alt="Brand Logo">
+                        {% else %}
+                        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/logo-new.png?v=1654107772">
+                        {% endif %}
+                    </h2>
+                </div>
+
+                <nav>
+                    <ul>
+                        <li><a href="#">{{ section.settings.nav_home }}</a></li>
+                        <li><a href="#sectionsix" class="back-to-top">{{ section.settings.nav_what_is }}</a></li>
+                        <li><a href="#benefits" class="back-to-top">{{ section.settings.nav_benefits }}</a></li>
+                        <li><a href="#reviewsection" class="back-to-top">{{ section.settings.nav_reviews }}</a></li>
+                        <li><a href="#askquestion" class="back-to-top">{{ section.settings.nav_faq }}</a></li>
+                        <li><a href="{{ section.settings.order_link }}" class="back-to-top">{{ section.settings.nav_order }}</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="headernew">
+                
+
+              
+              
+              <div class="image_part">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/image_975_3.png?v=1736438588"/>
+                <div class="overce_he">
+                </div>
+              </div>
+
+              <div class="tele_part">
+                <h1>New Tool Tackles the #1 Indoor Allergen at the DNA Level in Just 15 Minutes</h1>
+                <button>Scroll below to learn more</button>
+              </div>
+              
+            </div>
+
+          
+          
+
+        </div>
+    </header>

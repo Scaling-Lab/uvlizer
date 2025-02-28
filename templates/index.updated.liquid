@@ -1,0 +1,92 @@
+{% render 'homepage-hero-section' %}
+
+{% render 'homepage-hero-slider' %}
+
+{% render 'homepage-probably-seen' %}
+
+{% render 'homepage-featured-product' %}
+
+{% render 'homepage-icons-section' %}
+
+{% render 'homepage-why-uvilizer-section' %}
+
+{% render 'homepage-video-snippet' %}
+
+{% render 'homepage-bundles-benefits' %}
+
+{% section 'homepage-featured-collection' %}
+
+{% render 'homepage-follow-us' %}
+
+{% render 'homepage-bottom-banner' %}
+
+<style>
+    .judge-me-container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+    }
+</style>
+
+<div id = '#judgemeproductreviews' class="judge-me-container">
+
+    {% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false, product:all_products['uvlizer-tower'] %}
+    
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper('.lineSwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 28,
+        loop: true,
+        allowTouchMove: false,
+    });
+
+    var mySwiper = new Swiper('.probably-seen__cards', {
+        spaceBetween: 35,
+        slidesPerView: 1,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 'auto',
+            },
+        },
+    });
+
+    var mySwiper = new Swiper('.probably-seen__partners', {
+        spaceBetween: 24,
+        loop: true,
+        slidesPerView: 'auto',
+        breakpoints: {
+            768: {
+                spaceBetween: 32,
+            },
+        },
+    });
+</script>
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var mySwiper = new Swiper('.probably-seen__cards', {
+            spaceBetween: 35,
+            slidesPerView: 1,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            breakpoints: {
+                768: {
+                    slidesPerView: 'auto',
+                },
+            },
+        });
+    });
+</script> -->
+
+{{ 'index.js' | asset_url | script_tag }}

@@ -1,0 +1,207 @@
+{% if section.settings.onof %}
+<div class="black-friday-banner__wrapper">
+  {% if section.settings.banerd %}
+    <img class="donly lazyload" loading="lazy" src="{{ section.settings.banerd | img_url: 'master' }}" style="margin-bottom: -5px;" alt="Top banner">
+{% else %}
+    <img class="donly lazyload" loading="lazy" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Halloween_Sale_Banner_-_Desktop_v1.jpg?v=17295007864" style="margin-bottom: -5px;" alt="Top banner">
+  {% endif %}
+  {% if section.settings.banerm %}
+    <img class="monly lazyload" loading="lazy" src="{{ section.settings.banerm | img_url: 'master' }}" alt="Top banner">
+    {% else %}
+    <img class="monly lazyload" loading="lazy" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/M_-_Halloween_Sale_Banner_v1.jpg?v=1729500838" alt="Top banner">
+  {% endif %}
+    {% comment %}<!-- <img class="black-friday-banner__left" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/bf-top-banner-left.png?v=1699446772">{% endcomment %}
+    {% comment %}<img class="black-friday-banner__left-bottom monly" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/bf-top-banner-left.png?v=1699446772">{% endcomment %}
+    {% comment %}<div class="sale-banner">{% endcomment %}
+      {% comment %}<p class="sale-banner__text">CYBER WEEK: BLACK FRIDAY SALE EXTENDED</p>{% endcomment %}
+      {% comment %}<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/cyber-monday-neon-desktop.png?v=1701105449" alt="" class="sale-banner__neon-desktop donly">{% endcomment %}
+      {% comment %}<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/cyber-monday-neon-mobile.png?v=1701105449" alt="" class="sale-banner__neon-mobile monly">{% endcomment %}
+      {% comment %}<img class="sale-banner__image donly" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/cyber-monday-rounds-desktop.png?v=1700510211">{% endcomment %}
+      {% comment %}<img class="sale-banner__image monly" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/cyber-monday-rounds.png?v=1700509792">{% endcomment %}
+      {% comment %}<div class="sale-banner__timer-wrapper">{% endcomment %}
+        {% comment %}<p class="sale-banner__timer">Sale Ends in </p>{% endcomment %}
+        {% comment %}<span class="countdown-sale" id="expired">{% endcomment %}
+          {% comment %}<span class="hour" id="hours">23</span> :{% endcomment %}
+          {% comment %}<span class="mint" id="minutes">59</span> :{% endcomment %}
+          {% comment %}<span class="mint" id="seconds">59</span>{% endcomment %}
+        {% comment %}</span>{% endcomment %}
+      {% comment %}</div>{% endcomment %}
+    {% comment %}</div>{% endcomment %}
+    {% comment %}<img class="black-friday-banner__right donly" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/top-banner-gold-confetti.png?v=1700221735">{% endcomment %}
+    {% comment %}<img class="black-friday-banner__right_top" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/top-banner-badge.png?v=1699440595"> -->{% endcomment %}
+</div>
+  {% if section.settings.activate_timer %}
+   <style>
+    body.unique-body-class {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .unique-announcement-bar {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 40px;
+      color: white;
+      font-size: 14px;
+      font-weight: bold;
+      background: linear-gradient(90deg, black, #8e2de2, #ff0080, black);
+      background-size: 300% 300%;
+      animation: unique-gradient-shift 6s infinite;
+      overflow: hidden;
+    }
+
+    .unique-countdown-wrapper {
+      position: absolute;
+      right: 15px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .unique-time {
+      background: white;
+      color: black;
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+    }
+
+    
+@keyframes
+ unique-gradient-shift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    /* Mobil Cihazlar İçin (768px ve Altı) */
+    
+@media
+ (max-width: 768px) {
+      .unique-announcement-bar {
+        height: 30px; /* Daha dar yükseklik */
+        font-size: 12px; /* Yazı boyutu küçüldü */
+        justify-content: flex-start; /* Metni sola hizala */
+        padding-left: 10px; /* Sol boşluk eklendi */
+      }
+
+      .unique-countdown-wrapper {
+        right: 10px; /* Sağdan boşluk azaltıldı */
+        gap: 5px; /* Geri sayım elemanları arasındaki boşluk azaltıldı */
+      }
+
+      .unique-time {
+        padding: 2px 6px; /* Geri sayımın padding değerleri küçültüldü */
+        font-size: 10px; /* Yazı boyutu küçültüldü */
+      }
+    }
+  </style>
+
+<body class="unique-body-class">
+  <div class="unique-announcement-bar">
+    <div>{{ section.settings.time_text }}</div>
+    <div class="unique-countdown-wrapper">
+      <span class="unique-time"><span id="unique-hours">00</span> HRS</span>
+      <span class="unique-time"><span id="unique-minutes">00</span> MIN</span>
+      <span class="unique-time"><span id="unique-seconds">00</span> SEC</span>
+    </div>
+  </div>
+
+  <script>
+    function startCountdown(durationInSeconds) {
+  const storageKey = "countdown_timer_end_time";
+  let endTime;
+
+  function initializeTimer() {
+    const storedEndTime = localStorage.getItem(storageKey);
+
+    if (storedEndTime && parseInt(storedEndTime) > Date.now()) {
+      // Use the existing end time if it's still valid
+      endTime = parseInt(storedEndTime);
+    } else {
+      // Set a new end time and save it in localStorage
+      endTime = Date.now() + durationInSeconds * 1000;
+      localStorage.setItem(storageKey, endTime);
+    }
+  }
+
+  function updateCountdown() {
+    const now = Date.now();
+    const remainingTime = Math.max(0, Math.floor((endTime - now) / 1000));
+
+    if (remainingTime <= 0) {
+      // Reset timer when it reaches zero
+      endTime = Date.now() + durationInSeconds * 1000;
+      localStorage.setItem(storageKey, endTime);
+    }
+
+    const hours = Math.floor(remainingTime / 3600);
+    const minutes = Math.floor((remainingTime % 3600) / 60);
+    const seconds = remainingTime % 60;
+
+    document.getElementById('unique-hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('unique-minutes').textContent = String(minutes).padStart(2, '0');
+    document.getElementById('unique-seconds').textContent = String(seconds).padStart(2, '0');
+  }
+
+  initializeTimer();
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+}
+
+// Start a 12-hour countdown (12 hours = 43200 seconds)
+startCountdown({{ section.settings.time }});
+
+  </script>
+
+    {% endif %}
+    
+{% endif %}
+{% schema %}
+{
+  "name": "Offer Baner",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "activate_timer",
+      "label": "Activate Timer",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "time_text",
+      "label": "Timer Text",
+      "default": "Cyber Monday Sale Ends In"
+    },
+    {
+      "type": "number",
+      "id": "time",
+      "label": "// Start a 12-hour countdown (12 hours = 43200 seconds)",
+      "default": 43200
+    },
+    {
+      "type": "checkbox",
+      "id": "onof",
+      "default": true,
+      "label": "Show / Hide Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "banerd",
+      "label": "Desktop Offer Baner"
+    },
+    {
+      "type": "image_picker",
+      "id": "banerm",
+      "label": "Mobile Offer Baner"
+    },
+  ]
+}
+{% endschema %}

@@ -1,0 +1,231 @@
+{% style %}
+  .quad-boxes {
+  padding: 60px 0 40px;
+  background: #EDF5F7;
+  }
+  .quad-boxes .product-container {
+  display: flex;
+  justify-content: space-between;
+  }
+  .quad-boxes h3 {
+  color: #00436C;
+  font-size: 40px;
+  font-weight: 600!important;
+  margin-bottom: 50px!important;
+  }
+  .quad-boxes .img-wrapper {
+  position: relative;
+  }
+  .quad-boxes .img-wrapper img:not(.hover-img) {
+  height: calc(100% - 27px);
+  object-fit: cover;
+  border-radius: 10px;
+  }
+  .quad-boxes .img-wrapper .hover-img {
+  position: absolute;
+  top: -45px;
+  right: -36px;
+  }
+  .quad-boxes .quads {
+  width: 51%;
+  margin-right: 87px;
+  }
+
+  .quad-boxes .cta-button {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 30px auto 0;
+  padding: 15px 30px;
+  border: none;
+  border-radius: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+  }
+
+  .quad-boxes .cta-button:hover {
+  opacity: 0.9;
+  }
+
+  @media (max-width: 1300px) {
+  .quad-boxes h3 {
+  font-size: 34px;
+  }
+  .quad-boxes .quads {
+  width: 100%;
+  }
+
+  .quad-boxes .cta-button {
+  font-size: 16px;
+  padding: 12px 24px;
+  margin: 20px 0 40px;
+  }
+  }
+  .quad-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  }
+  .quad-boxes .quad-item {
+  width: calc(50% - 12px);
+  padding: 16px;
+  margin-bottom: 24px;
+  border-radius: 10px;
+  background: #FFF;
+  box-shadow: 0px 4px 25px 0px rgba(0, 67, 108, 0.10);
+  font-size: 14px;
+  color: #1F1F1F;
+  line-height: 1.4;
+  }
+  .quad-boxes .quad-item img {
+  margin-bottom: 16px;
+  }
+  .quad-boxes .quad-item h4 {
+  color: #00436C;
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  }
+{% endstyle %}
+
+<section class="quad-boxes" style="background: {{ section.settings.background_color }}">
+  <div class="product-container">
+    <h3>{{ section.settings.title }}</h3>
+  </div>
+  <div class="product-container">
+    <div class="quads">
+      <div class="quad-wrapper">
+        {% for block in section.blocks %}
+          <div class="quad-item">
+            <img src="{{ block.settings.icon.src | image_url }}">
+            <h4>{{ block.settings.title }}</h4>
+            {{ block.settings.description }}
+          </div>
+        {% endfor %}
+      </div>
+      {% if section.settings.product != blank %}
+        <div class="product-form">
+          <input type="hidden" name="id" data-variant-id="{{ section.settings.product.first_available_variant.id }}" value="{{ section.settings.product.first_available_variant.id }}">
+          <button type="button"
+                  class="cta-button button--addToCart"
+                  style="background-color: {{ section.settings.button_color }}"
+          >
+            {{ section.settings.button_text }}
+          </button>
+        </div>
+      {% endif %}
+    </div>
+    <div class="img-wrapper">
+      <img src="{{ section.settings.image.src | image_url }}">
+      <img class="hover-img" src="{{ section.settings.image2.src | image_url }}">
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const addToCartButtons = document.querySelectorAll('.button--addToCart');
+
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const variantId = this.closest('.product-form').querySelector('input[name="id"]').value;
+
+        const data = {
+          items: [{
+            id: variantId,
+            quantity: 1
+          }]
+        };
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+                .then(response => response.json())
+                .then(data => {
+                  $('.go-cart__trigger').trigger('click');
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Quad Boxes-DE",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Title"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#EDF5F7"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hover Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image2",
+      "label": "Hover Icon"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Angebot sichern"
+    },
+    {
+      "type": "color",
+      "id": "button_color",
+      "label": "Button Color",
+      "default": "#E67E22"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "box",
+      "name": "Box",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

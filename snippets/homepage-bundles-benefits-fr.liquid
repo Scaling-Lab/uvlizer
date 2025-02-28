@@ -1,0 +1,168 @@
+<style>
+    .bundles-section-fr{
+        background: #fff;
+        padding: 100px 0;
+    }
+
+    .bundles-section--container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+    }
+
+    .bundles-section-fr h2{
+        color: #00436C;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+        text-transform: capitalize;
+    }
+
+    .bundles-section-fr .bundles-section__content h2 {
+        color: #00436C;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 125%; /* 40px */
+    }
+
+    .bundles-section__wrapper{
+        display: flex;
+        column-gap: 70px;
+        border-radius: 20px;
+        background: #FFF;
+        box-shadow: 0px 0px 50px 0px rgba(0, 67, 108, 0.02);
+        padding: 65px;
+    }
+
+   .bundles-section__content{
+        width: calc(50% - 20px);
+    }
+
+    .bundles-section__image-wrapper{
+        width: calc(50% - 20px);
+        padding: 0 20px;
+    }
+
+    .bundles-section-fr .bundles-section__content{
+        display: flex;
+        flex-direction: column;
+        row-gap: 8px;
+        line-height: 140%;
+        justify-content: center;
+    }
+
+    .bundles-section-fr .title-top {
+        padding-bottom: 8px;
+    }
+
+    .bundles-section-fr .bundle p {
+        /*display: flex;*/
+        margin: 0 !important;
+    }
+
+    .bundle{
+        display: flex;
+        flex-direction: column;
+        row-gap: 10px;
+    }
+
+    .bundle h3{
+        color: #00436C;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        margin-left: -35px !important;
+    }
+
+    .bundle p::before{
+        content: url("https://cdn.shopify.com/s/files/1/0519/0238/2231/files/ri_shield-check-fill.png?v=1733217870");
+        width: 24px;
+        height: 24px;
+        padding-right: 8px;
+        position: relative;
+        top: 10px;
+    }
+
+    .bundle__content{
+        color: #1F1F1F;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    @media screen and (max-width: 767px) {
+        .bundles-section-fr{
+            padding: 50px 0 0;
+        }
+
+        .bundles-section-fr h2{
+            font-size: 24px;
+            margin-bottom: 25px !important;
+        }
+
+        .bundles-section-fr .bundles-section__content h2 {
+            font-size: 26px;
+        }
+        .bundles-section-fr .title-top {
+            padding: 0;
+        }
+
+        .bundles-section-fr .bundles-section__wrapper{
+            flex-direction: column;
+            row-gap: 40px;
+            padding: 0;
+        }
+
+        .bundles-section__content{
+            width: 100%;
+        }
+
+        .bundles-section-fr .bundles-section__image-wrapper{
+            width: 100%;
+            padding: 0;
+        }
+
+        .bundle{
+            row-gap: unset;
+        }
+
+        .bundle h3{
+            font-size: 16px;
+        }
+
+        .bundle__content{
+            font-size: 14px;
+        }
+    }
+</style>
+
+<section class="bundles-section-fr">
+    <div class="bundles-section--container">
+        <div class="bundles-section__wrapper">
+            <div class="bundles-section__image-wrapper">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Rectangle_1261.png?v=1732887540" alt="image">
+            </div>
+            <div class="bundles-section__content">
+                <h2>Protégez-vous avec UVlizer, la solution UV qui élimine 99,9 % des bactéries et allergènes!</h2>
+                <div class="title-top">Découvrez <strong>UVlizer</strong>, la solution la plus simple pour désinfecter toutes vos surfaces en quelques secondes! Utilisant la technologie UV-C, UVlizer détruit les bactéries, virus et germes sans produits chimiques, que ce soit chez vous, au travail ou même en déplacement avec nos options portables.</div>
+                <div class="bundle">
+                    <p>Désinfectez rapidement (en quelques minutes seulement !)</p>
+                </div>
+                <div class="bundle">
+                    <p>Une utilisation sans produits chimiques</p>
+                </div>
+                <div class="bundle">
+                    <p>Des solutions portables et rechargeables</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

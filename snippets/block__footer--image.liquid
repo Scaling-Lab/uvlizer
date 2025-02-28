@@ -1,0 +1,15 @@
+{% if block.settings.url != blank %}
+<a class="footer__image--link" href="{{block.settings.url}}">
+{% if block.settings.image != nil %}
+    <img data-swift-lazy="1" loading="lazy" src="{{block.settings.image | img_url: '10x10'}}" class="lazyload" data-src="{{block.settings.image | img_url: '400x'}}" style="width: {{block.settings.imageWidth}}%;">
+{% else %}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'svg__fake' }}
+{% endif %}
+</a>
+{% else %}
+{% if block.settings.image != nil %}
+    <img data-swift-lazy="1" loading="lazy" src="{{block.settings.image | img_url: '10x10'}}" class="lazyload" data-src="{{block.settings.image | img_url: '400x'}}" style="width: {{block.settings.imageWidth}}%;">
+{% else %}
+    {{ 'lifestyle-1' | placeholder_svg_tag: 'svg__fake' }}
+{% endif %}
+{% endif %}

@@ -1,0 +1,411 @@
+<style>
+
+  .main-page {
+    background-image: url(https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Background_image_v1_HD.png?v=1716556996);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+  }
+  .containern {
+    padding: 0 25px;
+    text-align: center;
+  }
+  .containern h1 {
+    margin-top: 40px !important;
+    margin-bottom: 24px !important;
+    padding: 24px;
+    font-size: 50px;
+  }
+  .containern h1 span {
+    color: red;
+  }
+  .video-wrapper {
+    position: relative;
+    max-width: 800px;
+    margin: 40px auto 0 auto;
+  }
+
+  .cta-container {
+    padding: 35px 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+  }
+
+  .cta {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 30px;
+    letter-spacing: 0em;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #00436c;
+    padding: 15px 50px;
+    display: inline-block;
+    text-decoration: none;
+  }
+
+  .disclamair-section {
+    padding: 40px 0px;
+    text-align: center;
+    font-size: 14px;
+    opacity: 0.7;
+  }
+
+  .scientific-refenreces-section {
+    background-color: #E8EAF1;
+    padding: 64px 0;
+  }
+  .scientific-refenreces-section h2 {
+    font-size: 40px;
+  }
+  .scientific-refenreces--logos {
+    max-width: 1170px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+    margin-top: 45px;
+  }
+  .scientific-refenreces--logos img {
+    max-width: 100%;
+  }
+
+  .standford-logo { width: 312px; }
+  .nasa-logo { width: 129px; }
+  .yale-logo { width: 137px; }
+  .cambridge-logo { width: 348px; }
+
+  #video-play-button {
+    /* background-image: url(https://cdn.shopify.com/s/files/1/0519/0238/2231/files/sound-pc.png?v=1716887373); */
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    cursor: pointer;
+    z-index: 10;
+  }
+
+  .play-button {
+    -webkit-appearance: none;
+    background-color: transparent;
+    border: 0;
+    display: none;
+  }
+
+  .AutoPlayBox__box {
+    border: 2px solid #fff;
+    border-radius: 4px;
+    box-shadow: -1px 3px 17px 3px rgba(0, 0, 0, .75);
+    display: block;
+    position: relative;
+    transition: transform .25s cubic-bezier(.4,0,.2,1);
+    width: calc(50.625% - 40px);
+    height: calc(90% - 40px);
+    background-color: rgba(112, 186, 247, 0.75);
+    border-color: rgb(255, 255, 255);
+    color: rgb(255, 255, 255);
+  }
+  .AutoPlayBox__box .AutoPlayBox__content {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 100%;
+  }
+  .AutoPlayBox__box .AutoPlayBox__icon {
+    display: block;
+    height: auto;
+    width: 25%;
+  }
+  .AutoPlayBox__box .AutoPlayBox__heading {
+    display: flex;
+    justify-content: center;
+    margin: 8% 0 0;
+    padding: 0 10%;
+    white-space: pre-wrap;
+    width: 100%;
+  }
+  .ScalableText__scalable-text {
+    display: inline-block;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    white-space: nowrap;
+    font-size: clamp(16px, 4vw, 28px);
+  }
+
+  .fullscreen-on .video-wrapper {
+    max-width: 100%;
+    width: 100%;
+    margin: 0;
+  }
+  .fullscreen-on .section-video-container {
+    background-color: #000;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .fullscreen-on .header, 
+  .fullscreen-on #shopify-section-top-info-bar, 
+  .fullscreen-on .disclamair-section, 
+  .fullscreen-on .scientific-refenreces-section, 
+  .fullscreen-on .wrapper--bottom, 
+  .fullscreen-on h1 {
+    display: none;
+  }
+
+  @media screen and (max-width: 768px) {
+    .main-page {
+      background-image: url(https://cdn.shopify.com/s/files/1/0519/0238/2231/files/M_-_Background_image_v1.png?v=1716886841);
+    }
+    .containern h1 {
+      font-size: 28px;
+    }
+    .cta {
+      font-size: 16px;
+      padding: 12px 38px;
+    }
+    .scientific-refenreces-section h2 {
+      font-size: 24px;
+    }
+    .scientific-refenreces--logos {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    } 
+    .AutoPlayBox__box {
+      width: calc(70% - 20px);
+      height: calc(90% - 20px);
+    }
+    .play-button__icon {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+.pulsing {
+  transform: scale(1);
+  animation: pulsing 1s infinite
+}
+
+@keyframes pulsing {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(0,0,0,.7)
+  }
+
+  70% {
+    transform: scale(1.034);
+    box-shadow: 0 0 0 3px transparent
+  }
+
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 transparent
+  }
+}
+</style>
+
+<div class="main-page">
+  <section class="containern section-video-container">
+    <h1>Doctors Unveil <span>1 Simple Trick</span> to take your Allergy Relief to the next level</h1>
+    {% comment %} <div class="video-wrapper">
+      <div style="padding:100% 0 0 0;position:relative;">
+        <iframe loading="lazy" data-src="https://www.youtube.com/embed/vCvTcy084tk?si=jC0SgvSymzqIIWCL" title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          style="position:absolute;top:0;left:0;width:100%;height:100%;"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </div> {% endcomment %}
+
+    <div class="video-wrapper">
+      <div id="video-wrapper-fullscreen">
+        <div id="video-play-button">
+          <div id="enable-sound-box" class="AutoPlayBox__box">
+            <div class="AutoPlayBox__content">
+              <svg width="86" height="78" viewBox="0 0 86 78" class="AutoPlayBox__icon"><path fill="currentColor" fill-rule="evenodd" d="M44.28 9.05a2 2 0 0 0-3.23-1.58L19.74 24.05a1.9 1.9 0 0 0-1.01.39H5.03a4.5 4.5 0 0 0-4.5 4.48V48.8c0 1.17.46 2.32 1.33 3.17.85.86 2 1.32 3.16 1.32h14.22l21.81 16.96a2 2 0 0 0 3.23-1.58V9.05ZM17.93 28.44H5.03a.5.5 0 0 0-.34.15l-.03.03a.42.42 0 0 0-.12.3V48.8c0 .14.05.24.12.3l.06.07c.06.06.17.12.3.12h12.9V28.44Zm4 21.86 18.35 14.28V13.14L21.93 27.4v22.9Z"></path><g fill="none" fill-rule="evenodd" stroke="currentColor" stroke-width="4" stroke-linecap="round"><path d="M51.68 27.75c7.37 6.75 8.07 14.09 0 22.2" class="AutoPlayBox__icon__blink"></path><path d="M60.92 18.05c13.65 15.58 11.9 29.21-.06 41.57" class="AutoPlayBox__icon__blink"></path><path d="M69.27 8.25c19.2 20.51 17.82 40.9.41 61.19" class="AutoPlayBox__icon__blink"></path><path d="m79.17 2.55-72.6 72.6"></path></g></svg>
+              <div class="AutoPlayBox__heading">
+                <div class="ScalableText__scalable-text">
+                  Your Video Is Playing<br>Click To Unmute
+                </div>
+              </div>
+            </div>
+          </div>
+          <button id="continue-play-button" class="play-button">
+            <svg viewBox="0 0 102 102"
+              width="100"
+              height="100"
+              class="play-button__icon">
+              <rect width="102" height="102" fill="#FE0100" opacity="0.85" rx="50" fill-rule="evenodd"></rect>
+              <path fill="#ffffff" fill-rule="nonzero"
+                d="M37.92 29.24c-.57.33-.92.94-.92 1.6v40.43c0 1.01.81 1.84 1.82 1.84 1 0 1.82-.83 1.82-1.84V34.08l26.93 16.24-19.8 12.92a1.86 1.86 0 0 0-.55 2.54 1.8 1.8 0 0 0 2.51.56L72 51.8a1.85 1.85 0 0 0-.05-3.13l-32.2-19.41a1.8 1.8 0 0 0-1.83-.02Z">
+              </path>
+            </svg>
+          </button>
+        </div>
+
+
+        <script src="https://fast.wistia.com/embed/medias/hpf63c6ptk.jsonp" async></script>
+        <script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+        <div class="wistia_responsive_padding" style="padding:56.25% 0 0 0;position:relative;">
+          <div class="wistia_responsive_wrapper" style="height:100%;left:0;position:absolute;top:0;width:100%;">
+            <div class="wistia_embed wistia_async_hpf63c6ptk seo=true videoFoam=true"
+              style="height:100%;position:relative;width:100%">
+              <div class="wistia_swatch"
+                style="height:100%;left:0;opacity:0;overflow:hidden;position:absolute;top:0;transition:opacity 200ms;width:100%;">
+                <img src="https://fast.wistia.com/embed/medias/hpf63c6ptk/swatch"
+                  style="filter:blur(5px);height:100%;object-fit:contain;width:100%;" alt="" aria-hidden="true"
+                  onload="this.parentNode.style.opacity=1;" /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-container">
+      <a id="video-cta" class="cta" href="https://uvlizer.co/pages/uvlizer-home-disinfection-device-2-vsl" style="display: none;">Check Availability</a>
+    </div>
+  </section>
+
+  <section class="disclamair-section">
+    <div class="containern">
+      <p>This site is not a part of the Facebook website or Facebook Inc. Additionally, this site is NOT endorsed by Facebook in
+      any way. FACEBOOK is a trademark of FACEBOOK, Inc.This site is not a part of Google™ website or network of sites such as
+      Youtube™ or any company owned by Google™ or Youtube™. Additionally this website is not endorsed by Google™ Youtube™ Inc.
+      in any way. Google™ is a trademark for all their respective companies.The testimonials, statements, and opinions
+      provided on our website are only applicable to the individuals depicted and may not represent the experience of others.
+      These testimonials are voluntary and have not been compensated with free products, services, or benefits.The
+      testimonials are not indicative of future results or success for other individuals. Purpose Pathway cannot guarantee the
+      outcome or results of individuals utilizing our services or services provided by our network providers or websites we
+      link to. The endorsements found on our website reflect the true statements and beliefs of the individuals providing
+      them. Outcomes may vary and are not guaranteed.</p>
+    </div>
+  </section>
+
+  <section class="scientific-refenreces-section ">
+    <div class="containern">
+      <h2>Scientific References</h2>
+      <div class="scientific-refenreces--logos">
+        <div>
+          <img class="lazyload standford-logo" data-src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Standfor-logo.png?v=1716542699"
+          alt="Standford Logo">
+        </div>
+        <div>
+          <img class="lazyload nasa-logo" data-src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Nasa-logo.png?v=1716542700"
+          alt="Nasa Logo">
+        </div>
+        <div>
+          <img class="lazyload yale-logo" data-src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Yale-logo.png?v=1716542734" 
+          alt="Yale logo">
+        </div>
+        <div>
+          <img class="lazyload cambridge-logo" data-src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Cambrige-logo.png?v=1716542699"
+          alt="Cambridge Logo">
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script>
+  function openInFullScreen(elementId) {
+  if (elementId === undefined) {
+    console.error("Please provide an element ID as an argument");
+    return;
+  }
+
+  const element = document.getElementById(elementId);
+  if (!element) {
+    console.error("Element with the provided ID does not exist");
+    return;
+  }
+
+  // Check if fullscreen API is supported
+  if (document.fullscreenEnabled) {
+    document.documentElement.requestFullscreen();
+  } else if (document.webkitFullscreenEnabled) {
+    element.webkitRequestFullscreen();
+  } else if (document.mozFullScreenEnabled) {
+    element.mozRequestFullScreen();
+  } else {
+    console.warn("Fullscreen API not supported by your browser");
+  }
+}
+
+  function closeFullScreen() {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.mozCancelFullScreen) { // Firefox
+      document.mozCancelFullScreen();
+    } else if (document.webkitExitFullscreen) { // Chrome, Safari and Opera
+      document.webkitExitFullscreen();
+    } else if (document.msExitFullscreen) { // IE/Edge
+      document.msExitFullscreen();
+    }
+  }
+
+  window._wq = window._wq || [];
+  _wq.push({
+    id: "hpf63c6ptk", onReady: function (video) {
+      var playButton = document.getElementById('video-play-button');
+      var videoEl = document.getElementsByTagName('video')[0];
+
+
+      playButton.addEventListener('click', () => {
+        video.play();
+      });
+
+      video.bind("timechange", function (t) {
+        var secondsWatched = video.secondsWatched()
+        var duration = video.duration();
+        var progress = (secondsWatched / duration) * 100;
+
+        if (progress >= 50) {
+          document.getElementById("video-cta").style.display = "flex";
+        }
+      });
+      video.bind("play", function() {
+        // video.requestFullscreen();
+        var videoWrapperEl = document.getElementById('video-wrapper-fullscreen');
+        openInFullScreen('video-wrapper-fullscreen');
+        document.body.classList.add('fullscreen-on');
+        video.unmute();
+        document.getElementById('video-play-button').style.display = "none";
+        document.getElementById('enable-sound-box').style.display = "none";
+      });
+      video.bind("pause", function () {
+        // video.cancelFullscreen();
+        closeFullScreen();
+        document.body.classList.remove('fullscreen-on');
+        document.getElementById('video-play-button').style.display = "flex";
+        document.getElementById('video-play-button').style.backgroundImage = "url('https://cdn.shopify.com/s/files/1/0519/0238/2231/files/giphy_11.gif?v=1719987149')";
+        document.getElementById('video-play-button').style.backgroundColor = "black";
+        document.getElementById('continue-play-button').style.display = "block";
+      });
+
+      document.addEventListener('fullscreenchange', handleFullscreenChange);
+      document.addEventListener('mozfullscreenchange', handleFullscreenChange);
+      document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
+      document.addEventListener('msfullscreenchange', handleFullscreenChange);
+
+      function handleFullscreenChange() {
+        if (!document.fullscreenElement && !document.mozFullScreenElement && !document.webkitFullscreenElement && !document.msFullscreenElement) {
+          document.body.classList.remove('fullscreen-on');
+          video.pause();
+        }
+      }
+
+    }
+  });
+</script>

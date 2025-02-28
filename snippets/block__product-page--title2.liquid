@@ -1,0 +1,12 @@
+{%- if block.settings.color != "rgba(0,0,0,0)" -%}
+<style>
+.product__title--{{block.id}} {
+    color: {{block.settings.color}};
+}
+</style>
+{%- endif -%}
+<h1 
+class="product__title product__title--{{block.id}} 
+font__family--{{-block.settings.fontFamily}} font__size--{{-block.settings.fontSize}} 
+ {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}" {{block.shopify_attributes}}>UVO254™ Tower - Eradicates the #1 Root Cause of Allergies</h1>
+{% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: 'margin-bottom: 15px', concierge_install: true, product: product %}

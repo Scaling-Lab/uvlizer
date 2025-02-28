@@ -1,0 +1,104 @@
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+{% style %}
+section.brands-p2 {
+  background: transparent;
+}
+section.brands-p2 .product-container {
+  padding: 0;
+  overflow: hidden;
+  margin: 0 -20px;
+}
+.brands-p2Swiper .swiper-wrapper {
+  align-items: center;
+	transition-timing-function: linear !important;
+}
+.brands-p2 img.hover-img {
+  display:none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9;
+  box-shadow: 0px 0px 71px 61px #ecf5f7;
+  background: #ecf5f7;
+  pointer-events: none;
+}
+  .brands-p2.marquee {
+/*   overflow: hidden; */
+}
+
+.brands-p2 .marquee-content {
+	display: flex;
+	align-items: center;
+	animation: scrolling 50s linear infinite;
+}
+.brands-p2 .marquee-item {
+	width: auto;
+	display: flex;
+	justify-content: center;
+	margin-right: 40px;
+}
+.brands-p2 .marquee-item img {
+  display: block;
+  min-width: 80px;
+  height: 35px;
+  object-fit: contain;
+}
+@keyframes scrolling {
+  0% { transform: translateX(0); }
+  100% { transform: translatex(-144vw); }
+}
+{% endstyle %}
+
+<section class="brands-p2">
+  <div class="product-container">
+    <div class="marquee">
+      <div class="marquee-content">
+      {% for block in  section.blocks %}
+          <div class="marquee-item">
+              <img src="{{ block.settings.image.src | image_url }}">
+          </div>
+      {% endfor %}
+      </div>
+    </div>
+  </div>
+  <img class="hover-img" src="{{ section.settings.image.src | image_url }}">
+</section>
+
+<script>
+if (document.querySelectorAll('.marquee').length > 0) {
+  var marqueeContent = document.querySelector('.marquee-content');
+  var marqueeItems = marqueeContent.innerHTML;
+
+  for (var i = 0; i < 12; i++) {
+    marqueeContent.innerHTML += marqueeItems;
+  }
+}
+</script>
+
+{% schema %}
+{
+  "name": "Brands-p2",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hover Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand-p2",
+      "name": "Brand-p2",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

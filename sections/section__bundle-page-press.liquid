@@ -1,0 +1,366 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background: {{ section.settings.background_color }};
+  }
+
+  .press__text .press__title p {
+    color: {{ section.settings.text_color }};
+    font-family: Poppins, sans-serif;
+    font-size: {{ section.settings.text_size_mobile }}px;
+    line-height: 130%;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .press__text .press__title p {
+      font-size: {{ section.settings.text_size_tablet }}px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .press__text .press__title p {
+      font-size: {{ section.settings.text_size }}px;
+    }
+  }
+{%- endstyle -%}
+
+  <style>
+    .press__title {
+      max-width: 309px;
+      margin-bottom: 24px;
+    }
+
+    .press__wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .press__slides-first,
+    .press__slides-second,
+    .press__slides-third {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      padding: 32px;
+      border-radius: 10px;
+      color: white;
+    }
+
+    .press__slides-first {
+      background: linear-gradient(100deg, #004587 0%, #00629D 100%), #EDF5F7;
+      gap: 40px;
+    }
+
+    .press__slides-second {
+      background: #2FA6B7;
+    }
+
+    .press__slides-third {
+      background: #E0F4FF;
+    }
+
+    .press__slides-first p,
+    .press__slides-second p,
+    .press__slides-third p {
+      color: white;
+      font-size: 20px;
+    }
+
+    .press__slides-first p {
+      font-size: 24px;
+    }
+
+    .press__slides-third p {
+      color: #576980;
+    }
+
+    .press__slides-first img {
+      max-width: 140px;
+    }
+
+    .press__slides-second img {
+      max-width: 156px;
+    }
+
+    .press__slides-third img {
+      max-width: 323px;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .press__wrapper {
+        flex-direction: row;
+        padding: 0 15px;
+      }
+
+      .press__title {
+        margin-right: 20px;
+        margin-bottom: 0;
+      }
+
+      .press__slides--desktop {
+        display: flex !important;
+        flex-direction: row;
+        gap: 40px;
+        width: auto;
+      }
+
+      .press__slides-first {
+        max-width: 430px;
+      }
+
+      .press__slides-second,
+      .press__slides-third {
+        max-width: 525px;
+      }
+
+      .press__slides-third {
+        margin-top: 40px;
+      }
+    }
+
+    @media screen and (min-width: 1920px) {
+      .press__wrapper {
+        padding: 0 200px;
+        justify-content: space-between;
+      }
+    }
+
+    .swiper-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+      padding-bottom: 24px;
+    }
+
+    .swiper-wrapper {
+      padding: 0 16px;
+    }
+
+    .swiper-slide {
+      width: 100%;
+    }
+
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+        bottom: 0;
+    }
+
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: #CCD5D8;
+    }
+    
+    .swiper-pagination-bullet-active {
+        background: #00498A;
+    }
+  </style>
+
+<div class="isolate">
+  <div class="section-{{ section.id }}-padding">
+    <div class="press__wrapper">
+        <div class="press__text">
+          {% if section.settings.heading != blank %}
+            <div class="press__title">
+              {{ section.settings.heading }}
+            </div>
+          {% endif %}
+        </div>
+        <div class="press__slides--desktop donly">
+          {% if section.settings.text_first != blank %}
+            <div class="press__slides-first">
+              <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/FDA.png?v=1702227988" alt="FDA logo">
+              {{ section.settings.text_first }}
+            </div>
+          {% endif %}
+
+          <div class="press__slides-right">
+            {% if section.settings.text_second != blank %}
+              <div class="press__slides-second">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/EPA_ad75b545-2675-47c9-a2c7-a2604115b435.png?v=1702227987" alt="EPA logo">
+                {{ section.settings.text_second }}
+              </div>
+            {% endif %}
+
+            {% if section.settings.text_third != blank %}
+              <div class="press__slides-third">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/NY-times.png?v=1702227988" alt="New York times logo">
+                {{ section.settings.text_third }}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        <div class="swiper-container monly">
+          <div class="swiper-wrapper">
+            {% if section.settings.text_first != blank %}
+              <div class="swiper-slide press__slides-first">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/FDA.png?v=1702227988" alt="FDA logo">
+                {{ section.settings.text_first }}
+              </div>
+            {% else %}
+              <div class="swiper-slide"></div>
+            {% endif %}
+        
+            {% if section.settings.text_second != blank %}
+              <div class="swiper-slide press__slides-second">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/EPA_ad75b545-2675-47c9-a2c7-a2604115b435.png?v=1702227987" alt="EPA logo">
+                {{ section.settings.text_second }}
+              </div>
+            {% else %}
+              <div class="swiper-slide"></div>
+            {% endif %}
+        
+            {% if section.settings.text_third != blank %}
+              <div class="swiper-slide press__slides-third">
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/NY-times.png?v=1702227988" alt="New York times logo">
+                {{ section.settings.text_third }}
+              </div>
+            {% else %}
+              <div class="swiper-slide"></div>
+            {% endif %}
+          </div>
+        
+          <div class="swiper-pagination"></div>
+        </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+  var swiper = new Swiper('.swiper-container', {
+    slidesPerView: 1,
+    spaceBetween: 16,
+    width: 358, // Set the width of each slide
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+</script>
+
+<!-- <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+  var swiper = new Swiper('.probably-seen__cards', {
+    slidesPerView: 1,
+    width: 358, // Set the width of each slide
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+    pagination: {
+      el: '.swiper-pagination',
+      clickable: true,
+    },
+  });
+</script> -->
+
+
+{% schema %}
+{
+  "name": "Bundle page press",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text_first",
+      "label": "First slide text"
+    },
+    {
+      "type": "richtext",
+      "id": "text_second",
+      "label": "Second slide text"
+    },
+    {
+      "type": "richtext",
+      "id": "text_third",
+      "label": "Third slide text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "default": 96,
+      "min": 16,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "default": 40,
+      "min": 12,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_tablet",
+      "label": "Text size tablet",
+      "default": 60,
+      "min": 12,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#004587"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle page press"
+    }
+  ]
+}
+{% endschema %}

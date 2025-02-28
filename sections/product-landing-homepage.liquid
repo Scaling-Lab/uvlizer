@@ -1,0 +1,1060 @@
+{% assign changeBundle = false %}
+{% if template.suffix == "uvlizer-home-disinfection-device-first" or template.suffix == "uvlizer-home-disinfection-device-third" %}
+{% assign changeBundle = true %}
+{% endif %}
+
+<style type="text/css">
+{% render 'common-css' with section as section %}
+
+{% if section.settings.headingDivider %}
+#s--{{section.id}} .section__heading--heading h2 {
+  background: {% unless section.settings.backgroundColor contains 'rgba(0,0,0,0)'  %}{{section.settings.backgroundColor}}{% else %}{{settings.baseBackground}}{% endunless %};
+  padding: 0px 12px;
+  {% case section.settings.textAlignment %}
+      {% when 'start' %}
+  padding-left: 0px;
+      {% when 'end' %}
+  padding-right: 0px;
+  {% endcase %}
+}
+
+#s--{{section.id}} .section__heading--heading::before {
+  content: '';
+}
+{% endif %}
+  
+ .bundle-wrapper .blk p.old-price span {
+    font-size: 22px !important;
+}
+  .bundle-wrapper .blk p.new-price span{
+    font-size: 18px!important;
+    color: #194269;
+    font-weight: 700!important;
+}
+</style>
+
+{% unless section.settings.product == blank %}
+
+{% assign product = all_products[section.settings.product] %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_image = product.featured_image %}
+
+<div id="s--{{section.id}} hygyh" class="{% render 'common-class', section: section, class: 'row padding__vertical featured-product', vAlign: false %}">
+  <div class="row s_content layout__content">
+    {% render 'block__general--heading' with section as section %}
+    <div class="col-12 col-md-6 gallery__default">
+      <div class="product-slider-wrapper">
+        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/black-friday-ribbon.png?v=1700229404" alt="Black Friday Exclusive offer badge" class="product-slider__exclusive-offer--black-friday">
+        <div class="product-slider">
+      	{% for image in product.images %}
+           {% unless image.attached_to_variant? %}
+
+        <span data-variants="{% for var in image.variants %}{{var.id}}|{% endfor %}" {% if forloop.first %}class="active"{%endif%} data-media-type="image" data-image-index="{{forloop.index0}}" data-high-res-image="{{ image.src | img_url: '1280x' }}" data-href="{{ image.src | img_url: '650x' }}" alt="{{image.alt | escape}}" onclick="boosterProductPage.galleryChangeImage(event, this)">
+          {% render 'image', size: '900x', src: image.src, alt: image.alt %}
+        </span>
+            {% endunless %}
+
+      {% endfor %}
+        </div>
+      </div>
+
+  <style>
+  .three-part #p1 {
+    width: 33.33%;
+    float: left;
+    text-align: center !important;
+    font-size: 13px;
+      font-weight: 700;
+}
+  #p1 p {
+  color:#174167;
+  margin-top:15px;
+  }
+
+.three-part {
+    display: inline-block;
+    width: 90%;
+}
+  </style>
+  </span>
+</div>
+
+    <div class="col-12 col-md-6 product__page--info unflex">
+      <span class="dtitle"> {% render 'block__product-page--title' with product as product %}</span>
+      <p class="product__description">
+        Uvlizer is the only device to bring the UVO254™ bulbs from hospitals to your home. We combined two well-studied natural components to address your allergy problems from their roots and free your home from nasty allergens and pollutants. Without any toxic chemicals, hidden expenses, or tiring routines. Just press the button, leave the room, and let the UVO technology work its magic.
+      </p>
+
+{% if section.settings.promo != blank %}
+      <div class="new_message">
+
+            <div class="icon_area">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="30" viewBox="0 0 28 30" fill="none">
+  <g filter="url(#filter0_d_3829_2163)">
+    <path d="M14 2C8.48 2 4 6.48 4 12C4 17.52 8.48 22 14 22C19.52 22 24 17.52 24 12C24 6.48 19.52 2 14 2ZM15 17H13V11H15V17ZM15 9H13V7H15V9Z" fill="#CB0A20"/>
+  </g>
+  <defs>
+    <filter id="filter0_d_3829_2163" x="-2" y="0" width="32" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3829_2163"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3829_2163" result="shape"/>
+    </filter>
+  </defs>
+</svg>
+            </div>
+
+            <div class="text_are">
+              {{ section.settings.promo }}
+            </div>
+            
+          </div>
+        {% endif %}
+
+      
+      <div class="bundle-wrapper ffff">
+  <p class="bndl-title">Choose your bundle</p>
+  {% if changeBundle %}
+  <p style="margin: -12px 0;">Get one for each room and experience true allergy relief</p>
+  {% endif %}
+    
+  <div class="row-block">
+  
+    <div class="blk pselection first-box b1 {% if produc.available %}available{% else %}not-availbe{% endif %}" data-qty="1"  v_id="{{ product.variants.first.id }}" data-variant="{{ variant.id }}">
+      <div class="b1 offer-box">
+        <p class="offer-text"></p>
+        <p class="bprice">{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round: 0 }}% OFF</p>
+      </div>
+      <div class="img-wrap">
+    	<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/1n.png?v=1660995551">
+        </div>
+      <p class="product__bundle-text">1x Bundle -UVO254™</p>
+      <p class="bprice old-price"> <span class="igComparePrice" data-product-id="{{product.id}}">{{product.compare_at_price | times: 1 | money_with_currency}}</span></p>
+      <p class="bprice new-price"> <span class="igPrice" data-product-id="{{product.id}}">{{product.price| times: 1 | money_with_currency}}</span></p>
+    </div>
+
+    {% unless section.settings.productpack2 == blank %}
+      {% assign product2 = all_products[section.settings.productpack2] %}
+      {% if product2 %}
+        <div class="blk pselection second-box b1 {% if variant.available %}available{% else %}not-availbe{% endif %}"  data-qty="1"  v_id="{{ product2.variants.first.id }}" data-variant="{{ variant.id }}">
+          <div class="b1 offer-box">
+            <p class="offer-text">Most Popular</p>
+            <p class="bprice">{{ product2.compare_at_price | minus: product2.price | times: 100.0 | divided_by: product2.compare_at_price | round: 0 }}% OFF</p>
+          </div>
+          <div class="img-wrap"> 
+            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/2n.png?v=1660995895"> 
+          </div>
+          <p class="product__bundle-text">2x Bundle -UVO254™</p>
+          <p class="bprice old-price"> <span class="igComparePrice" data-product-id="{{product2.id}}">{{product2.compare_at_price | money_with_currency}}</span></p>
+          <p class="bprice new-price"> <span class="igPrice" data-product-id="{{product2.id}}">{{product2.price| money_with_currency}}</span></p>
+        </div>
+      {% endif %}
+    {% endunless %}
+    
+    {% unless section.settings.productpack3 == blank %}
+      {% assign product3 = all_products[section.settings.productpack3] %}
+      {% if product3 %}
+        <div class="blk pselection third-box b1 {% if variant.available %}available{% else %}not-availbe{% endif %}" data-qty="1"  v_id="{{ product3.variants.first.id }}" data-variant="{{ variant.id }}">
+          <div class="b1 offer-box">
+            <p class="offer-text">Best Value</p>
+            <p class="bprice">{{ product3.compare_at_price | minus: product3.price | times: 100.0 | divided_by: product3.compare_at_price | round: 0 }}% OFF</p>
+          </div>
+          <div class="img-wrap">
+            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/3n.png?v=1660995923" />
+          </div>
+          <p class="product__bundle-text">3x Bundle -UVO254™</p>
+          <p class="bprice old-price"> <span class="igComparePrice" data-product-id="{{product3.id}}">{{product3.compare_at_price | money_with_currency}}</span></p>
+          <p class="bprice new-price">  <span class="igPrice" data-product-id="{{product3.id}}">{{product3.price| money_with_currency}}</span></p>
+        </div>
+      {% endif %}
+    {% endunless %}
+  </div>
+
+</div>
+      {% if section.settings.showDescription %}{% render 'block__product-page--description' with product as product %}{% endif %}
+      {% render 'block__product-page--swatch' with product as product %}
+      
+      
+      
+    
+      <div class="high-value-nproduct" style="display:none;">
+        <p class="sell-out-rist">Sell-Out Risk: <span>High</span> </p>
+        <p class="free-shipping">FREE 24/7 SHIPPING FROM CALIFORNIA</p>
+		</div>
+      
+       
+   <div class=" watch-item">
+      {% for block in section.blocks %}
+        {% render 'get-block', block: block, product: product, form: form %}
+      {% endfor %}
+    </div>
+         
+      <div class="btn-wrap">
+      	<button  v_qty="1" v_id="{{ product.variants.first.id }}" class="addcart btn-add-to-cart">Add to Cart</button>
+        	<span class="go-cart__trigger js-go-cart-trigger">
+              <span class="donly">View Cart</span> <span class="count donly"><span class="donly">(</span><span class="js-go-cart-counter">({{- cart.item_count -}})</span><span class="donly">)</span></span>
+</span>
+      </div>
+
+      <div class="payment-methods__text">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M5.00065 18.3359C4.54232 18.3359 4.14982 18.1726 3.82315 17.8459C3.49649 17.5193 3.33343 17.127 3.33399 16.6693V8.33594C3.33399 7.87761 3.49732 7.4851 3.82399 7.15844C4.15065 6.83177 4.54287 6.66872 5.00065 6.66927H5.83399V5.0026C5.83399 3.84983 6.24038 2.86705 7.05315 2.05427C7.86593 1.24149 8.84843 0.835383 10.0007 0.835938C11.1534 0.835938 12.1362 1.24233 12.949 2.0551C13.7618 2.86788 14.1679 3.85038 14.1673 5.0026V6.66927H15.0007C15.459 6.66927 15.8515 6.8326 16.1782 7.15927C16.5048 7.48594 16.6679 7.87816 16.6673 8.33594V16.6693C16.6673 17.1276 16.504 17.5201 16.1773 17.8468C15.8507 18.1734 15.4584 18.3365 15.0007 18.3359H5.00065ZM10.0007 14.1693C10.459 14.1693 10.8515 14.0059 11.1782 13.6793C11.5048 13.3526 11.6679 12.9604 11.6673 12.5026C11.6673 12.0443 11.504 11.6518 11.1773 11.3251C10.8507 10.9984 10.4584 10.8354 10.0007 10.8359C9.54232 10.8359 9.14982 10.9993 8.82315 11.3259C8.49649 11.6526 8.33343 12.0448 8.33399 12.5026C8.33399 12.9609 8.49732 13.3534 8.82399 13.6801C9.15065 14.0068 9.54288 14.1698 10.0007 14.1693ZM7.50065 6.66927H12.5007V5.0026C12.5007 4.30816 12.2576 3.71788 11.7715 3.23177C11.2854 2.74566 10.6951 2.5026 10.0007 2.5026C9.30621 2.5026 8.71593 2.74566 8.22982 3.23177C7.74371 3.71788 7.50065 4.30816 7.50065 5.0026V6.66927Z" fill="#00436C"/>
+        </svg>
+        <p>
+          All transactions secured and encrypted
+        </p>
+      </div>
+      
+      <div class="payment-methods__wrapper">
+        <img class="payment-methods" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/payment-methods.png?v=1700785776"  />
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+{% else %}
+
+<div id="s--{{section.id}}" class="{% render 'common-class', section: section, class: 'row padding__vertical featured-product', vAlign: false %}">
+  <div class="row s_content layout__content">
+    {% render 'block__general--heading' with section as section %}
+    <div class="col-12 col-md-6 gallery__default">
+      <div class="gallery">
+       
+        <div class="col col-md gallery__image zoom">
+          {{'product-1' | placeholder_svg_tag: 'lazyload gallery__img gallery__fake'}}
+          <button class="zoom-btn" data-target="" value="+" onclick="boosterProductPage.zoomIn(this)">+ Zoom in</button>
+        </div>
+        
+         <div class="col-min gallery__thumbnails--holder">
+          <div class="gallery__thumbnails">
+          {% for image in (1..6) %}
+            <a {% if forloop.first %}class="active"{%endif%}>
+              {{ 'product-' | append: image | placeholder_svg_tag}}
+            </a>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 product__page--info unflex">
+      <h1 
+        class="product__title">
+        Demo product
+      </h1>
+      <div 
+        class="product__price--holder">
+        <span class="product__price jsPrice">$179.00</span>
+      </div>
+      <div class="product__description {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}">
+        <span class="product__description--title">Product Description</span>
+        <p>This is an example product. Select a product inside this section's settings in order for it to be usable.</p>
+      </div>
+      <div class="product__atc {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}" {{block.shopify_attributes}}>
+        <input style="display: none;">
+        <div class="quantity--input">
+            <button class="quantity--input__button quantity--input__incr">-</button><!--
+            --><input class="quantity--input__input" value="1" data-qty-input type="number" name="quantity" min="1"><!--
+            --><button class="quantity--input__button quantity--input__decr">+</button>
+        </div>
+        {% render 'add-to-cart-button--disabled', type: 'secondary' %}
+    </div>
+    </div>
+
+  </div>
+</div>
+
+{% endunless %}
+
+<script>
+/* Random number generator */
+var randomValue = sessionStorage.getItem('randomValue');
+
+if (randomValue !== null) {
+    document.querySelector('.rqty').innerHTML = randomValue;
+} else {
+  var rqtyValue = parseFloat(document.querySelector('.rqty').textContent);
+  
+  // .rqty öğesinin değeri 251 veya 758 ise rastgele bir sayı üretin
+  if (rqtyValue >= 251) {
+      var min = 251; // Minimum sayı
+      var max = 758; // Maximum sayı
+  
+      // Rastgele bir sayı üretin ve bu sayıyı bir oturum (session) değişkenine kaydedin
+      var randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
+      // Oturum değişkenine değeri atama
+      sessionStorage.setItem('randomValue', randomValue);
+  
+      // Üretilen rastgele sayıyı kullanabilirsiniz
+    document.querySelector('.rqty').innerHTML = randomValue;
+  }
+}
+</script>
+
+
+{% schema %}
+{
+    "name": {
+        "en": "Featured product"
+    },
+    "settings": [
+      {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458157889)"
+    },
+
+
+         {
+    "type": "header",
+    "content": "Section Below Product Gallery"
+},
+      {
+  "type": "richtext",
+  "id": "promo",
+  "label": "Promo Text",
+  "default": "<p><b>Important note:</b> December 12 is your last chance to place an order with <b>FREE SHIPPING</b> and guaranteed <b>delivery before Christmas Day.</b></p>"
+},
+{
+  "type": "image_picker",
+  "id": "productbottom",
+  "label": "Image Below Product Gallery"
+},
+{
+    "type": "text",
+    "id": "sec1",
+    "label": "Section 1 Text",
+    "default": "Section 1 Text"
+},
+      {
+    "type": "text",
+    "id": "sec2",
+    "label": "Section 2 Text",
+    "default": "Section 2 Text"
+},
+      {
+    "type": "text",
+    "id": "sec3",
+    "label": "Section 3 Text",
+    "default": "Section 2 Text"
+},
+      
+      
+    {
+        "type": "header",
+        "content": "Section layout"
+    },
+    {
+      "type": "radio",
+      "id": "displayFor",
+      "label": "Show this section on",
+      "options": [
+        {"value": "display--both", "label": "All devices"},
+        {"value": "hide-desktop", "label": "Mobile only"},
+        {"value": "hide-mobile", "label": "Desktop only"}
+      ],
+      "default": "display--both"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Section layout",
+      "options": [
+        {"value": "default", "label": "Global default"},
+        {"value": "boxed", "label": "Boxed"},
+        {"value": "stretchBg", "label": "Full width background"},
+        {"value": "stretchContent", "label": "Full width"}
+      ],
+      "default": "default"
+    },
+    {
+      "type": "checkbox",
+      "id": "nomargin",
+      "default": false,
+      "label": "Remove section's bottom margin"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Minimum height",
+      "default": 0,
+      "min": 0,
+      "max": 800,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Section padding",
+      "default": 0,
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+    "type": "header",
+    "content": "Section background"
+  },
+  {
+    "id": "backgroundColor",
+    "type": "color",
+    "default": "rgba(0,0,0,0)",
+    "label": "Background color"
+  },
+    {
+    "type": "header",
+    "content": "Section heading"
+},
+{
+    "type": "text",
+    "id": "heading",
+    "label": "Section heading",
+    "default": "Check out this section's heading"
+},
+{
+    "type": "color",
+    "id": "headingColor",
+    "default": "rgba(0,0,0,0)",
+    "label": "Heading Color"
+},
+{
+    "type": "text",
+    "id": "subheading",
+    "label": "Section subheading",
+    "default": "THIS IS A SUBHEADING"
+},
+{
+    "type": "color",
+    "id": "subheadingColor",
+    "default": "rgba(0,0,0,0)",
+    "label": "Subheading Color"
+},
+{
+    "type": "select",
+    "id": "subheadingPosition",
+    "label": "Subheading position",
+    "options": [
+      {"value": "above", "label": "Above heading"},
+      {"value": "below", "label": "Below heading"}
+    ],
+    "default": "above"
+},
+{
+    "type": "select",
+    "id": "headingAlignment",
+    "label": "Heading alignment (left to right)",
+    "options": [
+    {"value": "start", "label": "Left"},
+    {"value": "center", "label": "Center"},
+    {"value": "end", "label": "Right"}
+    ],
+    "default": "center"
+},
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+        "type": "product",
+        "label": "Product Pack 1",
+        "id": "product"
+    },
+	 {
+      "type": "product",
+      "id": "productpack2",
+      "label": "Product Pack 2"
+    },
+    {
+      "type": "product",
+      "id": "productpack3",
+      "label": "Product Pack 3"
+    },
+    {
+      "id": "showDescription",
+      "label": "Show product description",
+      "type": "checkbox",
+      "default": true
+    }
+    ],
+	 "blocks": [
+      {
+          "type": "productPageCountdown",
+          "name": "Offer countdown",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Style",
+                "id": "style",
+                "default": "compact",
+                "options": [
+                  {"value": "compact", "label": "Compact"},
+                  {"value": "doublecolumn", "label": "Two columns"}
+                ]
+              },
+              {
+                "id": "title",
+                "label": "Countdown title",
+                "type": "text",
+                "default": "LIMITED TIME OFFER"
+              },
+              {
+                "id": "text",
+                "type": "text",
+                "label": "Warning text",
+                "default": "The price of this item will revert back to %price% at the end of this countdown.",
+                "info": "%price% will get replace by the products original price."
+              }
+          ]
+      },
+      {
+          "type": "productPageTitle",
+          "name": "Product title",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "header",
+                "content": "Style"
+              },
+              {
+                "id": "color",
+                "type": "color",
+                "label": "Custom color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "fontFamily",
+                "label": "Font family",
+                "type": "select",
+                "options": [
+                  {"value": "base", "label": "Base"},
+                  {"value": "title", "label": "Title"}
+                ],
+                "default": "base"
+              },
+              {
+                "id": "fontSize",
+                "label": "Font size",
+                "type": "select",
+                "options": [
+                  {"value": "small", "label": "Small"},
+                  {"value": "base", "label": "Base"},
+                  {"value": "medium", "label": "Medium"},
+                  {"value": "big", "label": "Big"}
+                ],
+                "default": "medium"
+              }
+          ]
+      },
+      {
+          "type": "productPagePrice",
+          "name": "Product price",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "header",
+                "content": "Style"
+              },
+              {
+                "id": "color",
+                "type": "color",
+                "label": "Custom color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "newPriceColor",
+                "type": "color",
+                "label": "Reduced price color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "oldPriceColor",
+                "type": "color",
+                "label": "Old price color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "fontFamily",
+                "label": "Font family",
+                "type": "select",
+                "options": [
+                  {"value": "base", "label": "Base"},
+                  {"value": "title", "label": "Title"}
+                ],
+                "default": "base"
+              },
+              {
+                "id": "fontSize",
+                "type": "select",
+                "label": "Font size",
+                "options": [
+                  {"value": "small", "label": "Small"},
+                  {"value": "base", "label": "Base"},
+                  {"value": "medium", "label": "Medium"},
+                  {"value": "big", "label": "Big"}
+                ],
+                "default": "medium"
+              },
+              {
+                "type": "header",
+                "content": "Sale"
+              },
+              {
+                "type": "select",
+                "id": "saleType",
+                "label": "Show sale badge as",
+                "options": [
+                  {"value": "percent", "label": "Percent (%)"},
+                  {"value": "amount", "label": "Money amount"},
+                  {"value": "text", "label": "Only 'SALE' text"},
+                  {"value": "none", "label": "Hide the sale badge"}
+                ],
+                "default": "percent"
+              }
+          ]
+      },
+      {
+          "type": "productPageSwatch",
+          "name": "Product variants (*)",
+          "limit": 1,
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              }
+          ]
+      },
+      {
+        "type": "productPageBadge",
+        "name": "Image/Badges",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "noMargin",
+            "label": "Remove bottom space"
+          },
+          {
+            "type": "image_picker",
+            "label": "Badge image",
+            "id": "badge"
+          }
+        ]
+      },
+      {
+          "type": "productPageStock",
+          "name": "Product stock",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max product stock",
+                "id": "stockLeft",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"},
+                  {"value": "inventory", "label": "Use real stock"}
+                ],
+                "default": "10"
+              },
+              {
+                "type": "range",
+                "id": "reduce",
+                "label": "Reduce inventory every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "info": "If set above 0, the stock amount will be reduced by 1 in the set interval. Doesn't work with real stock inventory. If you want to disable it, set it to 0.",
+                "default": 8
+              }
+          ]
+      },
+      {
+          "type": "productPageDelivery",
+          "name": "Icon + Text (Delivery)",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "text",
+                "label": "Icon",
+                "info": "Icon name copied over from Unicons icon library. You can find the list over at [Unicons](https://iconscout.com/unicons/explore/line).",
+                "id": "icon"
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "richtext",
+                "label": "Delivery text",
+                "default": "<p>Products are usually delivered in 3-7 days.</p>",
+                "id": "text"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "productPageWatching",
+          "name": "Watching product",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max people",
+                "id": "max",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"}
+                ],
+                "default": "100"
+              },
+              {
+                "type": "text",
+                "label": "Custom Max People",
+                "id": "customMax",
+                "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+              },
+              {
+                "type": "range",
+                "id": "interval",
+                "label": "Update the number every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "default": 8
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "productPageInCart",
+          "name": "Product in cart",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max people",
+                "id": "max",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"}
+                ],
+                "default": "100"
+              },
+              {
+                "type": "text",
+                "label": "Custom Max People",
+                "id": "customMax",
+                "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+              },
+              {
+                "type": "range",
+                "id": "interval",
+                "label": "Update the number every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "default": 8
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "productPageDescription",
+          "name": "Product description",
+          "settings": [
+            {
+              "id": "heading",
+              "label": "Description title",
+              "default": "Product description",
+              "type": "text"
+            },
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              }
+          ]
+      },
+      {
+          "type": "productPageAccordion",
+          "name": "Accordion",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "text",
+                "id": "heading",
+                "label": "Accordion heading",
+                "default": "Description"
+              },
+              {
+                "type": "radio",
+                "label": "Accordion content",
+                "id": "content",
+                "options": [
+                  {"value": "description", "label": "Description"},
+                  {"value": "reviews", "label": "Reviews"},
+                  {"value": "metafield", "label": "Metafield"},
+                  {"value":"page", "label": "Page"},
+                  {"value": "productPage", "label": "Product specific page"},
+                  {"value": "custom", "label": "Custom content"}
+                ],
+                "default": "description"
+              },
+              {
+                "type": "header",
+                "content": "Metafield"
+              },
+              {
+                "type": "text",
+                "id": "metafieldNS",
+                "label": "Metafield namespace",
+                "default": "global"
+              },
+              {
+                "type": "text",
+                "id": "metafieldKey",
+                "label": "Metafield key"
+              },
+              {
+                "type": "header",
+                "content": "Page"
+              },
+              {
+                "type": "page",
+                "label": "Page to show",
+                "id": "page"
+              },
+              {
+                "type": "header",
+                "content": "Custom content"
+              },
+              {
+                "type": "html",
+                "id": "customContent",
+                "label": "Custom content",
+                "default": "<p>Add custom content here!</p>"
+              }
+          ]
+      },
+      {
+          "type": "productPageTab",
+          "name": "Tab",
+          "settings": [
+              {
+                "type": "checkbox",
+                "label": "Show this tab inline",
+                "info": "Will place this tag on the side of the product, instead of below everything",
+                "default": false,
+                "id": "showInline"
+              },
+              {
+                "type": "text",
+                "id": "heading",
+                "label": "Tab heading",
+                "default": "Description"
+              },
+              {
+                "type": "radio",
+                "label": "Tab content",
+                "id": "content",
+                "options": [
+                  {"value": "description", "label": "Description"},
+                  {"value": "reviews", "label": "Reviews"},
+                  {"value": "metafield", "label": "Metafield"},
+                  {"value": "page", "label": "Page"},
+                  {"value": "productPage", "label": "Product specific page"},
+                  {"value": "custom", "label": "Custom content"}
+                ],
+                "default": "description"
+              },
+              {
+                "type": "header",
+                "content": "Metafield"
+              },
+              {
+                "type": "text",
+                "id": "metafieldNS",
+                "label": "Metafield namespace",
+                "default": "global"
+              },
+              {
+                "type": "text",
+                "id": "metafieldKey",
+                "label": "Metafield key"
+              },
+              {
+                "type": "header",
+                "content": "Page"
+              },
+              {
+                "type": "page",
+                "label": "Page to show",
+                "id": "page"
+              },
+              {
+                "type": "header",
+                "content": "Custom content"
+              },
+              {
+                "type": "html",
+                "id": "customContent",
+                "label": "Custom content",
+                "default": "<p>Add custom content here!</p>"
+              }
+          ]
+      },
+      {
+        "type": "productPageReviewStars",
+        "name": "Review stars",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "noMargin",
+            "label": "Remove bottom space"
+          },
+          {
+            "type": "paragraph",
+            "content": "Make sure to save the settings in order to initialize reviews."
+          }
+        ]
+      },
+      {
+        "type": "productPageTags",
+        "name": "Tags",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "noMargin",
+            "label": "Remove bottom space"
+          },
+          {
+            "type": "select",
+            "id": "style",
+            "options": [
+              {"value": "swatch", "label": "Swatch"},
+              {"value": "text", "label": "Text"}
+            ],
+            "label": "Tag style"
+          },
+          {
+            "type": "textarea",
+            "label": "Tags to exclude",
+            "id": "exclude",
+            "info": "Comma (,) separated list of tags to exclude. bstr-tag-* tags are excluded automatically."
+          }
+        ]
+      },
+      {
+          "type": "productPageATC",
+          "name": "Add to cart (*)",
+          "limit": 1,
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "checkbox",
+                "label": "Show Sticky ATC on Desktop",
+                "id": "stickyDesktop",
+                "default": true
+              },
+              {
+                "type": "checkbox",
+                "label": "Show Sticky ATC on Mobile",
+                "id": "stickyMobile",
+                "default": true
+              }
+          ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Products",
+        "name": "Featured product",
+        "settings": {
+        }
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,36 @@
+<script>
+ document.addEventListener("scroll", (event) => {
+  var scrolValue = window.scrollY;
+   if (scrolValue > 600) {
+     document.querySelector("#shopify-section-Advertorial-NEW > section > div.Right-Side-Three").classList.add("scrolled")
+   } else {
+     document.querySelector("#shopify-section-Advertorial-NEW > section > div.Right-Side-Three").classList.remove("scrolled")
+   }
+ });
+
+
+
+function reviewSlider()
+ {
+  $(".review-slider-d").slick({
+    slidesToShow: 2,
+    infinite: true,
+    arrows: true,
+    dots: false,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 1000,
+    responsive: [
+      {
+        breakpoint: 900,
+        settings: {
+          slidesToShow: 1,
+        }
+      }
+    ]});
+ }
+ reviewSlider();
+ window.addEventListener('shopify:section:load', (event) => {
+  reviewSlider();
+ });
+</script>

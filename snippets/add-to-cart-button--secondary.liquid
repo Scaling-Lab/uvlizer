@@ -1,0 +1,18 @@
+{% if price == 0 and settings.freeShipping  %}
+    {% assign text = settings.freeShippingText %}
+{% else %}
+    {% if text == blank %}
+        {% assign text = 'general.buttons.add_to_cart' | t  %}
+    {% endif %}
+{% endif %}
+
+<button data-buy-button
+type="button"
+data-original-text="{{-text-}}" {{disabled}} 
+class="button button--secondary button--{{-settings['secondaryButtonStyle']}} button--secondary__{{-settings['secondaryButtonStyle']}} {{class-}}" 
+{% if variant %}data-product-variant="{{variant}}"{% endif %}
+{% if quantity != nil %}data-product-quantity="{{quantity}}"{% endif %}
+{% unless disabled %}
+onclick="boosterCart.addToCart(this, event);"
+{%endunless%}
+><span data-button-text>{{- text -}}</span></button>

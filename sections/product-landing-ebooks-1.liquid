@@ -1,0 +1,1251 @@
+{% assign changeBundle = false %}
+{% if template.suffix == "uvlizer-home-disinfection-device-first" or template.suffix == "uvlizer-home-disinfection-device-third" %}
+{% assign changeBundle = true %}
+{% endif %}
+
+<style type="text/css">
+{% render 'common-css' with section as section %}
+
+{% if section.settings.headingDivider %}
+#s--{{section.id}} .section__heading--heading h2 {
+  background: {% unless section.settings.backgroundColor contains 'rgba(0,0,0,0)'  %}{{section.settings.backgroundColor}}{% else %}{{settings.baseBackground}}{% endunless %};
+  padding: 0px 12px;
+  {% case section.settings.textAlignment %}
+      {% when 'start' %}
+  padding-left: 0px;
+      {% when 'end' %}
+  padding-right: 0px;
+  {% endcase %}
+}
+
+#s--{{section.id}} .section__heading--heading::before {
+  content: '';
+}
+{% endif %}
+
+ .bundle-wrapper .blk p.old-price span {
+    font-size: 22px !important;
+}
+  .bundle-wrapper .blk p.new-price span{
+    font-size: 18px!important;
+    color: #194269;
+    font-weight: 700!important;
+}
+.bundle-wrapper .blk {
+  position: relative;
+}
+.bundle-wrapper .blk .box-badge {
+  position: absolute;
+  top: -22px;
+  right: -32px;
+  width: 75px;
+  height: 75px;
+  z-index: 2;
+}
+
+.go-cart-item__image {
+  width: 125px !important;
+}
+.go-cart-item__info {
+  max-width: 212px !important;
+  padding: 10px !important;
+}
+
+.btn-ebook-details {
+  color: #66B3E2;
+  font-size: 14px;
+  user-select: none;
+  cursor: pointer;
+}
+.btn-ebook-details:hover {
+  color: #194269;
+}
+
+</style>
+
+{% unless section.settings.product == blank %}
+
+{% assign product = all_products[section.settings.product] %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_image = product.featured_image %}
+
+<div id="s--{{section.id}} hygyh" class="{% render 'common-class', section: section, class: 'row padding__vertical featured-product', vAlign: false %}">
+  <div class="row s_content layout__content">
+    {% render 'block__general--heading' with section as section %}
+    <div class="col-12 col-md-6 gallery__default">
+      <span class="monly title-top"> {% render 'block__product-page--title' with product as product %}</span>
+      <div class="product-slider-wrapper">
+        <div class="product-slider">
+      	{% for image in product.images %}
+           {% unless image.attached_to_variant? %}
+
+        <span data-variants="{% for var in image.variants %}{{var.id}}|{% endfor %}" {% if forloop.first %}class="active"{%endif%} data-media-type="image" data-image-index="{{forloop.index0}}" data-high-res-image="{{ image.src | img_url: '1280x' }}" data-href="{{ image.src | img_url: '650x' }}" alt="{{image.alt | escape}}" onclick="boosterProductPage.galleryChangeImage(event, this)">
+          {% render 'image', size: '900x', src: image.src, alt: image.alt %}
+        </span>
+            {% endunless %}
+
+      {% endfor %}
+        </div>
+      </div>
+
+    <span class="gicon donly">
+            {% if page.template_suffix contains 'device-second-updated-2x-offer_CA' or page.template_suffix contains 'device-second-updated-2x-offer_UK' or page.template_suffix contains 'device-second-updated-2x-offer_AU' %}
+                <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/asas_gold.png?v=1707425063">
+            {% else %}
+                <img src="{{ section.settings.productbottom | img_url: 'master' }}">
+            {% endif %}
+            <div class="three-part">
+                {% if page.template_suffix contains 'device-second-updated-2x-offer_CA' or page.template_suffix contains 'device-second-updated-2x-offer_UK' or page.template_suffix contains 'device-second-updated-2x-offer_AU' %}
+                    <div id="p1"><p>90 day Money Back<br> Guarantee</p></div>
+                {% else %}
+                    <div id="p1"><p>{{ section.settings.sec1 }}</p></div>
+                {% endif %}
+                <div id="p1"><p>{{ section.settings.sec2 }}</p></div>
+                <div id="p1"><p>{{ section.settings.sec3 }}</p></div>
+            </div>
+    </span>
+
+<style>
+  .three-part #p1 {
+    width: 33.33%;
+    float: left;
+    text-align: center !important;
+    font-size: 13px;
+      font-weight: 700;
+}
+  #p1 p {
+  color:#174167;
+  margin-top:15px;
+  }
+
+.three-part {
+    display: inline-block;
+    width: 90%;
+}
+
+.impotrant-icon {
+  color: red;
+}
+
+.impotrant-icon::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  background-image: url(https://cdn.shopify.com/s/files/1/0519/0238/2231/files/53_warning-512_430x.webp?v=1711791115);
+  background-size: cover;
+  position: absolute;
+  top: 2px;
+  left: 0;
+}
+
+@media only screen and (max-width: 768px) {
+  .impotrant-icon::after {
+      width: 15px;
+      height: 15px;
+      top: 1px;
+  }
+}
+
+  </style>
+  </span>
+</div>
+
+    <div class="col-12 col-md-6 product__page--info unflex">
+      <span class="dtitle"> {% render 'block__product-page--title' with product as product %}</span>
+      {% render 'block__product-page--price' with product as product %}
+        <div class="bundle-wrapper ffff">
+            {% comment %}IMPORTANT block for only one page{% endcomment %}
+            {% if page.template_suffix == 'uvlizer-home-disinfection-device-second-updated-2x-offer_copy' %}
+                <p style="font-size: 0.9em;padding: 15px;border-radius: 10px;background: #eef6f8;border: 1px solid red;">
+                    <strong style="color: rgb(3, 45, 73);padding-left: 22px; position: relative"><span class="impotrant-icon">IMPORTANT:</span></strong>
+                    Due to unprecedented demand, your discounted UVO lamps may take up to
+                    <strong style="text-decoration: underline;">10 days to arrive.</strong>
+                    <br>
+                    <br>Please note that this pre-order is your
+                    <strong>last chance to secure the UVO lamps at a discounted price. </strong>
+                    The price will increase by 25.08% upon the arrival of our next shipment.
+                    <br>
+                </p>
+                {% else %}
+            {% endif %}
+{% if section.settings.promo != blank %}
+          <div class="new_message">
+
+            <div class="icon_area">
+              <svg xmlns="http://www.w3.org/2000/svg" width="28" height="30" viewBox="0 0 28 30" fill="none">
+  <g filter="url(#filter0_d_3829_2163)">
+    <path d="M14 2C8.48 2 4 6.48 4 12C4 17.52 8.48 22 14 22C19.52 22 24 17.52 24 12C24 6.48 19.52 2 14 2ZM15 17H13V11H15V17ZM15 9H13V7H15V9Z" fill="#CB0A20"/>
+  </g>
+  <defs>
+    <filter id="filter0_d_3829_2163" x="-2" y="0" width="32" height="32" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+      <feFlood flood-opacity="0" result="BackgroundImageFix"/>
+      <feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+      <feOffset dy="4"/>
+      <feGaussianBlur stdDeviation="2"/>
+      <feComposite in2="hardAlpha" operator="out"/>
+      <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"/>
+      <feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_3829_2163"/>
+      <feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_3829_2163" result="shape"/>
+    </filter>
+  </defs>
+</svg>
+            </div>
+
+            <div class="text_are">
+              {{ section.settings.promo }}
+            </div>
+            
+          </div>
+        {% endif %}
+
+  <p class="bndl-title">Choose your bundle</p>
+  {% if changeBundle %}
+  <p style="margin: -12px 0;">Get one for each room and experience true allergy relief</p>
+  {% endif %}
+  <div class="row-block first-block">
+      	 <div class="blk b1 offer-box">
+       <p class="offer-text">Most Popular</p>
+       <p class="bprice">{{ product.compare_at_price | minus: product.price | times: 100.0 | divided_by: product.compare_at_price | round: 0 }}% OFF</p>
+    </div>
+     {% unless section.settings.productpack2 == blank %}
+      {% assign product2 = all_products[section.settings.productpack2] %}
+      {% if product2 %}
+     <div class="blk b1 offer-box">
+       <p class="offer-text">{% unless changeBundle %}Most Popular{% endunless %}</p>
+       <p class="bprice">{{ product2.compare_at_price | minus: product2.price | times: 100.0 | divided_by: product2.compare_at_price | round: 0 }}% OFF</p>
+    </div>
+     {% endif %}
+     {% endunless %}
+     {% unless section.settings.productpack3 == blank %}
+      {% assign product3 = all_products[section.settings.productpack3] %}
+     {% if product3 %}
+     <div class="blk b1 offer-box">
+       <p class="offer-text">{% if changeBundle %}Most Popular{% else %}Best Value{% endif %}</p>
+       <p class="bprice">{{ product3.compare_at_price | minus: product3.price | times: 100.0 | divided_by: product3.compare_at_price | round: 0 }}% OFF</p>
+    </div>
+ {% endif %}
+     {% endunless %}
+  </div>
+
+  <div class="row-block">
+      {% if page.template_suffix == 'uvlizer-home-disinfection-device-second-updated-2x-offer-selected' %}
+          <style>
+              /*.d-none-selected-cart-style {*/
+              /*    display: unset;*/
+              /*}*/
+
+              button.d-none-selected-cart-style.addcart.btn-add-to-cart {
+                  font-size: 15px;
+                  margin: 0;
+                  @media only screen and (max-width: 768px) {
+                      font-size: 9px;
+                  }
+              }
+              /*.btn-add-to-cart {*/
+              /*    @media only screen and (max-width: 768px) {*/
+              /*        margin: 0;*/
+              /*    }*/
+              /*}*/
+              /*span.item-selected {*/
+              /*    font-size: 10px;*/
+              /*    font-weight: 600;*/
+              /*    padding-left: 3px;*/
+              /*    padding-right: 3px;*/
+              /*    background: #13c18b;*/
+              /*    color: white;*/
+              /*    position: relative;*/
+              /*    top: -11px;*/
+              /*    left: -17px;*/
+              /*}*/
+              /*.bundle-wrapper .blk .item-selected {*/
+              /*    display: none;*/
+              /*}*/
+              /*.bundle-wrapper .blk.selected .item-selected {*/
+              /*    display: unset;*/
+              /*}*/
+              /*.bundle-wrapper .blk.selected {*/
+              /*    border: solid 2px #13c18b;*/
+              /*    padding-top: 0;*/
+              /*}*/
+              /*.bundle-wrapper .blk.selected:before {*/
+              /*    content: '';*/
+              /*    left: -15px;*/
+              /*    top: -9px;*/
+              /*    position: relative;*/
+              /*    font-size: 15px;*/
+              /*    padding-left: 7px;*/
+              /*    padding-right: 13px;*/
+              /*    background-image: url(https://cdn.shopify.com/s/files/1/0519/0238/2231/files/mark_10099892.png?v=1712167672);*/
+              /*    background-size: cover;*/
+              /*}*/
+          </style>
+      {% else %}
+          <style>
+              .d-none-selected-cart-style {
+                  display: none;
+              }
+          </style>
+      {% endif %}
+
+    <div class="blk pselection first-box b1 {% if product.available %}available{% else %}not-availbe{% endif %}" data-qty="1"  v_id="{{ product.variants.first.id }}" data-variant="{{ variant.id }}">
+        {% comment %}<span class="d-none-selected-cart-style item-selected">SELECTED</span>{% endcomment %}
+        <div class="img-wrap">
+    	<img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/1n.png?v=1660995551">
+        </div>
+      <p>1 <span class="device-text">Device</span></p>
+      <p class="bprice old-price"> <span class="igComparePrice" data-product-id="{{product.id}}">{{product.compare_at_price | times: 1 | money_with_currency}}</span></p>
+      <p class="bprice new-price"> <span class="igPrice" data-product-id="{{product.id}}">{{product.price| times: 1 | money_with_currency}}</span></p>
+            <button  v_qty="1" v_id="{{ product.variants.first.id }}" class="d-none-selected-cart-style addcart btn-add-to-cart">Add to cart</button>
+     </div>
+     {% unless section.settings.productpack2 == blank %}
+      {% assign product2 = all_products[section.settings.productpack2] %}
+      {% if product2 %}
+      <div class="blk pselection second-box b1 {% if variant.available %}available{% else %}not-availbe{% endif %}"  data-qty="1"  v_id="{{ product2.variants.first.id }}" data-variant="{{ variant.id }}">
+      {% comment %}<span class="item-selected d-none-selected-cart-style">SELECTED</span>{% endcomment %}
+      <img class="box-badge" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/badge-1-free-ebook.png?v=1720781355" />
+      <div class="img-wrap">
+        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/2-devices-1-ebook.png?v=1720778790">
+      </div>
+      <p>2 <span class="device-text">Devices</span></p>
+      <p><span class="btn-ebook-details" data-modal="ebook-1-details">{% render 'get-icon', icon: 'eye' %} see ebook</span></p>
+      <p class="bprice old-price"> <span class="igComparePrice" data-product-id="{{product2.id}}">{{product2.compare_at_price | money_with_currency}}</span></p>
+      <p class="bprice new-price"> <span class="igPrice" data-product-id="{{product2.id}}">{{product2.price| money_with_currency}}</span></p>
+          <button  v_qty="1" v_id="{{ product.variants.first.id }}" class="d-none-selected-cart-style addcart btn-add-to-cart">Add to cart</button>
+      </div>
+      {% endif %}
+     {% endunless %}
+
+    {% unless section.settings.productpack3 == blank %}
+      {% assign product3 = all_products[section.settings.productpack3] %}
+      {% if product3 %}
+      <div class="blk pselection third-box b1 {% if variant.available %}available{% else %}not-availbe{% endif %}" data-qty="1"  v_id="{{ product3.variants.first.id }}" data-variant="{{ variant.id }}">
+      {% comment %}<span class="d-none-selected-cart-style item-selected">SELECTED</span>{% endcomment %}
+      <img class="box-badge" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/2-free-ebooks-fixed.png?v=1722257592" />
+      <div class="img-wrap">
+        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/3-devices-2-ebooks.png?v=1720778792" />
+      </div>
+      <p>3 <span class="device-text">Device</span></p>
+      <div style="padding-left: 10%; margin-bottom: 3px;">
+        <span class="btn-ebook-details" data-modal="ebook-1-details">{% render 'get-icon', icon: 'eye' %} see ebook 1</span>
+      </div>
+      <div style="padding-left: 10%; margin-bottom: 8px;">
+        <span class="btn-ebook-details" data-modal="ebook-2-details">{% render 'get-icon', icon: 'eye' %} see ebook 2</span>
+      </div>
+      <p class="bprice old-price"> <span class="igComparePrice" data-product-id="{{product3.id}}">{{product3.compare_at_price | money_with_currency}}</span></p>
+      <p class="bprice new-price">  <span class="igPrice" data-product-id="{{product3.id}}">{{product3.price| money_with_currency}}</span></p>
+          <button  v_qty="1" v_id="{{ product.variants.first.id }}" class="d-none-selected-cart-style addcart btn-add-to-cart">Add to cart</button>
+      </div>
+     {% endif %}
+                                 {% endunless %}
+  </div>
+
+</div>
+      {% if section.settings.showDescription %}{% render 'block__product-page--description' with product as product %}{% endif %}
+      {% render 'block__product-page--swatch' with product as product %}
+      
+      
+      
+    
+      <div class="high-value-nproduct" style="display:none;">
+        <p class="sell-out-rist">Sell-Out Risk: <span>High</span> </p>
+        <p class="free-shipping">FREE 24/7 SHIPPING FROM CALIFORNIA</p>
+		</div>
+      
+       
+   <div class=" watch-item">
+       {% for block in section.blocks %}
+      {% render 'get-block', block: block, product: product, form: form %}
+      {% endfor %}
+     <div class="inventoryWrapper ">
+    <!-- stock check -->
+    {% if current_variant.inventory_quantity > 0 and current_variant.inventory_management == 'shopify' %}
+      {% if current_variant.inventory_quantity > 748 %}
+        {% assign stock = 748 %}
+      {% endif %}
+      {% if current_variant.inventory_quantity < 251 %}
+        {% assign stock = 251 %}
+      {% endif %}
+      {% if current_variant.inventory_quantity < 1 %}
+        {% assign stock = 10 %}
+      {% endif %}
+         <p><span class="rqty">{{ stock }}</span> / <span>10,000</span> <strong> Discounted Pieces Left</strong></p>
+  {% endif %}
+</div>
+      </div>
+
+{% if page.template_suffix == 'uvlizer-home-disinfection-device-second-updated-2x-offer-selected' %}
+            <style>
+                .d-none-selected-cart-style-hide {
+                    display: none;
+                }
+            </style>
+            <div class="btn-wrap d-none-selected-cart-style-hide">
+                <button  v_qty="1" v_id="{{ product.variants.first.id }}" class="addcart btn-add-to-cart">Add to cart</button>
+                <span class="go-cart__trigger js-go-cart-trigger">
+              <span class="donly">View Cart</span> <span class="count donly"><span class="donly">(</span><span class="js-go-cart-counter">({{- cart.item_count -}})</span><span class="donly">)</span></span>
+</span>
+            </div>
+{% else %}
+            <div class="btn-wrap d-none-selected-cart-style-hide">
+                <button  v_qty="1" v_id="{{ product.variants.first.id }}" class="addcart btn-add-to-cart">Add to cart</button>
+                <span class="go-cart__trigger js-go-cart-trigger">
+              <span class="donly">View Cart</span> <span class="count donly"><span class="donly">(</span><span class="js-go-cart-counter">({{- cart.item_count -}})</span><span class="donly">)</span></span>
+</span>
+            </div>
+{% endif %}
+
+
+      <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/payment-icon_d7622d5c-263a-4b77-bec8-0805b88d6e19.png?v=1660996393"  />
+        <span class="gicon monly">
+    {% if page.template_suffix contains 'device-second-updated-2x-offer_CA' or page.template_suffix contains 'device-second-updated-2x-offer_UK' or page.template_suffix contains 'device-second-updated-2x-offer_AU' %}
+        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/asas_gold.png?v=1707425063">
+    {% else %}
+        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/fast-shiping.png?v=1660996284">
+    {% endif %}
+        </span>
+
+    </div>
+
+  </div>
+</div>
+
+{% else %}
+
+<div id="s--{{section.id}}" class="{% render 'common-class', section: section, class: 'row padding__vertical featured-product', vAlign: false %}">
+  <div class="row s_content layout__content">
+    {% render 'block__general--heading' with section as section %}
+    <div class="col-12 col-md-6 gallery__default">
+      <div class="gallery">
+       
+        <div class="col col-md gallery__image zoom">
+          {{'product-1' | placeholder_svg_tag: 'lazyload gallery__img gallery__fake'}}
+          <button class="zoom-btn" data-target="" value="+" onclick="boosterProductPage.zoomIn(this)">+ Zoom in</button>
+        </div>
+        
+         <div class="col-min gallery__thumbnails--holder">
+          <div class="gallery__thumbnails">
+          {% for image in (1..6) %}
+            <a {% if forloop.first %}class="active"{%endif%}>
+              {{ 'product-' | append: image | placeholder_svg_tag}}
+            </a>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-md-6 product__page--info unflex">
+      <h1
+        class="product__title">
+        Demo product
+      </h1>
+      <div
+        class="product__price--holder">
+        <span class="product__price jsPrice">$179.00</span>
+      </div>
+      <div class="product__description {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}">
+        <span class="product__description--title">Product Description</span>
+        <p>This is an example product. Select a product inside this section's settings in order for it to be usable.</p>
+      </div>
+      <div class="product__atc {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}" {{block.shopify_attributes}}>
+        <input style="display: none;">
+        <div class="quantity--input">
+            <button class="quantity--input__button quantity--input__incr">-</button><!--
+            --><input class="quantity--input__input" value="1" data-qty-input type="number" name="quantity" min="1"><!--
+            --><button class="quantity--input__button quantity--input__decr">+</button>
+        </div>
+        {% render 'add-to-cart-button--disabled', type: 'secondary' %}
+    </div>
+    </div>
+
+  </div>
+</div>
+
+{% endunless %}
+
+<script>
+/* Random number generator */
+var randomValue = sessionStorage.getItem('randomValue');
+
+if (randomValue !== null) {
+    document.querySelector('.rqty').innerHTML = randomValue;
+} else {
+  var rqtyValue = parseFloat(document.querySelector('.rqty').textContent);
+
+  // .rqty öğesinin değeri 251 veya 758 ise rastgele bir sayı üretin
+  if (rqtyValue >= 251) {
+      var min = 251; // Minimum sayı
+      var max = 758; // Maximum sayı
+
+      // Rastgele bir sayı üretin ve bu sayıyı bir oturum (session) değişkenine kaydedin
+      var randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
+      // Oturum değişkenine değeri atama
+      sessionStorage.setItem('randomValue', randomValue);
+
+      // Üretilen rastgele sayıyı kullanabilirsiniz
+    document.querySelector('.rqty').innerHTML = randomValue;
+  }
+}
+</script>
+
+
+{% schema %}
+{
+    "name": {
+        "en": "Featured product ebooks 1"
+    },
+    "settings": [
+      {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458157889)"
+    },
+
+
+         {
+    "type": "header",
+    "content": "Section Below Product Gallery"
+},
+
+{
+  "type": "image_picker",
+  "id": "productbottom",
+  "label": "Image Below Product Gallery"
+},
+{
+    "type": "text",
+    "id": "sec1",
+    "label": "Section 1 Text",
+    "default": "Section 1 Text"
+},
+      {
+    "type": "text",
+    "id": "sec2",
+    "label": "Section 2 Text",
+    "default": "Section 2 Text"
+},
+      {
+    "type": "text",
+    "id": "sec3",
+    "label": "Section 3 Text",
+    "default": "Section 2 Text"
+},
+{
+  "type": "richtext",
+  "id": "promo",
+  "label": "Promo Text",
+  "default": "<p><b>Important note:</b> December 12 is your last chance to place an order with <b>FREE SHIPPING</b> and guaranteed <b>delivery before Christmas Day.</b></p>"
+},
+
+    {
+        "type": "header",
+        "content": "Section layout"
+    },
+    {
+      "type": "radio",
+      "id": "displayFor",
+      "label": "Show this section on",
+      "options": [
+        {"value": "display--both", "label": "All devices"},
+        {"value": "hide-desktop", "label": "Mobile only"},
+        {"value": "hide-mobile", "label": "Desktop only"}
+      ],
+      "default": "display--both"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Section layout",
+      "options": [
+        {"value": "default", "label": "Global default"},
+        {"value": "boxed", "label": "Boxed"},
+        {"value": "stretchBg", "label": "Full width background"},
+        {"value": "stretchContent", "label": "Full width"}
+      ],
+      "default": "default"
+    },
+    {
+      "type": "checkbox",
+      "id": "nomargin",
+      "default": false,
+      "label": "Remove section's bottom margin"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Minimum height",
+      "default": 0,
+      "min": 0,
+      "max": 800,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Section padding",
+      "default": 0,
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+    "type": "header",
+    "content": "Section background"
+  },
+  {
+    "id": "backgroundColor",
+    "type": "color",
+    "default": "rgba(0,0,0,0)",
+    "label": "Background color"
+  },
+    {
+    "type": "header",
+    "content": "Section heading"
+},
+{
+    "type": "text",
+    "id": "heading",
+    "label": "Section heading",
+    "default": "Check out this section's heading"
+},
+{
+    "type": "color",
+    "id": "headingColor",
+    "default": "rgba(0,0,0,0)",
+    "label": "Heading Color"
+},
+{
+    "type": "text",
+    "id": "subheading",
+    "label": "Section subheading",
+    "default": "THIS IS A SUBHEADING"
+},
+{
+    "type": "color",
+    "id": "subheadingColor",
+    "default": "rgba(0,0,0,0)",
+    "label": "Subheading Color"
+},
+{
+    "type": "select",
+    "id": "subheadingPosition",
+    "label": "Subheading position",
+    "options": [
+      {"value": "above", "label": "Above heading"},
+      {"value": "below", "label": "Below heading"}
+    ],
+    "default": "above"
+},
+{
+    "type": "select",
+    "id": "headingAlignment",
+    "label": "Heading alignment (left to right)",
+    "options": [
+    {"value": "start", "label": "Left"},
+    {"value": "center", "label": "Center"},
+    {"value": "end", "label": "Right"}
+    ],
+    "default": "center"
+},
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+        "type": "product",
+        "label": "Product Pack 1",
+        "id": "product"
+    },
+	 {
+      "type": "product",
+      "id": "productpack2",
+      "label": "Product Pack 2"
+    },
+    {
+      "type": "product",
+      "id": "productpack3",
+      "label": "Product Pack 3"
+    },
+    {
+      "id": "showDescription",
+      "label": "Show product description",
+      "type": "checkbox",
+      "default": true
+    }
+    ],
+	 "blocks": [
+      {
+          "type": "productPageCountdown",
+          "name": "Offer countdown",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Style",
+                "id": "style",
+                "default": "compact",
+                "options": [
+                  {"value": "compact", "label": "Compact"},
+                  {"value": "doublecolumn", "label": "Two columns"}
+                ]
+              },
+              {
+                "id": "title",
+                "label": "Countdown title",
+                "type": "text",
+                "default": "LIMITED TIME OFFER"
+              },
+              {
+                "id": "text",
+                "type": "text",
+                "label": "Warning text",
+                "default": "The price of this item will revert back to %price% at the end of this countdown.",
+                "info": "%price% will get replace by the products original price."
+              }
+          ]
+      },
+      {
+          "type": "productPageTitle",
+          "name": "Product title",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "header",
+                "content": "Style"
+              },
+              {
+                "id": "color",
+                "type": "color",
+                "label": "Custom color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "fontFamily",
+                "label": "Font family",
+                "type": "select",
+                "options": [
+                  {"value": "base", "label": "Base"},
+                  {"value": "title", "label": "Title"}
+                ],
+                "default": "base"
+              },
+              {
+                "id": "fontSize",
+                "label": "Font size",
+                "type": "select",
+                "options": [
+                  {"value": "small", "label": "Small"},
+                  {"value": "base", "label": "Base"},
+                  {"value": "medium", "label": "Medium"},
+                  {"value": "big", "label": "Big"}
+                ],
+                "default": "medium"
+              }
+          ]
+      },
+      {
+          "type": "productPagePrice",
+          "name": "Product price",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "header",
+                "content": "Style"
+              },
+              {
+                "id": "color",
+                "type": "color",
+                "label": "Custom color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "newPriceColor",
+                "type": "color",
+                "label": "Reduced price color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "oldPriceColor",
+                "type": "color",
+                "label": "Old price color",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "id": "fontFamily",
+                "label": "Font family",
+                "type": "select",
+                "options": [
+                  {"value": "base", "label": "Base"},
+                  {"value": "title", "label": "Title"}
+                ],
+                "default": "base"
+              },
+              {
+                "id": "fontSize",
+                "type": "select",
+                "label": "Font size",
+                "options": [
+                  {"value": "small", "label": "Small"},
+                  {"value": "base", "label": "Base"},
+                  {"value": "medium", "label": "Medium"},
+                  {"value": "big", "label": "Big"}
+                ],
+                "default": "medium"
+              },
+              {
+                "type": "header",
+                "content": "Sale"
+              },
+              {
+                "type": "select",
+                "id": "saleType",
+                "label": "Show sale badge as",
+                "options": [
+                  {"value": "percent", "label": "Percent (%)"},
+                  {"value": "amount", "label": "Money amount"},
+                  {"value": "text", "label": "Only 'SALE' text"},
+                  {"value": "none", "label": "Hide the sale badge"}
+                ],
+                "default": "percent"
+              }
+          ]
+      },
+      {
+          "type": "productPageSwatch",
+          "name": "Product variants (*)",
+          "limit": 1,
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              }
+          ]
+      },
+      {
+        "type": "productPageBadge",
+        "name": "Image/Badges",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "noMargin",
+            "label": "Remove bottom space"
+          },
+          {
+            "type": "image_picker",
+            "label": "Badge image",
+            "id": "badge"
+          }
+        ]
+      },
+      {
+          "type": "productPageStock",
+          "name": "Product stock",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max product stock",
+                "id": "stockLeft",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"},
+                  {"value": "inventory", "label": "Use real stock"}
+                ],
+                "default": "10"
+              },
+              {
+                "type": "range",
+                "id": "reduce",
+                "label": "Reduce inventory every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "info": "If set above 0, the stock amount will be reduced by 1 in the set interval. Doesn't work with real stock inventory. If you want to disable it, set it to 0.",
+                "default": 8
+              }
+          ]
+      },
+      {
+          "type": "productPageDelivery",
+          "name": "Icon + Text (Delivery)",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "text",
+                "label": "Icon",
+                "info": "Icon name copied over from Unicons icon library. You can find the list over at [Unicons](https://iconscout.com/unicons/explore/line).",
+                "id": "icon"
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "richtext",
+                "label": "Delivery text",
+                "default": "<p>Products are usually delivered in 3-7 days.</p>",
+                "id": "text"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "productPageWatching",
+          "name": "Watching product",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max people",
+                "id": "max",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"}
+                ],
+                "default": "100"
+              },
+              {
+                "type": "text",
+                "label": "Custom Max People",
+                "id": "customMax",
+                "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+              },
+              {
+                "type": "range",
+                "id": "interval",
+                "label": "Update the number every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "default": 8
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "productPageInCart",
+          "name": "Product in cart",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max people",
+                "id": "max",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"}
+                ],
+                "default": "100"
+              },
+              {
+                "type": "text",
+                "label": "Custom Max People",
+                "id": "customMax",
+                "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+              },
+              {
+                "type": "range",
+                "id": "interval",
+                "label": "Update the number every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "default": 8
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "productPageDescription",
+          "name": "Product description",
+          "settings": [
+            {
+              "id": "heading",
+              "label": "Description title",
+              "default": "Product description",
+              "type": "text"
+            },
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              }
+          ]
+      },
+      {
+          "type": "productPageAccordion",
+          "name": "Accordion",
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "text",
+                "id": "heading",
+                "label": "Accordion heading",
+                "default": "Description"
+              },
+              {
+                "type": "radio",
+                "label": "Accordion content",
+                "id": "content",
+                "options": [
+                  {"value": "description", "label": "Description"},
+                  {"value": "reviews", "label": "Reviews"},
+                  {"value": "metafield", "label": "Metafield"},
+                  {"value":"page", "label": "Page"},
+                  {"value": "productPage", "label": "Product specific page"},
+                  {"value": "custom", "label": "Custom content"}
+                ],
+                "default": "description"
+              },
+              {
+                "type": "header",
+                "content": "Metafield"
+              },
+              {
+                "type": "text",
+                "id": "metafieldNS",
+                "label": "Metafield namespace",
+                "default": "global"
+              },
+              {
+                "type": "text",
+                "id": "metafieldKey",
+                "label": "Metafield key"
+              },
+              {
+                "type": "header",
+                "content": "Page"
+              },
+              {
+                "type": "page",
+                "label": "Page to show",
+                "id": "page"
+              },
+              {
+                "type": "header",
+                "content": "Custom content"
+              },
+              {
+                "type": "html",
+                "id": "customContent",
+                "label": "Custom content",
+                "default": "<p>Add custom content here!</p>"
+              }
+          ]
+      },
+      {
+          "type": "productPageTab",
+          "name": "Tab",
+          "settings": [
+              {
+                "type": "checkbox",
+                "label": "Show this tab inline",
+                "info": "Will place this tag on the side of the product, instead of below everything",
+                "default": false,
+                "id": "showInline"
+              },
+              {
+                "type": "text",
+                "id": "heading",
+                "label": "Tab heading",
+                "default": "Description"
+              },
+              {
+                "type": "radio",
+                "label": "Tab content",
+                "id": "content",
+                "options": [
+                  {"value": "description", "label": "Description"},
+                  {"value": "reviews", "label": "Reviews"},
+                  {"value": "metafield", "label": "Metafield"},
+                  {"value": "page", "label": "Page"},
+                  {"value": "productPage", "label": "Product specific page"},
+                  {"value": "custom", "label": "Custom content"}
+                ],
+                "default": "description"
+              },
+              {
+                "type": "header",
+                "content": "Metafield"
+              },
+              {
+                "type": "text",
+                "id": "metafieldNS",
+                "label": "Metafield namespace",
+                "default": "global"
+              },
+              {
+                "type": "text",
+                "id": "metafieldKey",
+                "label": "Metafield key"
+              },
+              {
+                "type": "header",
+                "content": "Page"
+              },
+              {
+                "type": "page",
+                "label": "Page to show",
+                "id": "page"
+              },
+              {
+                "type": "header",
+                "content": "Custom content"
+              },
+              {
+                "type": "html",
+                "id": "customContent",
+                "label": "Custom content",
+                "default": "<p>Add custom content here!</p>"
+              }
+          ]
+      },
+      {
+        "type": "productPageReviewStars",
+        "name": "Review stars",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "noMargin",
+            "label": "Remove bottom space"
+          },
+          {
+            "type": "paragraph",
+            "content": "Make sure to save the settings in order to initialize reviews."
+          }
+        ]
+      },
+      {
+        "type": "productPageTags",
+        "name": "Tags",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "noMargin",
+            "label": "Remove bottom space"
+          },
+          {
+            "type": "select",
+            "id": "style",
+            "options": [
+              {"value": "swatch", "label": "Swatch"},
+              {"value": "text", "label": "Text"}
+            ],
+            "label": "Tag style"
+          },
+          {
+            "type": "textarea",
+            "label": "Tags to exclude",
+            "id": "exclude",
+            "info": "Comma (,) separated list of tags to exclude. bstr-tag-* tags are excluded automatically."
+          }
+        ]
+      },
+      {
+          "type": "productPageATC",
+          "name": "Add to cart (*)",
+          "limit": 1,
+          "settings": [
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "checkbox",
+                "label": "Show Sticky ATC on Desktop",
+                "id": "stickyDesktop",
+                "default": true
+              },
+              {
+                "type": "checkbox",
+                "label": "Show Sticky ATC on Mobile",
+                "id": "stickyMobile",
+                "default": true
+              }
+          ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Products",
+        "name": "Featured product ebooks 1",
+        "settings": {
+        }
+      }
+    ]
+  }
+{% endschema %}

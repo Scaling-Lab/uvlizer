@@ -1,0 +1,296 @@
+{{ 'cart-drawer.css' | asset_url | stylesheet_tag }}
+{{ 'index.js' | asset_url | script_tag }}
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+{% schema %}
+{
+  "name": "Product Comparison - De",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title",
+      "default": "The optimal solution for an allergy-free home"
+    },
+    {
+      "type": "richtext",
+      "id": "section_description",
+      "label": "Section Description"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Featured Product"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "competitor_image",
+      "label": "Competitor Image"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Get Offer"
+    },
+    {
+      "type": "text",
+      "id": "guarantee_text",
+      "label": "Guarantee Text",
+      "default": "*100% Satisfaction. 30 Day Money Back Guarantee"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "comparison_item",
+      "name": "Comparison Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "feature",
+          "label": "Feature Text",
+          "default": "Feature"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product Comparison",
+      "blocks": [
+        {
+          "type": "comparison_item"
+        },
+        {
+          "type": "comparison_item"
+        },
+        {
+          "type": "comparison_item"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
+
+<div class="comparison-section" style="background-color: {{ section.settings.background_color }}">
+  <div class="comparison-container">
+    <h2 class="comparison-title">{{ section.settings.section_title }}</h2>
+    <div class="comparison-description">{{ section.settings.section_description }}</div>
+
+    <div class="comparison-table">
+      <div class="comparison-header">
+        <div class="comparison-col feature-col"></div>
+        <div class="comparison-col product-col">
+          {% if section.settings.product_image %}
+            <img src="{{ section.settings.product_image | img_url: 'medium' }}"
+                 alt="UVO Tower"
+                 loading="lazy"
+                 class="comparison-image">
+          {% endif %}
+          <h3>UVO Turm</h3>
+        </div>
+        <div class="comparison-col competitor-col">
+          {% if section.settings.competitor_image %}
+            <img src="{{ section.settings.competitor_image | img_url: 'medium' }}"
+                 alt="Other Solutions"
+                 loading="lazy"
+                 class="comparison-image">
+          {% endif %}
+          <h3>Andere Lösungen</h3>
+        </div>
+      </div>
+
+      <div class="comparison-body">
+        {% for block in section.blocks %}
+          <div class="comparison-row" {{ block.shopify_attributes }}>
+            <div class="comparison-col feature-col">
+              {{ block.settings.feature }}
+            </div>
+            <div class="comparison-col product-col">
+              <span class="check">😀</span>
+            </div>
+            <div class="comparison-col competitor-col">
+              <span class="cross">❌</span>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="comparison-footer">
+      <div class="product-form">
+        <input type="hidden" name="id" data-variant-id="{{ section.settings.featured_product.selected_or_first_available_variant.id }}"
+               value="{{ section.settings.featured_product.selected_or_first_available_variant.id }}">
+        <button type="button"
+                class="add-to-cart-button button--addToCart"
+                {% if section.settings.featured_product.selected_or_first_available_variant.available == false %}disabled{% endif %}
+        >
+          {{ section.settings.button_text }}
+        </button>
+      </div>
+      <p class="guarantee-text">{{ section.settings.guarantee_text }}</p>
+    </div>
+  </div>
+</div>
+
+<style>
+  .comparison-section {
+    padding: 60px 20px;
+  }
+
+  .comparison-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .comparison-title {
+    text-align: center;
+    font-size: 34px;
+    padding-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .comparison-description {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 60px;
+  }
+
+  .comparison-table {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin: 0px auto 40px auto;
+    max-width: 970px;
+  }
+
+  .comparison-header {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    padding: 20px;
+    background: #e6e9f1a3;
+    text-align: center;
+  }
+
+  .comparison-image {
+    width: 100px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+
+  .comparison-body .comparison-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    padding: 15px 20px;
+    border-top: 1px solid #eee;
+  }
+
+  .comparison-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .feature-col {
+    justify-content: flex-start;
+    font-weight: 500;
+    align-items: start;
+  }
+
+  .check, .cross {
+    font-size: 20px;
+  }
+
+  .comparison-footer {
+    text-align: center;
+  }
+
+  .add-to-cart-button {
+    background: #e67e22;
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 18px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 15px;
+  }
+
+  .add-to-cart-button:hover {
+    background: #d35400;
+  }
+
+  .add-to-cart-button:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+  }
+
+  .guarantee-text {
+    color: #666;
+    font-size: 14px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .comparison-section {
+      padding: 40px 15px;
+    }
+
+    .comparison-header,
+    .comparison-body .comparison-row {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+
+    .comparison-image {
+      width: 60px;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const addToCartButtons = document.querySelectorAll('.button--addToCart');
+
+    addToCartButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const variantId = this.closest('.product-form').querySelector('input[name="id"]').value;
+
+        const data = {
+          items: [{
+            id: variantId,
+            quantity: 1
+          }]
+        };
+
+        fetch('/cart/add.js', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        })
+                .then(response => response.json())
+                .then(data => {
+                  $('.go-cart__trigger').trigger('click');
+                })
+                .catch((error) => {
+                  console.error('Error:', error);
+                });
+      });
+    });
+  });
+</script>

@@ -1,0 +1,140 @@
+<style>
+    .why-uvlizer-section{
+        background: #EDF5F7;
+        padding: 100px 0;
+    }
+
+    .why-uvlizer-section--container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+        text-align: center;
+    }
+
+    .why-uvlizer-section--container h1{
+        color: #00436C;
+        font-size: 36px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%; /* 43.2px */
+        text-transform: capitalize;
+        margin-bottom: 10px !important;
+    }
+
+    .why-uvlizer-section--container p{
+        color: #1F1F1F;
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+        max-width: 900px;
+        margin: auto;
+        display: inline-block;
+    }
+
+    .why-uvlizer-section__blocks{
+        display: flex;
+        column-gap: 25px;
+        row-gap: 15px;
+        margin-top: 40px;
+    }
+
+    .why-uvlizer-section__block{
+        width: calc(25% - 25px);
+        padding: 40px 30px;
+        border-radius: 10px;
+        background: #FFF;
+        box-shadow: 0px 0px 50px 0px rgba(0, 67, 108, 0.02);
+    }
+
+    .why-uvlizer-section__block svg {
+        width: 100px;
+        height: 100px;
+    }
+
+    .why-uvlizer-section__block h2{
+        margin: 25px 0 10px 0 !important;
+        color: #00436C;
+        text-align: center;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%;
+    }
+
+    .why-uvlizer-section__block p {
+        color: #1F1F1F;
+        text-align: center;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+
+    @media screen and (max-width: 767px) {
+        .why-uvlizer-section{
+            padding: 50px 0;
+        }
+
+        .why-uvlizer-section--container h1{
+            font-size: 24px;
+        }
+
+        .why-uvlizer-section--container p{
+            font-size: 14px;
+        }
+
+        .why-uvlizer-section__blocks{
+            flex-direction: column;
+        }
+
+        .why-uvlizer-section__block{
+            width: 100%;
+        }
+
+        .why-uvlizer-section__block svg{
+            width: 80px;
+            height: 80px;
+        }
+
+        .why-uvlizer-section__block h2{
+            font-size: 18px;
+        }
+
+        .why-uvlizer-section__block p{
+            font-size: 14px;
+        }
+    }
+</style>
+
+<section class="why-uvlizer-section">
+    <div class="why-uvlizer-section--container">
+        <h1>Why Uvlizer</h1>
+        <p>Everyone deserves a breath of fresh air. At Uvlizer, we’re committed to developing high-tech products to enhance your air and comfort in your own home or office.</p>
+        <div class="why-uvlizer-section__blocks">
+            <div class="why-uvlizer-section__block">
+                {% render 'why-uvlizer-icon1' %}
+                <h2>Innovative UVO Technology</h2>
+                <p>Our line of UVO* & UVC products is designed using advanced research and powerful technologies to help reduce exposure to common allergens like dust mites and mold.</p>
+                <p> <strong>Note:</strong> UVO technology is a combination of UVC 254nm and ozone, enhancing its effectiveness.</p>
+            </div>
+            <div class="why-uvlizer-section__block">
+                {% render 'why-uvlizer-icon2' %}
+                <h2>Affordable Pricing</h2>
+                <p>We’re proud to offer a selection of disinfection devices to fit any budget without cutting corners & no hidden expenses.</p>
+            </div>
+            <div class="why-uvlizer-section__block">
+                {% render 'why-uvlizer-icon3' %}
+                <h2>90-Day Guarantee</h2>
+                <p>If you’re not 100% satisfied with our products, simply contact our friendly 24/7 support team to return it with a full refund.</p>
+            </div>
+            <div class="why-uvlizer-section__block">
+                {% render 'why-uvlizer-icon4' %}
+                <h2>Easy to Use & Zero Maintenance</h2>
+                <p>Our devices are intuitively designed for ease of use, and with zero maintenance or filter replacements, you can count on continuous, hassle-free reduction of allergens.</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,85 @@
+<style>
+    .icons-section{
+        background: linear-gradient(100deg, #004587 0%, #00629D 100%);
+        padding: 85px 0;
+    }
+
+    .icons-section--container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+        display: flex;
+        flex-wrap: wrap;
+        column-gap: 10px;
+        row-gap: 24px;
+        justify-content: space-between;
+    }
+
+    .icons-section__block{
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        column-gap: 10px;
+        row-gap: 10px;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        column-gap: 25px;
+        width: calc(25% - 10px);
+    }
+    
+    .icons-section__block span{
+        color: #fff;
+    }
+
+    .icons-section__block svg{
+        min-width: 64px;
+        min-height: 64px;
+    }
+
+    @media screen and (max-width: 767px) {
+        .icons-section{
+            padding: 40px 0;
+        }
+
+        .icons-section__block{
+            width: calc(50% - 10px);
+            flex-direction: column;
+        }
+
+        .icons-section__block svg{
+            min-width: 32px;
+            min-height: 32px;
+            width: 32px;
+            height: 32px;
+        }
+
+        .icons-section__block span{
+            font-size: 14px;
+            text-align: center;
+        }
+    }
+</style>
+
+<section class="icons-section">
+    <div class="icons-section--container">
+        <div class="icons-section__block">
+            {% render 'icon1' %}
+            <span>Whisper quiet UVO technology</span>
+        </div>
+        <div class="icons-section__block">
+            {% render 'icon2' %}
+            <span>Easy to use & requires no maintenance</span>
+        </div>
+        <div class="icons-section__block">
+            {% render 'icon3' %}
+            <span>Chemical free <br> disinfection</span>
+        </div>
+        <div class="icons-section__block">
+            {% render 'icon4' %}
+            <span>Built-in Safety <br> Feature</span>
+        </div>
+    </div>
+</section>

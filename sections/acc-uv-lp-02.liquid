@@ -1,0 +1,840 @@
+{{ 'acc-uv-lp-02.css' | asset_url | stylesheet_tag }}
+
+{% assign product = all_products[section.settings.product] %}
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_image = product.featured_image %}
+
+<section class="uv-featured_product {% render 'common-class', section: section, class: 'row padding__vertical featured-product', vAlign: false %}">
+  <div class="layout__content">
+    <div class="title-wrapper">
+      {% render 'block__general--heading' with section as section %}
+    </div>
+    <div class="featured-product_wrapper">
+      <!-- Product Gallery Start -->
+
+      <div class="featured-product_media-content">
+        <div class="product-media-wrapper">
+          <div class="product-slider_media">
+            {% for image in product.images %}
+              {% unless image.attached_to_variant? %}
+                <span
+                  data-variants="{% for var in image.variants %}{{var.id}}|{% endfor %}"
+                  {% if forloop.first %}
+                    class="active"
+                  {% endif %}
+                  data-media-type="image"
+                  data-image-index="{{forloop.index0}}"
+                  data-high-res-image="{{ image.src | img_url: 'original' }}"
+                  data-href="{{ image.src | img_url: '650x' }}"
+                  alt="{{image.alt | escape}}"
+                  onclick="boosterProductPage.galleryChangeImage(event, this)"
+                >
+                  {% render 'image', size: '900x', src: image.src, alt: image.alt %}
+                </span>
+              {% endunless %}
+            {% endfor %}
+          </div>
+
+          <div class="product-slider_thumbnails">
+            {% for image in product.images %}
+              {% unless image.attached_to_variant? %}
+                <span
+                  data-variants="{% for var in image.variants %}{{var.id}}|{% endfor %}"
+                  {% if forloop.first %}
+                    class="active"
+                  {% endif %}
+                  data-media-type="image"
+                  data-image-index="{{forloop.index0}}"
+                  data-high-res-image="{{ image.src | img_url: '1280x' }}"
+                  data-href="{{ image.src | img_url: '650x' }}"
+                  alt="{{image.alt | escape}}"
+                  onclick="boosterProductPage.galleryChangeImage(event, this)"
+                >
+                  {% render 'image', size: '200x', src: image.src, alt: image.alt %}
+                </span>
+              {% endunless %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+
+      <!-- Product Gallery End -->
+
+      <!-- Product Info Start -->
+
+      <div class="featured-product_content">
+        <div class="uv-featured_product-info">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'heading-with-review' %}
+                <div class="featured-product_title" {{ block.shopify_attributes }}>
+                  <span class="product-title"> {% render 'block__product-page--title' with product as product %}</span>
+                </div>
+              {% when 'icon-box' %}
+                <div class="featured-product_benefits" id="block--{{ block.id }}" {{ block.shopify_attributes }}>
+                  <div class="product_benefits-media">
+                    {{ block.settings.image | image_url: width: 700 | image_tag: class: 'benefit_icon' }}
+                  </div>
+                  <div class="product_benefits-content">
+                    {{ block.settings.text }}
+                  </div>
+                </div>
+              {% when 'incart-watch' %}
+                <div class="featured_product--incart" {{ block.shopify_attributes }}>
+                  <ul class="product--incart_grid">
+                    <li class="product--incart_item">
+                      {% if block.settings.image1 != blank %}
+                        <div class="product--incart_icon">
+                          {{ block.settings.image1 | image_url: width: 700 | image_tag: class: 'cart_icon' }}
+                        </div>
+                      {% endif %}
+                      {% render 'block__product-page--incart_new', block: block, product: product %}
+                    </li>
+                    <li class="product--incart_item">
+                      {% if block.settings.image2 != blank %}
+                        <div class="product--incart_icon">
+                          {{ block.settings.image2 | image_url: width: 700 | image_tag: class: 'cart_icon' }}
+                        </div>
+                      {% endif %}
+                      {% render 'block__product-page--watching_new', block: block, product: product %}
+                    </li>
+                  </ul>
+                </div>
+              {% when 'product-bundle' %}
+                <div class="featured_product--bundle-wrapper bundle-wrapper ffff" {{ block.shopify_attributes }}>
+                  <p class="bndl-title">{{ block.settings.text }}</p>
+                  <div class="row-block">
+                    <div
+                      class="bundle-item blk pselection first-box b1 block--{{ block.id }} {% if produc.available %}available{% else %}not-availbe{% endif %}"
+                      data-qty="1"
+                      v_id="{{ product.variants.first.id }}"
+                      data-variant="{{ variant.id }}"
+                    >
+                      <div class="blk b1 offer-box">
+                        <p class="bprice">
+                          {{
+                            product.compare_at_price
+                            | minus: product.price
+                            | times: 100.0
+                            | divided_by: product.compare_at_price
+                            | round: 0
+                          -}}
+                          % OFF
+                        </p>
+                      </div>
+                      {% comment %}<span class="d-none-selected-cart-style item-selected">SELECTED</span>{% endcomment %}
+                      <div class="img-wrap">
+                        <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/1n_png.png?v=1723452147">
+                      </div>
+                      <p class="btext_item">1 <span class="device-text">Device</span></p>
+                      <p class="bprice new-price">
+                        <span class="igPrice" data-product-id="{{product.id}}">
+                          {{- product.price | times: 1 | money -}}
+                        </span>
+                      </p>
+                      <p class="bprice old-price">
+                        <span class="igComparePrice" data-product-id="{{product.id}}">
+                          {{- product.compare_at_price | times: 1 | money -}}
+                        </span>
+                      </p>
+
+                      <button
+                        v_qty="1"
+                        v_id="{{ product.variants.first.id }}"
+                        class="d-none-selected-cart-style addcart btn-add-to-cart"
+                      >
+                        Add to cart
+                      </button>
+                    </div>
+                    {% unless section.settings.productpack2 == blank %}
+                      {% assign product2 = all_products[section.settings.productpack2] %}
+                      {% if product2 %}
+                        <div
+                          class="bundle-item blk pselection second-box b1 {% if variant.available %}available{% else %}not-availbe{% endif %}"
+                          data-qty="1"
+                          v_id="{{ product2.variants.first.id }}"
+                          data-variant="{{ variant.id }}"
+                        >
+                          <div class="blk b1 offer-box">
+                            <p class="bprice">
+                              {{
+                                product2.compare_at_price
+                                | minus: product2.price
+                                | times: 100.0
+                                | divided_by: product2.compare_at_price
+                                | round: 0
+                              -}}
+                              % OFF
+                            </p>
+                          </div>
+                          {% comment %}<span class="item-selected d-none-selected-cart-style">SELECTED</span>{% endcomment %}
+                          <div class="img-wrap">
+                            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/1n.png_1.png?v=1723452517">
+                          </div>
+                          <p class="btext_item">2 <span class="device-text"> Devices</span></p>
+                          <p class="bprice new-price">
+                            <span class="igPrice" data-product-id="{{product2.id}}">
+                              {{- product2.price | money -}}
+                            </span>
+                          </p>
+                          <p class="bprice old-price">
+                            <span class="igComparePrice" data-product-id="{{product2.id}}">
+                              {{- product2.compare_at_price | money -}}
+                            </span>
+                          </p>
+
+                          <button
+                            v_qty="1"
+                            v_id="{{ product.variants.first.id }}"
+                            class="d-none-selected-cart-style addcart btn-add-to-cart"
+                          >
+                            Add to cart
+                          </button>
+                        </div>
+                      {% endif %}
+                    {% endunless %}
+
+                    {% unless section.settings.productpack3 == blank %}
+                      {% assign product3 = all_products[section.settings.productpack3] %}
+                      {% if product3 %}
+                        <div
+                          class="bundle-item blk pselection third-box b1 {% if variant.available %}available{% else %}not-availbe{% endif %}"
+                          data-qty="1"
+                          v_id="{{ product3.variants.first.id }}"
+                          data-variant="{{ variant.id }}"
+                        >
+                          <div class="blk b1 offer-box">
+                            <p class="bprice">
+                              {{
+                                product3.compare_at_price
+                                | minus: product3.price
+                                | times: 100.0
+                                | divided_by: product3.compare_at_price
+                                | round: 0
+                              -}}
+                              % OFF
+                            </p>
+                          </div>
+                          {% comment %}<span class="d-none-selected-cart-style item-selected">SELECTED</span>{% endcomment %}
+                          <div class="img-wrap">
+                            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/1n.png_2.png?v=1723452601">
+                          </div>
+                          <p class="btext_item">3 <span class="device-text"> Devices</span></p>
+                          <p class="bprice new-price">
+                            <span class="igPrice" data-product-id="{{product3.id}}">
+                              {{- product3.price | money -}}
+                            </span>
+                          </p>
+                          <p class="bprice old-price">
+                            <span class="igComparePrice" data-product-id="{{product3.id}}">
+                              {{- product3.compare_at_price | money -}}
+                            </span>
+                          </p>
+
+                          <button
+                            v_qty="1"
+                            v_id="{{ product.variants.first.id }}"
+                            class="d-none-selected-cart-style addcart btn-add-to-cart"
+                          >
+                            Add to cart
+                          </button>
+                        </div>
+                      {% endif %}
+                    {% endunless %}
+                  </div>
+                </div>
+              {% when 'inventory-status' %}
+                <div class="featured_product--inventory" {{ block.shopify_attributes }}>
+                  <div class="inventoryWrapper ">
+                    {% if current_variant.inventory_quantity > 0
+                      and current_variant.inventory_management == 'shopify'
+                    %}
+                      {% assign current_stock = current_variant.inventory_quantity %}
+
+                      {% if current_stock > 748 %}
+                        {% assign stock = 748 %}
+                      {% endif %}
+
+                      {% if current_stock < 251 %}
+                        {% assign stock = 251 %}
+                      {% endif %}
+
+                      {% if current_stock < 1 %}
+                        {% assign stock = 10 %}
+                      {% endif %}
+
+                      <p class="inventorytext">
+                        Only
+                        <!-- <span class="rqty red_text">{{ stock }}</span> / <span>10,000</span> -->
+                        <span class="red_text">620</span> / <span>10,000</span>
+                        Discounted Pieces Left
+                      </p>
+                      {% assign total_stock = 10000 %}
+                      {% if stock < total_stock %}
+                        {% assign progress = stock | times: 100 | divided_by: total_stock %}
+                      {% else %}
+                        {% assign progress = 100 %}
+                      {% endif %}
+
+                      <div class="progress-bar {% if stock == 0 %}progress--empty{% elsif stock < total_stock %}progress--track {% else %} progress--full{% endif %}">
+                        <span class="progress" style="width: 85%"></span>
+                        <span class="progress_icon" style="left: calc(85% - 10px);">
+                          {% render 'progress_icon' %}
+                        </span>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              {% when 'payment-terms' %}
+                <div class="featured_product--payment_terms" {{ block.shopify_attributes }}>
+                  {% form 'product', product %}
+                    <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+                    {{ form | payment_terms }}
+                  {% endform %}
+                </div>
+              {% when 'atc-btn' %}
+                <div class="featured_product--atc-btn" {{ block.shopify_attributes }}>
+                  <div class="btn-wrap d-none-selected-cart-style-hide">
+                    <button v_qty="1" v_id="{{ product.variants.first.id }}" class="addcart btn-add-to-cart">
+                      Add to cart
+                    </button>
+                    <span class="go-cart__trigger js-go-cart-trigger">
+                      <span class="donly">View Cart</span>
+                      <span class="count donly"
+                        ><span class="donly">(</span
+                        ><span class="js-go-cart-counter"
+                          >(
+                          {{- cart.item_count -}}
+                          )</span
+                        ><span class="donly">)</span></span
+                      >
+                    </span>
+                  </div>
+                </div>
+              {% when 'payment-icon' %}
+                <div class="featured_product--payment-icon" {{ block.shopify_attributes }}>
+                  <div class="payment-text">
+                    <span class="ptext">{{ block.settings.text }}</span>
+                  </div>
+                  <div class="payment-icons">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="258" height="25" viewBox="0 0 258 25" fill="none">
+                      <rect x="0.85" y="0.750024" width="33.8" height="23.3" rx="1.65" fill="white"/>
+                      <rect x="0.85" y="0.750024" width="33.8" height="23.3" rx="1.65" stroke="#797979" stroke-width="0.7"/>
+                      <g clip-path="url(#clip0_1012_2215)">
+                      <path d="M18.0438 12.9697L17.3649 12.5696L17.3164 12.6484C17.1648 12.8909 16.9526 13.0121 16.692 13.0121C16.2434 13.0121 15.9099 12.6726 15.9099 12.2301C15.9099 11.7815 16.2494 11.4481 16.692 11.4481C16.9587 11.4481 17.1527 11.5633 17.3164 11.8118L17.3649 11.8906L18.0438 11.4905L17.9832 11.4056C17.6558 10.9328 17.2376 10.7085 16.6859 10.7085C15.6493 10.7085 15.0916 11.4966 15.0916 12.2362C15.0916 12.9757 15.6493 13.7638 16.6859 13.7638C17.2133 13.7638 17.7104 13.4971 17.9832 13.0606L18.0438 12.9697Z" fill="#C01818"/>
+                      <path d="M18.0074 13.7517H18.941L19.2199 13.0606H20.6202L20.8991 13.7517H21.8387L20.1656 9.70825H19.329L19.5533 10.2478L18.0074 13.7517ZM19.9291 11.3026L20.305 12.2543H19.5412L19.9291 11.3026Z" fill="#C01818"/>
+                      <path d="M22.2268 13.7578H23.0452V11.9392H23.5786V11.1753H23.0452V10.8177C23.0452 10.66 23.1482 10.4964 23.3422 10.4964C23.4453 10.4964 23.5119 10.5146 23.5726 10.5388L23.6635 10.5752L24.003 9.82953L23.912 9.79922C23.7605 9.7386 23.5483 9.71436 23.3968 9.71436C23.027 9.71436 22.7178 9.8356 22.5117 10.066C22.3298 10.266 22.2268 10.5449 22.2268 10.854V11.1814H21.863V11.9452H22.2268V13.7578Z" fill="#C01818"/>
+                      <path d="M13.8488 11.4239V13.7518H14.74V9.68408L12.988 11.0056L11.23 9.68408V13.7457L12.1211 13.7518V11.4239L12.988 12.0665L13.8488 11.4239Z" fill="#C01818"/>
+                      <path d="M25.4275 10.7085C24.3969 10.7085 23.8392 11.4905 23.8392 12.2301C23.8392 12.9697 24.3969 13.7517 25.4275 13.7517C25.9004 13.7456 26.3429 13.5335 26.6884 13.1394L26.0216 12.7757C25.8519 12.9515 25.6397 13.0424 25.4093 13.0424C25.0698 13.0424 24.7728 12.8181 24.694 12.5211H26.9249V12.321C26.9309 11.2117 26.0519 10.7146 25.4275 10.7085ZM24.7122 11.8603C24.8213 11.5814 25.0517 11.4238 25.3487 11.4238C25.6518 11.4238 25.8882 11.5814 26.0095 11.8664L24.7122 11.8603Z" fill="#C01818"/>
+                      <path d="M28.7799 10.7146C27.7494 10.7146 27.1917 11.4966 27.1917 12.2362C27.1917 12.9758 27.7494 13.7578 28.7799 13.7578C29.2528 13.7517 29.6953 13.5396 30.0409 13.1455L29.374 12.7818C29.2043 12.9576 28.9921 13.0485 28.7617 13.0485C28.4223 13.0485 28.1252 12.8242 28.0464 12.5272H30.2773V12.3271C30.2833 11.2178 29.4043 10.7146 28.7799 10.7146ZM28.0646 11.8603C28.1737 11.5815 28.4041 11.4178 28.7011 11.4239C29.0042 11.4239 29.2407 11.5815 29.3619 11.8664L28.0646 11.8603Z" fill="#C01818"/>
+                      <path d="M30.1742 10.5752H30.5197V10.6419H30.3803V11.0056H30.3076V10.6419H30.1742V10.5752Z" fill="#C01818"/>
+                      <path d="M30.5743 10.5752H30.6774L30.7986 10.9086L30.9138 10.5752H31.0168V11.0056H30.9441V10.6722L30.8228 11.0056H30.7622L30.641 10.6722V11.0056H30.5682V10.5752H30.5743Z" fill="#C01818"/>
+                      <path d="M7.30175 10.6964L5.1012 9.67798V13.7275L7.30175 14.7459V13.7517L6.00445 13.1516V11.0905L7.30175 11.6906V10.6964Z" fill="#C01818"/>
+                      <path d="M7.30176 10.6964L9.50838 9.67798V13.7275L7.30176 14.7459V13.7517L8.60512 13.1516V11.0905L7.30176 11.6906V10.6964Z" fill="#75160D"/>
+                      </g>
+                      <rect x="45.35" y="0.750024" width="33.8" height="23.3" rx="1.65" fill="white"/>
+                      <rect x="45.35" y="0.750024" width="33.8" height="23.3" rx="1.65" stroke="#797979" stroke-width="0.7"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M55.5418 16.83H53.1907L51.4277 9.84803C51.3441 9.52686 51.1664 9.24293 50.905 9.10911C50.2528 8.77281 49.5341 8.50517 48.75 8.37018V8.10138H52.5374C53.0601 8.10138 53.4521 8.50517 53.5174 8.97412L54.4322 14.0104L56.7821 8.10138H59.0678L55.5418 16.83ZM60.3747 16.83H58.1543L59.9826 8.10138H62.203L60.3747 16.83ZM65.0756 10.5194C65.141 10.0493 65.533 9.78049 65.9904 9.78049C66.7091 9.713 67.492 9.84799 68.1454 10.1831L68.5374 8.30381C67.8841 8.03501 67.1653 7.90002 66.5131 7.90002C64.358 7.90002 62.7899 9.10906 62.7899 10.7871C62.7899 12.0636 63.9007 12.7339 64.6847 13.1376C65.533 13.5403 65.8597 13.8091 65.7944 14.2117C65.7944 14.8156 65.141 15.0844 64.4887 15.0844C63.7047 15.0844 62.9206 14.8831 62.203 14.5468L61.811 16.4273C62.595 16.7624 63.4433 16.8974 64.2274 16.8974C66.6438 16.9637 68.1454 15.7559 68.1454 13.9429C68.1454 11.6598 65.0756 11.526 65.0756 10.5194ZM75.916 16.83L74.153 8.10138H72.2593C71.8673 8.10138 71.4752 8.37018 71.3446 8.77281L68.0799 16.83H70.3656L70.8218 15.5546H73.6303L73.8916 16.83H75.916ZM72.5861 10.4519L73.2384 13.7416H71.41L72.5861 10.4519Z" fill="#172B85"/>
+                      <rect x="89.85" y="0.750024" width="33.8" height="23.3" rx="1.65" fill="white"/>
+                      <rect x="89.85" y="0.750024" width="33.8" height="23.3" rx="1.65" stroke="#797979" stroke-width="0.7"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M106.932 17.477C105.73 18.4897 104.172 19.1011 102.469 19.1011C98.6687 19.1011 95.5883 16.0573 95.5883 12.3026C95.5883 8.54783 98.6687 5.50403 102.469 5.50403C104.172 5.50403 105.73 6.11539 106.932 7.1281C108.133 6.11539 109.692 5.50403 111.395 5.50403C115.195 5.50403 118.275 8.54783 118.275 12.3026C118.275 16.0573 115.195 19.1011 111.395 19.1011C109.692 19.1011 108.133 18.4897 106.932 17.477Z" fill="#ED0006"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M106.932 17.477C108.411 16.23 109.349 14.3745 109.349 12.3026C109.349 10.2306 108.411 8.37508 106.932 7.1281C108.133 6.11538 109.692 5.50403 111.395 5.50403C115.195 5.50403 118.275 8.54783 118.275 12.3026C118.275 16.0573 115.195 19.1011 111.395 19.1011C109.692 19.1011 108.133 18.4897 106.932 17.477Z" fill="#F9A000"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M106.932 17.477C108.411 16.2301 109.349 14.3746 109.349 12.3026C109.349 10.2306 108.411 8.37515 106.932 7.12817C105.452 8.37515 104.514 10.2306 104.514 12.3026C104.514 14.3746 105.452 16.2301 106.932 17.477Z" fill="#FF5E00"/>
+                      <g clip-path="url(#clip1_1012_2215)">
+                      <rect x="134" y="0.400024" width="34.5" height="24" rx="2" fill="#1F72CD"/>
+                      <path d="M168.784 -1.48096H140.892V26.4109H168.784V-1.48096Z" fill="white"/>
+                      <path d="M140.892 -1.48096V26.4109H168.784V22.004H164.935L163.512 20.34L162.034 22.004H151.1V13.1439H147.493L152.002 2.93544H156.39L157.45 5.25047V2.93544H162.899L163.809 5.36204L164.702 2.93544H168.784V-1.48096H140.892ZM165.632 4.37634L164.2 8.15123L163.819 9.1743L163.428 8.15123L161.988 4.37634H158.836V11.8145H160.732V6.97084L160.723 5.99407L161.095 6.97084L162.908 11.8145H164.712L166.534 6.97084L166.887 6.00355V11.8145H168.784V4.37634H165.632ZM153.025 4.37634L149.734 11.8145H151.89L152.467 10.3826H156.075L156.651 11.8145H158.836L155.563 4.37634H153.025ZM153.898 6.89609L154.27 5.96673L154.643 6.89609L155.414 8.77378H153.127L153.898 6.89609ZM165.781 13.1534L163.54 15.561L161.309 13.1534H158.836H152.625V20.5631H158.836V18.9549H154.521V17.6624H158.752V16.0636H154.521V14.7616H158.836V13.1534L162.303 16.8719L158.836 20.5631H161.235L163.494 18.146L165.744 20.5631H168.207L164.73 16.844L168.207 13.1534H165.781ZM166.682 16.8351L168.784 18.9733V14.7242L166.682 16.8351Z" fill="#006FCF"/>
+                      </g>
+                      <rect x="134.35" y="0.750024" width="33.8" height="23.3" rx="1.65" stroke="#797979" stroke-width="0.7"/>
+                      <g clip-path="url(#clip2_1012_2215)">
+                      <rect x="178.5" y="0.400024" width="34.5" height="24" rx="2" fill="white"/>
+                      <path d="M193.156 24.1974L213.493 18.1532V19.1974C213.493 21.9588 211.254 24.1974 208.493 24.1974H193.156Z" fill="#FD6020"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M209.633 9.59771C210.751 9.59771 211.367 10.106 211.367 11.0661C211.423 11.8003 210.919 12.4215 210.248 12.5344L211.758 14.624H210.584L209.297 12.5909H209.185V14.624H208.234V9.59771H209.633ZM209.185 11.9135H209.465C210.08 11.9135 210.36 11.6311 210.36 11.1228C210.36 10.671 210.08 10.3887 209.465 10.3887H209.185V11.9135ZM204.933 14.624H207.619V13.7769H205.884V12.4215H207.563V11.5743H205.884V10.4448H207.619V9.59771H204.933V14.624ZM202.136 12.9862L200.85 9.59771H199.843L201.913 14.737H202.416L204.486 9.59771H203.479L202.136 12.9862ZM190.78 12.1389C190.78 13.5508 191.899 14.7368 193.297 14.7368C193.745 14.7368 194.137 14.6239 194.528 14.4544V13.3249C194.248 13.6638 193.857 13.8897 193.409 13.8897C192.514 13.8897 191.787 13.212 191.787 12.3084V12.1954C191.731 11.2918 192.458 10.5011 193.353 10.4447C193.801 10.4447 194.248 10.6706 194.528 11.0094V9.87992C194.192 9.65401 193.745 9.59754 193.353 9.59754C191.899 9.48459 190.78 10.6706 190.78 12.1389ZM189.046 11.5178C188.487 11.2919 188.319 11.1789 188.319 10.8965C188.375 10.5577 188.654 10.2753 188.99 10.3318C189.27 10.3318 189.55 10.5012 189.773 10.7271L190.277 10.0494C189.885 9.71055 189.382 9.48465 188.878 9.48465C188.095 9.42817 187.424 10.0494 187.368 10.8401V10.8965C187.368 11.5742 187.648 11.9696 188.543 12.2519C188.766 12.3084 188.99 12.4214 189.214 12.5343C189.382 12.6473 189.494 12.8167 189.494 13.0426C189.494 13.4379 189.158 13.7768 188.822 13.7768H188.766C188.319 13.7768 187.927 13.4944 187.759 13.0991L187.144 13.7203C187.48 14.3415 188.151 14.6804 188.822 14.6804C189.717 14.7369 190.445 14.0592 190.501 13.1556V12.9861C190.445 12.3084 190.165 11.9696 189.046 11.5178ZM185.801 14.624H186.752V9.59771H185.801V14.624ZM181.382 9.59771H182.78H183.06C184.403 9.65418 185.466 10.7837 185.41 12.1391C185.41 12.8733 185.074 13.551 184.515 14.0593C184.011 14.4546 183.396 14.6805 182.78 14.624H181.382V9.59771ZM182.613 13.7773C183.06 13.8337 183.564 13.6643 183.899 13.3819C184.235 13.0431 184.403 12.5913 184.403 12.083C184.403 11.6312 184.235 11.1794 183.899 10.8405C183.564 10.5582 183.06 10.3887 182.613 10.4452H182.333V13.7773H182.613Z" fill="black"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M197.381 9.48108C195.982 9.48108 194.808 10.6106 194.808 12.079C194.808 13.4908 195.926 14.6768 197.381 14.7333C198.835 14.7898 199.954 13.6038 200.01 12.1354C199.954 10.6671 198.835 9.48108 197.381 9.48108V9.48108Z" fill="#FD6020"/>
+                      </g>
+                      <rect x="178.85" y="0.750024" width="33.8" height="23.3" rx="1.65" stroke="#797979" stroke-width="0.7"/>
+                      <rect x="223.35" y="0.750024" width="33.8" height="23.3" rx="1.65" fill="white"/>
+                      <rect x="223.35" y="0.750024" width="33.8" height="23.3" rx="1.65" stroke="#797979" stroke-width="0.7"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M255.947 22.5032H224.811C224.639 22.5032 224.474 22.4348 224.353 22.3132C224.231 22.1915 224.163 22.0265 224.163 21.8545V3.69235C224.163 3.52032 224.231 3.35533 224.353 3.23369C224.474 3.11204 224.639 3.0437 224.811 3.0437H255.947C256.119 3.0437 256.284 3.11204 256.405 3.23369C256.527 3.35533 256.595 3.52032 256.595 3.69235V21.8545C256.595 22.0265 256.527 22.1915 256.405 22.3132C256.284 22.4348 256.119 22.5032 255.947 22.5032Z" fill="white"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M241.922 11.4405H240.917C240.869 11.4406 240.823 11.4522 240.781 11.4743C240.739 11.4965 240.703 11.5285 240.676 11.5676L239.289 13.6109L238.702 11.6474C238.683 11.5875 238.647 11.535 238.596 11.4977C238.546 11.4604 238.485 11.4404 238.423 11.4405H237.435C237.408 11.4403 237.38 11.4468 237.355 11.4594C237.331 11.472 237.309 11.4904 237.293 11.5129C237.277 11.5355 237.266 11.5616 237.262 11.589C237.258 11.6165 237.261 11.6445 237.27 11.6708L238.377 14.9205L237.337 16.3903C237.318 16.4163 237.307 16.4469 237.305 16.4788C237.302 16.5107 237.309 16.5426 237.324 16.571C237.338 16.5994 237.36 16.6233 237.388 16.6399C237.415 16.6566 237.446 16.6654 237.478 16.6654H238.482C238.529 16.6656 238.575 16.6544 238.617 16.6327C238.658 16.611 238.694 16.5795 238.72 16.5408L242.066 11.7129C242.084 11.6868 242.095 11.6563 242.096 11.6247C242.098 11.593 242.091 11.5614 242.077 11.5334C242.062 11.5053 242.04 11.4819 242.013 11.4655C241.986 11.4491 241.954 11.4405 241.922 11.4405ZM235.199 13.3877C235.102 13.9592 234.647 14.3432 234.07 14.3432C233.779 14.3432 233.547 14.2498 233.397 14.074C233.25 13.8989 233.193 13.6485 233.24 13.3709C233.331 12.804 233.791 12.4076 234.361 12.4076C234.646 12.4076 234.877 12.5023 235.029 12.6801C235.181 12.8604 235.242 13.1108 235.198 13.3877H235.199ZM236.593 11.4405H235.592C235.551 11.4405 235.511 11.4552 235.479 11.4821C235.448 11.509 235.427 11.5462 235.421 11.5871L235.375 11.8673L235.306 11.7655C235.089 11.4509 234.606 11.3458 234.125 11.3458C233.018 11.3458 232.074 12.1832 231.89 13.3586C231.795 13.9443 231.93 14.5047 232.262 14.8959C232.567 15.2546 233.004 15.4044 233.523 15.4044C234.414 15.4044 234.908 14.8323 234.908 14.8323L234.863 15.1099C234.859 15.1348 234.861 15.1603 234.867 15.1845C234.874 15.2087 234.886 15.2312 234.903 15.2503C234.919 15.2695 234.94 15.2849 234.962 15.2955C234.985 15.306 235.01 15.3116 235.035 15.3116H235.936C236.08 15.3116 236.201 15.2079 236.224 15.0658L236.764 11.6409C236.768 11.6161 236.766 11.5908 236.759 11.5667C236.753 11.5426 236.74 11.5202 236.724 11.5012C236.708 11.4821 236.688 11.4668 236.665 11.4564C236.642 11.4459 236.618 11.4405 236.593 11.4405ZM230.588 11.4645C230.474 12.2137 229.9 12.2137 229.347 12.2137H229.031L229.252 10.8139C229.259 10.7729 229.279 10.7356 229.311 10.7087C229.343 10.6818 229.383 10.6671 229.425 10.6673H229.569C229.945 10.6673 230.302 10.6673 230.486 10.882C230.596 11.0104 230.629 11.2012 230.588 11.4645ZM230.346 9.50818H228.258C228.189 9.50816 228.122 9.53266 228.069 9.57732C228.016 9.62198 227.981 9.6839 227.97 9.75207L227.125 15.1112C227.121 15.1361 227.123 15.1616 227.13 15.1858C227.137 15.21 227.149 15.2325 227.165 15.2516C227.181 15.2708 227.202 15.2862 227.225 15.2968C227.248 15.3073 227.272 15.3129 227.298 15.3129H228.295C228.364 15.3129 228.431 15.2881 228.484 15.2431C228.537 15.198 228.572 15.1356 228.583 15.0671L228.81 13.6219C228.821 13.5535 228.855 13.4912 228.908 13.4462C228.961 13.4011 229.028 13.3763 229.097 13.3761H229.758C231.134 13.3761 231.929 12.7106 232.137 11.3912C232.23 10.8126 232.14 10.3599 231.87 10.042C231.572 9.69175 231.045 9.50818 230.346 9.50818H230.346Z" fill="#253B80"/>
+                      <path fill-rule="evenodd" clip-rule="evenodd" d="M252.677 9.65473L251.819 15.1112C251.815 15.1359 251.817 15.1613 251.823 15.1855C251.83 15.2096 251.842 15.232 251.858 15.2511C251.875 15.2702 251.895 15.2855 251.918 15.296C251.941 15.3064 251.965 15.3117 251.99 15.3116H252.853C252.996 15.3116 253.118 15.2078 253.14 15.0664L253.985 9.70857C253.989 9.68371 253.987 9.65833 253.98 9.63414C253.974 9.60995 253.962 9.58752 253.945 9.56838C253.929 9.54924 253.909 9.53384 253.886 9.52322C253.863 9.5126 253.838 9.50701 253.813 9.50684H252.848C252.806 9.5071 252.766 9.52212 252.735 9.54921C252.703 9.5763 252.683 9.6137 252.677 9.65473ZM250.102 13.3877C250.006 13.9585 249.552 14.3432 248.973 14.3432C248.682 14.3432 248.45 14.2498 248.301 14.0733C248.152 13.8982 248.097 13.6491 248.144 13.3708C248.235 12.8033 248.695 12.4076 249.265 12.4076C249.55 12.4076 249.78 12.5023 249.933 12.68C250.085 12.8603 250.146 13.1114 250.102 13.3877ZM251.497 11.4405H250.497C250.456 11.4404 250.416 11.4552 250.385 11.4821C250.353 11.509 250.332 11.5462 250.326 11.5871L250.281 11.8673L250.211 11.7661C249.994 11.4515 249.511 11.3464 249.029 11.3464C247.923 11.3464 246.98 12.1832 246.796 13.3585C246.7 13.9449 246.836 14.5047 247.168 14.8958C247.474 15.2545 247.909 15.405 248.428 15.405C249.319 15.405 249.813 14.8322 249.813 14.8322L249.769 15.1105C249.751 15.2162 249.834 15.3116 249.941 15.3116H250.842C250.985 15.3116 251.106 15.2078 251.128 15.0651L251.669 11.6402C251.673 11.6155 251.671 11.5902 251.665 11.5662C251.658 11.5422 251.646 11.5199 251.629 11.5009C251.613 11.4819 251.593 11.4667 251.57 11.4563C251.547 11.4459 251.522 11.4405 251.497 11.4405ZM245.493 11.4645C245.378 12.2143 244.805 12.2143 244.251 12.2143H243.936L244.157 10.8132C244.164 10.7724 244.185 10.7353 244.216 10.7087C244.248 10.682 244.288 10.6676 244.329 10.6679H244.474C244.851 10.6679 245.206 10.6679 245.391 10.882C245.501 11.0111 245.534 11.2011 245.492 11.4645H245.493ZM245.251 9.50813H243.161C243.018 9.50813 242.897 9.61192 242.875 9.75267L242.03 15.1118C242.013 15.2175 242.095 15.3129 242.202 15.3129H243.274C243.322 15.3128 243.369 15.2955 243.406 15.2639C243.442 15.2324 243.466 15.1888 243.474 15.141L243.714 13.6225C243.724 13.5539 243.759 13.4913 243.812 13.4461C243.864 13.4008 243.932 13.376 244.001 13.376H244.662C246.038 13.376 246.832 12.7112 247.041 11.3912C247.134 10.8132 247.044 10.3598 246.773 10.042C246.477 9.693 245.951 9.50878 245.251 9.50878V9.50813Z" fill="#179BD7"/>
+                      <defs>
+                      <clipPath id="clip0_1012_2215">
+                      <rect width="26.0369" height="5.18919" fill="white" transform="translate(5.04053 9.61731)"/>
+                      </clipPath>
+                      <clipPath id="clip1_1012_2215">
+                      <rect x="134" y="0.400024" width="34.5" height="24" rx="2" fill="white"/>
+                      </clipPath>
+                      <clipPath id="clip2_1012_2215">
+                      <rect x="178.5" y="0.400024" width="34.5" height="24" rx="2" fill="white"/>
+                      </clipPath>
+                      </defs>
+                    </svg>
+                  </div>
+                </div>
+              {% when 'gurantee-icon' %}
+                <div class="featured_product--gurantee-icon" {{ block.shopify_attributes }}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink"
+                    width="269"
+                    height="95"
+                    viewBox="0 0 269 95"
+                    fill="none"
+                  >
+                    <rect width="268.8" height="93.7" transform="translate(0 0.400024)" fill="url(#pattern0_1012_1533)"/>
+                    <defs>
+                    <pattern id="pattern0_1012_1533" patternContentUnits="objectBoundingBox" width="1" height="1">
+                    <use xlink:href="#image0_1012_1533" transform="scale(0.00208768 0.00598802)"/>
+                    </pattern>
+                    <image id="image0_1012_1533" width="479" height="167" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAd8AAACnCAMAAABn2KZyAAAAJGVYSWZJSSoACAAAAAEAPAECAAkAAAAaAAAAAAAAAGltYWdlcnk0AAAnPYy6AAAALVBMVEUDKVQYQWgYQWiEmKsZQmkVQWYYQWjBwcHHycv+/v6uu8bv7+9ZdpEwVHcZQmn4Rz8cAAAACnRSTlMAo3f+3BlM/vz+uMWeHgAAF15JREFUeNrtXe2266oKFVGXNcD7P+75gRrT5qupSTvODueOcbvX6mooUxBhqsbccsstt9xyyy233HLLLbfccsste8T7YKERG4L3P6pqCBYsgAMHDsDaEPxPKmlBlYTvKpmhdc5JEeecU63870ELzo26uqLq74CsSsKrkt8wp/fBQoPsVNzP2W1JVfcjqq4rCWAvDYs+BHjWhZmZefz3xSotq2pHVZmZiYhooqv7tqr+RUlmVbFV8rJh6CfgMhGzCFNCRNJ/FIi/jbAfVWVmIkRMKcYYU8q6crXe91Rt7Jm1zEoiIjUYO3uJjlPXpTQMEVkY//7+/v7+UkpI46j7bugLMI7CFIcXiY2q8CVVfRg9F+eUbOzpwF+LrgjjMESWiq9ijEUn56z/HrouY4tpWJIYkUYf/p7vMmGKcUnHNJoznGoyqzkAE5YxhSkmFmGMrfwlzJHafckxquGW7Vatl7+Mg3C9kk5EhLaVzB7j4DyHaWczZBEiESEiYvXjJ5VKYAEbrvcLq6GZZkPenKpnG29eSbdfyVQRDmep43IOIKwYpzFD4fR4kaGa7XK/sG8YLiPMLCLuwrFYlKTdSirCJ0VEVYdraCaMQ6pheg7fx2PIE8e1eVaOM7zbcOofOdpcpKrX5I8pvaFjLKPQnzBVqDpxKOkcDo9Y0895fB+PR9K3XBj4iuXwHXQb410CcE6b31Yyj8Lu5tRYIhTjQCWzijHKJr6PiHwtwGo5etNwajxdZ16gZI7N6W0dszk7T3kZ3ppNNZkV0Tq+D12BXLB2axzjbb8oxtN84Rp4Dyqpo7ArwG1mxayZlbAIC7OudTkNw2Phf6rRNQD7Tyw3DDHxBQB/qKRmPf0ALi6BNbNKZR4QxjgkYmEc4tJ/uYZwRalDLUdHLTcMwwWqFiUP6xj7ApzhHYaML6fhUbIsTsMj0rR+NSMXhWgdiR9YrgabEwHO8KYPdOwKsKajlIZIIsIiQinGsX41JNnEVwE+PckKICKc4vA5wKdl0XkMpo90zAD7bvAKIeOYWY2vsdSv/vYAfO7aI8M7fCiJ+yeovZXUTLCDv3hbVkB5gcQiohUszGtb3uG/JUSfWR7yIHOF0gMASy/nWFBSPgwxBeAOSznrRAQ1JxdK8REzqpRKuim78P3DU90iz2s94B1iOi+JBrcJb0yIhJjWfTxSD3MGEBEqdUjG4dFmWZFGfOOW/CGfmrgEp/W1HgATnxRrNpWMSRkmRETr64DEn6esHpwIq/u+Zlbqviw7JxQNKeHM6ExpGPoAfE6EViXjepeolhl4HWH1l4+jc24pMLEIIaWaZSHVLGutftVUsujEee2z6BwTTkyZTok1qmRac96Gc8VEq9wEBfgTf/Gu4Vk1wZhS7QsyIvNOfB+JTyvvBvigIqQlIexquyV7ro3BREzc0mOI1r5Tos8idM2dNbPSqCWCTWZVXu/D94Es4vwp7nuwp9CUdPHlR51jjQe3OoUkYnqmpdLaePhwEIbGfTGONSuMjwy1MKopduIb6aQyVnAikj5aTD6NjhMcOKxH5wFf4BVhWhkQn014jfuK0DDpDA5NlhV3x2dNvt0X8pbNnupL1Sti74LbVoxJLbm4BXgjhw6fum/OrHAusyJClN34qt/3XyNtecZ6R4EwzSw2U28H3nTfZu5tXq0tpyIed+DsvswUiVhYWJgokfKvuOFf8RvGPSVvMeCWPSPGNW5ixCWWVu+huJkiZPdlIpxAvdYv+WAQ5sIzY3pkotyEc/XEv9qub6gkOqEM7WFlhCUiTAsYx7SyxEx9620B1lOEmDeCYCyDq+GYrzrwsUFoC/O6qVmt1K/+dgqesAa2K+47IDMT4pyXxkQrzhGp62puVcmaBpTRlqhZB2/Uyg8NQl82d1AcRxPFYcys4tDwr/bje0KAhrVBTkwJmefMhOv1TOSOQ9HD8xJsJtQ2OtaNFSK8lvsfNadWnlmEFzOrtn61G9/UP8Pya8vKRCKMzEiM6akaROspd+w5FIMT4a3RNPkWMWYyHW8lNEfMaZ2I5MIzswhHFmF9rUVKfa2snf349g/QPogILbsFISIzMyMxE8aUagzcqGcS9wvQ1q0omYF6CTG5wr81CI8EaBBhqhkUU3pUzhVN+FcR6S18E3duE3pwK+E5Yhoiar4vTISJOO8ZwC18OwZoD1vlceS5NyBv4DscCzKakj6G9JpZUXp+/Ub+HOMfdS5C+/WqX4zDkAiJFN+UuNSEaKvdFPsNRQ8b4XlAnvsWyDv+7kCvWhfjccysUptlNV3CqPyrnfWNx0OHTM/mud9Ru0pDQkRhwpTqjlEmXN+2N1C3CThshedIs99C04f+QUY7WYxU61eM9JRlsfKvkN/C9xG56wTsw0Zi2pDSiDChsO76SXndlOJiCaTfBGzd+jpH06s4X2VZdeBIR0q+SsFWblXDuaLU8K+QtXb1nv8+Hn1XSN6u4dvurI2IhIicK1aYz7jIJzf0i30LFbZVN4y4EIU28T0WZKA5NWAY61dpqX71Dr7EXfFdK14N9LKBPyLpD2ib7ZFIxHVboqcD/qtNnc0JOBzIWWSmfhVrzYox85Texxe5Z4IVYCW90tDDzG2VOUfj8TCTzrHv/Rxwbvnb+u/QO8FqmBsUY5tZDc/8q2P49kuwwlrdbyR4MhNNOIlRp19ETMsYd8V3M1dfwHeDdoQH8tXcG9TOqG7pzplVw7/CmmW915zrm0AHJ7LUI4hNFVd7YYSlvJEEU9STiJY7TL0S6M30eWn9u5BWP08ih/BlTg3nKnLeMZj5V/ovyfyr/etfrbp1xFfW8G26bFT65Zg0oUFMKaXV9iFeh2+cLZEn2si78yRyZHk0zaweqd0/+JRlvVG/yi2GvvguffX2oC5sphxtxzFRnoLX5rYeqYJ1m+TO+Ql4Ke3qgS/FMbOiBf5V0s9/C990mf+mNosY8cVhGJJQXvnGFQbAdfhqJkizP8VT8BUaRqNMT2aYdglZftR/J5CmsWWehmHAXcfrXIZvJJk7b4V2ZDeH8WWk2oTMNauZ15pl/aT/xhbSJtmPQ245MNNyceNKfMeRSISIhXaAPIbJ/vjmzmDJP3lca7y8/k3/HSEVaggRFIchESWVVX7W9fgK64bbWM9SOQ1f3i/0Tv58mf+myfnFEz5TYlpb934JX2ZhJiRiinomoaq92sg8im9e/e+T944Su8Z/G6eYMIqTUnOolDbi1/GNSXcMIgkRYUJMKRFROa96dZ/ZQXyZHsPu/96SSNf4b6J5fDX0YcKUUEP06vr3EnxzJEmCEYsLp5j5YSmm1Bff4ETocZKc4L9xY/qdbNpSeuK6415fvyr1NhwionJ6ifc0PtPP4du9PjlfAcBZfBlzMTAnz6tz8LX4RuSIhLkDkogi7tjRfMScWg8/Cd8T+gtpIbguT7+IOTivhee+/aMtjgkS4RALKywhpSHS9ir9kDlBhOJJ+FLX/uBi/3dt+iVeLUv2zwS3NkjpcdmchiEpwFHXwCS8vsn7YA4Ib/b83sK3O39jNnd5nX65mX5L+pw20udOM8kGfTLX85mq42LmEOXmSO85BFyfs2gWGJ0dCbKL/Kt6R8BYOajTL5XF32p4HrAr/wo3NpgXhk4iyk48FrBWAD6Er+6WOUO0PNmR4B4W+ZMpH1cy1tpqeoUx7sif+0WaVXo78iQ5GCJx3ok2TjG4RmF435wBRPjvDNGTD/rBu8F9iWlyKZOOBBLe6gx25j8HWKbZID2pFynvNEzPinebQ5Rvfxa+ffntm1sDYnOJEOUto3tKb733L6StLsh4IG9+IdvbRA+aE0SYzsAXe+9PmY19T54ZY8Y4h+fmboaNzKXb/qNFhOgpSSDSQjQhvS7susUYJbif4L79NwDPBOhI9ESnGwa9ly7pTnmiel/dl/cPPqf5SienmdrMbIQ+GmMCiAieNP12PgNr5liphDRHvlE08+poq7vQdf9vWAjQkWZrMHP4Suq4CT2f99c9fT5jf/fs1viol0jOlCAjb14YNpqu2/7uheM34nwRZr5yHjumgBpQetc24hnnMyz5xhATapNtgjG2G49OObvkjQCNsl9e//wDc2qA7l2DjnTG4eiwtntL6xw8XhSWT2ctvt3/6JLlgPiSrM/3qBl51oPTbIw5NgZ1W3znGuXQP3uuvpEWzy3hlMu7TJiGSLtOQut//tVcDjw7/S7Nv6/44gdn/JzhwKccj7R6fp0eMZHiEHOwZpLxsucNxkzfcyTmTlhZwJfmeyM49+WOxhjNCFJ393UnnT/Jabn2p3ExxpQxLrzJZYg1D+x/Tkh66ei/Ic/afmZO73o7cKKTjnDPY3ED34wxFmJOXF7+xlPOj32dgeM7JLfnPuGH5tw6jvp9Oe+A7+AWavCK79sXWpyxjPPBfXo70+sY/CQadl4D/yGfdkD/ogNHZH7/WoZzTiL/6JjbM6YQvQ6iZ+X5tEvMvFuyXcJ0uWes2rMTvHp8+4de4fq1kZDkzAty9F6wTvPIWRcJdLvDp9MlL3rbFnYrPJ94P06/+4808J1y/1G/W14idhmD+cbGHn0jPvmKSb3M53PbxTMvqAu9AO50m1S5zLTL5Hvm9WX9bJfOnEeyPT/OsbqNQW9FhOmvQ9vo3OsHjTG2B8Bn3x9qV9lUe723322Ooce1jYn5TKNNnSN9Du+p9/9+DrByAkLHsMf4QavwfKNNAP5kDr7gLnm95/STEN3ZnJ8CrMPtivvZs3McjzaqKZyrpNrzeJjB3ubUqzYwDQdb+pfBWz34WPjLmp5+j3yAD+6RP8Oc9Y72A857KbwV4CPeoU3XKzQtAB8YhQnlBCX1tg0+0ExSDu9l8BrjLcgR40XlSMMlmirA/HblVO8XOkHJPLG92w7O7ZvTM+c549E7TaOYcmy+SFMNM+/G6HziyhmL86wQv9NO+lOXcOCvhLcA/M4snA3nIFwWZkK2Z3wzsTqrw+qL1fYWs8qmEGeDuViy8fYiXA4iOulu4i17pnfmjxNjYbDOlRM6t8Et6kDw5nrx4GSn9QqX7ULnnWQKvGcmSVeYsww5vadiBdwR3S8475N7rG5/j+Mm4S+Mw4mOccf+OHd29ufVhfUcvXmIUxp3613uEq2q3tbROMtz1g0OxXftd8JMaHScI4MpJXBU8qrET+YDdWqvNj2/ULAX4YxxOVAlpYSI477gSwy3HKRHHetlLnHIR/1hZcq6i2Y6X8dcvtlAqaZIpMzTiu53POLVes5Je0h/1rNyip0D+11FR3uWDaI4GX4il63LC8K2Uamyc0dlHNjwA+jmrLCFeCrOfdN1Z8L0glw+e/gQLMCs2ZwDa4P/EXSztnZGV/etSXfeZSY+07oKfMmaPlgAcK0AwA957sR+PoQAVvUFsNaG4H9qEBofQrCNSaGq+QtKgbXhx9z2FeOJ/KiSIYQQbAghhJ825y233HLLLbfccsstt9xyyy233HLLLbfccsstt9xyyy233HLLLbfccsstt9xyyy233HLLLbfccssJUmnUiyc/BbCHP9o7a4y3y5sJg4Qbg8OYrYgFgWCML/eLehG/gMCuK+W8hecdvyImiDMGVo7LBjntXAQLAAA/tgsgAADA4tZo3eQz/YPX94psf3lxIGJHfBcHxT4PCyLOPY0EEf3UVXXO24YB8pv4iizjKwIwteKc+XfgK2JMEGe8QAAI3hgA48EG0M2mNv+/CU6cNRY8BHUJb/L7gvHVft5JMMY7sUZ/CmCMiPFgDYiANz5/YoBgrbEQLIDPwzMA2MOzwAq+PjuAteo4wbTf7FuS0fFQ7D6aUV1CRNUMAUJwulW+aO0BwO/A1+Vh4SU7shExXkRANKQCqGcrviBOrAFxIBLK+0CcE5fDgVVn9MarJ0v+RFB8vRPnxHkTxOWfOXHeWAnGirjO93q3+IoTMEEcOLHGOAE45RqmN/ENIuAEjBG1lx9/58QbUJtkfH3RejTuZnzWc+W8uDxiFN+gU6KIMTkrCvoz8D4IFKfXRwVjQMcJjJM3iDXGNvgakfpTa6y44PWfINYEsTrW4AR8AcDrA71z3hgn3oo1Jgh8HV8nXq0nahnIv/PeVgs7sWr+ULQejbudDzl1RTDGuAaN/Dn18BurUPgCohMFWjUM6rgNvvrwZ3xFjA4mnU9A/zYYK0E/zZ+Ar4h4faAXZ4MFCSDWBpujzhfxLaa2jb2MMbqt2+d4qMFNPUG1nrx5Oydy+TnQ4usF9FRRMI3/VnxB/PhHxqr/2jEnWMHXiOR3gnhjvPqvPw1fX1Xz4jRv1aQL4FfwhWd8vStDX+Ev4VO13o0vgDe+Qlrxdd4YEOttmNoHxI+Wav6o+K/+pYESbcNrfPb6dRr/9eq/ujKz582/wRgjzhgTrI5H/9VzNzJGLnuHqL3cuKSE8m8o/lu1Ho27vT4KIPCMrzgLIt44scGJn/qvd2Ktq4uq1n+NFQHNF4IIWHnGN5RPfvVfY/V3Z/qvsQIWBMp3+D6++qWdNyJioRy4L5JTXyfOOhFrQs6vVOvRuDsSLHXHaXy2enWDh3qFw+i/9aev/qsBXU8Ctk7ci/+a4PRWsFf/1WQvnOu/xjq9TbX5Zt9dH1mnp4WKBFc10vWRUzWhGMePWlfjHqp7fTWv/EflKFg3vje+N77/Fr5gb3tfLXD71C233HLLLbfccsstt/x/5PcPOq0Hxvr5W3C8+9+vC8Px2zB2LNDDKbduAQDMrdjHp1mn5JZaJJ9v/IbO/WAPbuFSPvseH2z5gxZl4Qkf8FT34HtGw0Z7unblaSAAtcW/Fmv6hiCrJJq5rwzyzpO8E3Bvjr35JzQ0roy/hZBHQ2HGWci+kRlrpmV7VfpaeQHgwefPeyKJKbkufI4vlCELIYz0v/I0fYNygqw+0INtSIRVDw/WhKqUtwDBHidehtwnEz+aLKtmnQCYCdcQIJhCasy282AD6ECxuQncmv6ZljdhLuYnzOPrC4HO5MafF2cqMy73A0NmrBnTsL2sCGQikRS6nhNvxYE4/0QSgxku7Qf4FiqaCe3TTCUdKHkXChupJRFmPbzA+B7j9PMO45spaT5MTQbivFq/4RqKcyIg2v0uHEAvrnDw8ihrPkfymystb8pcXMC30LhgnIycKLuxMuNyP79Q5ExDpSt0MF9fGBHrPYjXYfdEEoMec54XB2AbKtrkaRl5CIUbEjKbYSQRVj2CwPie/OI4vs18VU1WVMs8p8o1LI/yTkYOoBfJ11g4ERvaz7GtffWLvTAX5yf+sYvvCu8hGOf8yIxrBlFov4lIZnFYCfVFbupnmt6UJFZ5XJ/iKyIwoaI1T9NRa0VHdiYl+MpY0XHW8Mnqe2AkIPTBNzSqgfgJ1zDHyKxF5gA2VIeg5PHG9DZ/wWr7Oebigv9ODO/FhcyL1g9qBpF9wrc+9vn5AVw1cCWJdcMXxmxKg4MdnzYO3DIEJvj6Z3zrez7WbsIVLsMtqzbiO7pFJsP4UDiAkzatBwmt6UP+ylN8n5iLC/5rx/FkjAFxlTUZysC2rf9WtlclzI7MWSXhh2ZEVJIY6GO64VupaGE6/jxAy+mr+GYS4aiHb99jBYyGwMPpM/j8CdVkRTWYWDSUMVX81xgT7EjP1sxMbGt6yHavtLw55uJs0ldpXHWxmCNZZsYFcdZK678j2wt0Zm9eKL4CAXJ6MZLEQATGx3ycX1Uq2uRp+hsIrnAQR3zLF6p6+KmPC1j3yegDcXkXUWMyVc2Kg5Zr2PrvyAFs9vxZ66amF2edODPS8p6Yi1bmN4JOaVyje47MOP3w1n8btlem640vCktQ8lObTwcJmezWBd8JFW18Wv6Ns+bZfwuJsOox8V8TnIj9aPaw1YzFZJXOCCIt17D138oBHONzcIVWV01v4ZmWN2Uu6hN25qfn1Mo+nnn7LJtX9fiujiux3+6vKm1+VvgX8Q2Sqf8/WUaumHyuoDsLhh/3XxARkd/sOHT0X3/a/dv2q5uuRxLhkh4BAH701IixdXLT8v5h+Q+whvMoInoU4wAAAABJRU5ErkJggg=="/>
+                    </defs>
+                  </svg>
+                </div>
+            {% endcase %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Product Info End -->
+    </div>
+  </div>
+</section>
+
+<!--
+  <script>
+  const inventoryItems = document.querySelectorAll('.featured_product--inventory');
+  const totalStock = 10000;
+
+  inventoryItems.forEach(function(inventoryItem) {
+      var randomValue = sessionStorage.getItem('randomValue');
+
+      if (randomValue !== null) {
+          inventoryItem.querySelector('.rqty').innerHTML = randomValue;
+          updateProgressBar(randomValue, totalStock, inventoryItem);
+      } else {
+          var rqtyElement = inventoryItem.querySelector('.rqty');
+          var rqtyValue = parseFloat(rqtyElement.textContent);
+
+          if (rqtyValue >= 251) {
+              var min = 251; // Minimum value
+              var max = 5000; // Maximum value
+
+              randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
+              sessionStorage.setItem('randomValue', randomValue);
+              rqtyElement.innerHTML = randomValue;
+
+              updateProgressBar(randomValue, totalStock, inventoryItem);
+          }
+      }
+  });
+
+  function updateProgressBar(stock, totalStock, inventoryItem) {
+      var progressPercentage;
+
+      if (stock >= totalStock) {
+          progressPercentage = 100;
+      } else {
+          progressPercentage = (stock / totalStock) * 100;
+      }
+
+      var progressBar = inventoryItem.querySelector('.progress');
+      var progressIcon = inventoryItem.querySelector('.progress_icon');
+
+      if (progressBar) {
+          progressBar.style.width = progressPercentage + '%';
+      }
+      if (progressIcon) {
+          progressIcon.style.left = `calc(${progressPercentage}% - 10px)`;
+      }
+  }
+  </script>
+-->
+<script>
+  // Load files when page is loaded
+  window.addEventListener('load', function() {
+    // Load jquery first because is a dependency
+    loadScript('https://code.jquery.com/jquery-3.5.1.min.js', false, function() {
+      // Load slick slider library and the code as callback
+      loadScript('{{ 'slick.js' | asset_url }}', true, function() {
+        $(document).ready(function() {
+
+
+            $('.product-slider_media').slick({
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              arrows: false,
+              infinite: false,
+              asNavFor: '.product-slider_thumbnails'
+            });
+            $('.product-slider_thumbnails').slick({
+              slidesToShow: 4.5,
+              slidesToScroll: 1,
+              asNavFor: '.product-slider_media',
+              arrows: false,
+              infinite: false,
+              focusOnSelect: true,
+              draggable: true,
+              swipeToSlide: true
+
+            });
+
+
+        });
+      });
+
+      // load index.js and add the code for creating a new GoCart instance
+      loadScript('{{ 'index.js' | asset_url }}', true, function() {
+        var goCart = new GoCart();
+      });
+    });
+  });
+
+  // Lazy loaded stylesheets
+  loadStylesheet('{{ 'slick.css' | asset_url }}');
+  loadStylesheet('{{ 'cart-drawer.css' | asset_url }}');
+  loadStylesheet('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600&display=swap');
+</script>
+
+{% schema %}
+{
+    "name": "ACC-UV-LP-02",
+    "settings": [
+      {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458157889)"
+    },
+
+
+         {
+    "type": "header",
+    "content": "Section Below Product Gallery"
+},
+
+{
+  "type": "image_picker",
+  "id": "productbottom",
+  "label": "Image Below Product Gallery"
+},
+{
+    "type": "text",
+    "id": "sec1",
+    "label": "Section 1 Text",
+    "default": "Section 1 Text"
+},
+      {
+    "type": "text",
+    "id": "sec2",
+    "label": "Section 2 Text",
+    "default": "Section 2 Text"
+},
+      {
+    "type": "text",
+    "id": "sec3",
+    "label": "Section 3 Text",
+    "default": "Section 2 Text"
+},
+
+
+    {
+        "type": "header",
+        "content": "Section layout"
+    },
+    {
+      "type": "radio",
+      "id": "displayFor",
+      "label": "Show this section on",
+      "options": [
+        {"value": "display--both", "label": "All devices"},
+        {"value": "hide-desktop", "label": "Mobile only"},
+        {"value": "hide-mobile", "label": "Desktop only"}
+      ],
+      "default": "display--both"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Section layout",
+      "options": [
+        {"value": "default", "label": "Global default"},
+        {"value": "boxed", "label": "Boxed"},
+        {"value": "stretchBg", "label": "Full width background"},
+        {"value": "stretchContent", "label": "Full width"}
+      ],
+      "default": "default"
+    },
+    {
+      "type": "checkbox",
+      "id": "nomargin",
+      "default": false,
+      "label": "Remove section's bottom margin"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Minimum height",
+      "default": 0,
+      "min": 0,
+      "max": 800,
+      "step": 10,
+      "unit": "px"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Section padding",
+      "default": 0,
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+    "type": "header",
+    "content": "Section background"
+  },
+  {
+    "id": "backgroundColor",
+    "type": "color",
+    "default": "rgba(0,0,0,0)",
+    "label": "Background color"
+  },
+    {
+    "type": "header",
+    "content": "Section heading"
+},
+{
+    "type": "text",
+    "id": "heading",
+    "label": "Section heading",
+    "default": "Check out this section's heading"
+},
+{
+    "type": "color",
+    "id": "headingColor",
+    "default": "rgba(0,0,0,0)",
+    "label": "Heading Color"
+},
+{
+    "type": "text",
+    "id": "subheading",
+    "label": "Section subheading",
+    "default": "THIS IS A SUBHEADING"
+},
+{
+    "type": "color",
+    "id": "subheadingColor",
+    "default": "rgba(0,0,0,0)",
+    "label": "Subheading Color"
+},
+{
+    "type": "select",
+    "id": "subheadingPosition",
+    "label": "Subheading position",
+    "options": [
+      {"value": "above", "label": "Above heading"},
+      {"value": "below", "label": "Below heading"}
+    ],
+    "default": "above"
+},
+{
+    "type": "select",
+    "id": "headingAlignment",
+    "label": "Heading alignment (left to right)",
+    "options": [
+    {"value": "start", "label": "Left"},
+    {"value": "center", "label": "Center"},
+    {"value": "end", "label": "Right"}
+    ],
+    "default": "center"
+},
+    {
+      "type": "header",
+      "content": "Product settings"
+    },
+    {
+        "type": "product",
+        "label": "Product Pack 1",
+        "id": "product"
+    },
+	 {
+      "type": "product",
+      "id": "productpack2",
+      "label": "Product Pack 2"
+    },
+    {
+      "type": "product",
+      "id": "productpack3",
+      "label": "Product Pack 3"
+    },
+    {
+      "id": "showDescription",
+      "label": "Show product description",
+      "type": "checkbox",
+      "default": true
+    }
+    ],
+"blocks": [
+      {
+          "type": "heading-with-review",
+          "name": "Heading & Review",
+          "settings": [
+
+          ]
+      },
+      {
+          "type": "icon-box",
+          "name": "icon Box",
+          "settings": [
+            {
+              "type": "image_picker",
+              "label": "Image",
+              "id": "image"
+            },
+            {
+              "type": "richtext",
+              "label": "Content",
+              "id": "text"
+            }
+
+          ]
+      },
+      {
+          "type": "incart-watch",
+          "name": "IN Cart Watch",
+          "settings": [
+              {
+                "type": "image_picker",
+                "label": "Icon 1",
+                "id": "image1"
+              },
+              {
+                "type": "image_picker",
+                "label": "Icon 2",
+                "id": "image2"
+              },
+              {
+                "type": "checkbox",
+                "id": "noMargin",
+                "label": "Remove bottom space"
+              },
+              {
+                "type": "select",
+                "label": "Max people",
+                "id": "max",
+                "options": [
+                  {"value": "10", "label": "10"},
+                  {"value": "100", "label": "100"},
+                  {"value": "1000", "label": "1000"}
+                ],
+                "default": "100"
+              },
+              {
+                "type": "text",
+                "label": "Custom Max People",
+                "id": "customMax",
+                "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+              },
+              {
+                "type": "range",
+                "id": "interval",
+                "label": "Update the number every",
+                "min": 0,
+                "max": 30,
+                "step": 1,
+                "unit": "s",
+                "default": 8
+              },
+              {
+                "type": "color",
+                "id": "iconColor",
+                "label": "Icon Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              },
+              {
+                "type": "color",
+                "id": "textColor",
+                "label": "Text Color (optional)",
+                "default": "rgba(0,0,0,0)"
+              }
+          ]
+      },
+      {
+          "type": "product-bundle",
+          "name": "Product Bundle",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "label": "Heading",
+              "id": "text"
+            }
+
+          ]
+      },
+      {
+          "type": "inventory-status",
+          "name": "Inventory Status",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "label": "Heading",
+              "id": "text"
+            }
+
+          ]
+      },
+      {
+          "type": "payment-terms",
+          "name": "Payment Terms",
+          "settings": [
+
+          ]
+      },
+      {
+          "type": "atc-btn",
+          "name": "ATC Button",
+          "limit": 1,
+          "settings": [
+            {
+              "type": "text",
+              "label": "Heading",
+              "id": "text"
+            }
+
+          ]
+      },
+      {
+          "type": "payment-icon",
+          "name": "Payment Icon",
+          "settings": [
+            {
+              "type": "text",
+              "label": "Heading",
+              "id": "text"
+            }
+
+          ]
+      },
+       {
+          "type": "gurantee-icon",
+          "name": "Gurantee Icon",
+          "settings": [
+
+
+          ]
+      }
+    ],
+    "presets": [
+      {
+        "category": "Products",
+        "name": "ACC-UV-LP-02"
+      }
+    ]
+  }
+{% endschema %}

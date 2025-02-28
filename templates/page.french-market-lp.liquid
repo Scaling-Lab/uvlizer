@@ -1,0 +1,83 @@
+{% render 'homepage-hero-section-fr' %}
+
+{% comment %}{% render 'homepage-hero-slider-fr' %}{% endcomment %}
+
+{% render 'homepage-bundles-benefits-fr' %}
+
+{% render 'homepage-featured-product-fr' %}
+
+{% render 'homepage-bundles-benefits-fr-2' %}
+
+{% render 'homepage-why-uvilizer-section-fr' %}
+
+{% render 'homepage-probably-seen-fr' %}
+
+{% section 'homepage-featured-collection-fr' %}
+
+{% comment %}{% render 'homepage-video-snippet-fr' %}{% endcomment %}
+
+{% render 'homepage-bundles-benefits-fr-3' %}
+
+{% render 'homepage-icons-section-fr' %}
+
+{% render 'homepage-bottom-reviewsection-fr' %}
+
+{% render 'homepage-follow-us-fr' %}
+
+{% render 'homepage-bottom-banner-fr' %}
+
+
+<style>
+    .judge-me-container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+    }
+
+    .jdgm-row-extra .jdgm-rev__location {
+        display: none;
+    }
+</style>
+
+<div id = '#judgemeproductreviews' class="judge-me-container">
+    {% render 'judgeme_widgets', widget_type: 'judgeme_review_widget', concierge_install: false, product:all_products['2x-bundle-uvo254™-powered-home-disinfection-tower-french-market'] %}
+</div>
+
+<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+<script>
+    var swiper = new Swiper('.lineSwiper', {
+        slidesPerView: 'auto',
+        spaceBetween: 28,
+        loop: true,
+        allowTouchMove: false,
+    });
+
+    var mySwiper = new Swiper('.probably-seen__cards', {
+        spaceBetween: 35,
+        slidesPerView: 1,
+        pagination: {
+            el: '.swiper-pagination',
+            clickable: true,
+        },
+        breakpoints: {
+            768: {
+                slidesPerView: 'auto',
+            },
+        },
+    });
+
+    var mySwiper = new Swiper('.probably-seen__partners', {
+        spaceBetween: 24,
+        loop: true,
+        slidesPerView: 'auto',
+        breakpoints: {
+            768: {
+                spaceBetween: 32,
+            },
+        },
+    });
+</script>
+
+{{ 'index.js' | asset_url | script_tag }}

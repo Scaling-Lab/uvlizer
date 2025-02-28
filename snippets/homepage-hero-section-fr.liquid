@@ -1,0 +1,227 @@
+<style>
+    html{scroll-behavior:smooth}
+
+    .hero-section__content{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 5;
+    }
+
+    .hero-section{
+        position: relative;
+        min-height: 720px;
+    }
+
+    .hero-section h1{
+        font-size: 48px;
+        font-weight: 700;
+        line-height: 73px;
+        letter-spacing: 0em;
+        text-align: left;
+        color: #fff;
+        margin-bottom: 10px !important;
+        text-transform: capitalize;
+    }
+
+    .hero-section  p{
+        color: #FFF;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        margin-bottom: 32px !important;
+    }
+
+    .cta{
+        font-size: 20px;
+        font-weight: 700;
+        line-height: 30px;
+        letter-spacing: 0em;
+        text-align: center;
+        color: #fff;
+        border-radius: 5px;
+        background-color: #D53600;
+        padding: 15px 50px;
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .image-desktop{
+        width: 100%;
+        /*max-height: 100vh;*/
+        min-height: 720px;
+        object-fit: cover;
+        object-position: right;
+        display: block;
+    }
+
+    .image-mobile{
+        display: none;
+    }
+
+    .wrapper--bottom {
+        padding: 0;
+    }
+
+    @media screen and (max-width: 768px) {
+        .hero-section__content{
+            top: 40px;
+            left: 0;
+            transform: none;
+        }
+
+        .hero-section h1{
+            font-size: 24px !important;
+            line-height: 43px;
+        }
+
+        .fr-hero .cta {
+            font-size: 14px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .fr-hero .shield-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hero-section  p{
+            font-size: 16px;
+            line-height: 24px;
+            margin-bottom: 12px !important;
+        }
+
+        .image-desktop{
+            display: none;
+        }
+
+        .image-mobile{
+            display: block;
+            width: 100%;
+            max-height: 100vh;
+            object-fit: cover;
+            object-position: bottom;
+        }
+
+        .fr-hero .guarantee-container {
+            padding-top: 10px;
+
+        }
+
+        .fr-hero .guarantee-text {
+            font-size: 16px;
+        }
+    }
+
+    .guarantee-container {
+        position: relative;
+        height: 30px;
+        padding-top: 24px;
+    }
+
+    .guarantee-item {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .shield-icon {
+        width: 30px;
+        height: 30px;
+    }
+
+    .guarantee-text {
+        color: #fff;
+        font-family: "Poppins-Medium", sans-serif;
+        font-size: 20px;
+        margin-left: 8px;
+    }
+
+    .guarantee-item:last-child {
+        margin-left: 24px;
+    }
+    .reviews {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+    }
+
+    .reviews-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 16px;
+    }
+
+    .fr-hero .reviews-content {
+        margin-top: -20px;
+    }
+
+    .stars {
+        color: #f4b600;
+        font-family: "FontAwesome6Free-Solid", sans-serif;
+    }
+
+    .reviews-text {
+        color: #FFF;
+        font-family: Poppins;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+</style>
+
+
+<section class="hero-section fr-hero">
+    <div class="hero-section__content">
+        <div class="reviews">
+            <div class="reviews-content">
+                <span class="stars">★ ★ ★ ★ ★</span>
+                <span class="reviews-text">PLUS DE 20,000 clients satisfaits</span>
+            </div>
+        </div>
+        <h1>
+            UVlizer – Dites adieu aux <br>
+            allergies et désinfectez pour <br>
+            de vrai votre environnement <br>
+            grâce à la technologie UVO
+        </h1>
+        <p>
+            Une technologie éprouvée pour éliminer 99,9% des allergènes <br> et des micro-organismes.
+        </p>
+        <a href="https://uvlizer.co/pages/uvlizer-home-disinfection-device-meta-prospecting-us-aov-1" class="cta">
+            Découvrez tous nos produits dès maintenant !
+        </a>
+        <div class="guarantee-container">
+            <div class="guarantee-item">
+                <img class="shield-icon" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/ri_shield-check-fill.png?v=1733217870" alt="Shield check icon" />
+                <div class="guarantee-text">Garantie satisfait ou remboursé</div>
+            </div>
+            <div class="guarantee-item">
+                <img class="shield-icon" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/ri_shield-check-fill.png?v=1733217870" alt="Shield check icon" />
+                <div class="guarantee-text">Pendant 90 jours</div>
+            </div>
+        </div>
+
+    </div>
+    <div class="hero-section__image">
+        <img 
+            src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Group_2671.png?v=1732878405"
+            alt="hero image" 
+            class="image-desktop"
+        >
+        <img 
+            src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/M_Banner_-_French.png?v=1733909740"
+            alt="hero image" 
+            class="image-mobile"
+        >
+    </div>
+</section>

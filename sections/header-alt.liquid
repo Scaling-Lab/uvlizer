@@ -1,0 +1,562 @@
+<style>
+{% if section.settings.customFont %}
+{% render 'font', font: section.settings.fontFamily %}
+.header .link {
+    font-family: {{ section.settings.fontFamily.family }}, {{ section.settings.fontFamily.fallback_families }};
+    font-weight: {{section.settings.fontFamily.weight}};
+}
+{% endif %}
+
+{% if section.settings.sticky %}
+#shopify-section-{{section.id}} {
+    position: sticky;
+    top: 0;
+    z-index: 11;
+}
+{%endif%}
+
+{% unless section.settings.menuLinks == blank %}
+
+{% comment %} 
+.logo {
+    padding: 0px;
+} 
+{% endcomment %}
+
+{% else %}
+{% if settings.demo == false %}
+.header--inline-search .links, .header--logo-top .links, .header--sidebar .links {
+    display: none;
+}
+{% endif %}
+{% endunless %}
+
+.links__hover--fill .link:hover, .links__hover--fill .link.active {
+    background: {{section.settings.activeFillColor}};
+}
+
+{% unless section.settings.activeContentColor contains 'rgba(0,0,0,0)' %}
+.links .link:hover > a, .links .link.active > a, .header .uil:hover {
+    color: {{section.settings.activeContentColor}};
+    transition: color 0.2s;
+}
+{% endunless %}
+
+.links__hover--underline .header__link::after, .links__hover--strikethrough .header__link::after {
+    width: 0%;
+    height: 2px;
+    position: absolute;
+    left: 0px;
+    bottom: -4px;
+    background: {{section.settings.activeFillColor}};
+    content: '';
+    transition: width 0.2s;
+}
+
+.links__hover--strikethrough .header__link::after {
+    top: 50%;
+    margin-top: -1px;
+}
+
+.links__hover--underline .header__link:hover::after, .links__hover--underline .link.active > .header__link::after,
+.links__hover--strikethrough .header__link:hover::after, .links__hover--strikethrough .link.active > .header__link::after {
+    width: 100%;
+}
+
+.links__hover--opacity .header__link {
+    transition: opacity 0.2s;
+}
+
+.links__hover--opacity:hover > .link > .header__link {
+    opacity: 0.4;
+}
+
+.links__hover--opacity > .link > .header__link:hover {
+    opacity: 1;
+}
+
+.links__hover--dotBelow .header__link::after, .links__hover--dotAbove .header__link::after {
+    transition: opacity 0.2s;
+    content: '';
+    height: 5px;
+    width: 5px;
+    left: 50%;
+    margin-left: -2.5px;
+    bottom: -5px;
+    background: {{section.settings.activeFillColor}};
+    border-radius: 5px;
+    opacity: 0;
+    position: absolute;
+}
+
+{% unless section.settings.barContentColor contains 'rgba(0,0,0,0)' %}
+{% assign barContentColor = section.settings.barContentColor %}
+{% else %}
+{% assign barContentColor = 'inherit' %}
+{% endunless %}
+
+{% unless section.settings.barFillColor contains 'rgba(0,0,0,0)' %}
+{% assign barFillColor = section.settings.barFillColor %}
+{% else %}
+{% assign barFillColor = settings.baseBackground %}
+{% endunless %}
+
+.header {
+    background: {{barFillColor}};
+    color: {{barContentColor}};
+    {% unless section.settings.shadow %}box-shadow: none !important;{% endunless %}
+    min-height: {{section.settings.minHeight}}px;
+}
+
+.search__container--inline input {
+    background: {{section.settings.searchFill}};
+    {% unless section.settings.searchFill contains 'rgba(0,0,0,0)' %}
+    border-color: {{section.settings.searchFill}};
+    {% endunless %}
+}
+
+.search__container--inline input, .search__container--inline .search__icon--submit, .search__container--inline .uil {
+    {% unless section.settings.searchContent contains 'rgba(0,0,0,0)' %}
+    color: {{section.settings.searchContent}} !important;
+    {% else %}
+    color: {{barContentColor}} !important;
+    {% endunless %}
+}
+    
+.header--inline-search, .header--logo-top, .header--inline {
+    border-radius: 0px 0px {{section.settings.borderRadius}}px {{section.settings.borderRadius}}px;
+}
+
+@media screen and (min-width: 768px){
+    .header--inline-search, .header--logo-top {
+        background: {{section.settings.topBarFillColor}};
+        color: {{section.settings.topBarContentColor}};
+    }
+
+    .header.header--inline-search .links, .header.header--logo-top .links {
+        background: {{barFillColor}};
+        color: {{barContentColor}};
+    }
+}
+
+{% if template == 'index' %}
+.header--transparent {
+    background: transparent;
+    {% unless section.settings.transparentContentColor contains 'rgba(0,0,0,0)' %}
+    color: {{section.settings.transparentContentColor}};
+    {% endunless %}
+}
+
+{% unless section.settings.transparentContentColor contains 'rgba(0,0,0,0)' %}
+@media only screen and (min-width: 768px){
+    .header--transparent .links > .link > .header__link {
+        color: {{section.settings.transparentContentColor}};
+    }
+}
+
+.header--transparent .links > .link:hover > .header__link, .header--transparent .nav__utils .uil:hover {
+    color: {{section.settings.transparentContentColor}};
+    opacity: 0.8;
+}
+{% endunless %}
+
+.header--transparent .logo--transparent-available .logo--default, .header--transparent .logo--transparent-available .logo--mobile {
+    display: none;
+}
+
+.header--transparent .logo--transparent-available .logo--transparent {
+    display: block;
+}
+
+@media screen and (min-width: 768px){
+    main {
+        padding-top: {{section.settings.contentMargin}}px;
+    }
+}
+{% endif %}
+
+.submenu {
+    color: {{barContentColor}};
+    background: {{barFillColor}};
+}
+
+@media only screen and (max-width: 767px){
+.links {
+    background: {{barFillColor}};
+    color: {{barContentColor}};
+}
+}
+
+.logo-img img {
+  max-width: {{section.settings.logoWidth}}px;
+  {% unless section.settings.logoHeight == 0 %}
+  max-height: {{section.settings.logoHeight}}px;
+  {% endunless %}
+}
+
+#colorcode {};
+</style>
+
+<div data-search-container class="search__container--abs">
+    <div class="search__overlay" onclick="closeSearch(this)"></div>
+    <div class="search__container--wrapper">
+        <h4 class="search__title">{{'general.search.heading' | t}} <span onclick="closeSearch(this)">{% render 'get-icon', icon: 'close' %}</span></h4>
+        <form method="get" action="/search">
+            <button type="submit" class="search__icon--submit">{% render 'get-icon', icon: 'search' %}</button>
+            <input autocomplete="off" placeholder="{{'general.search.placeholder' | t }}" name="q" onfocus="openSearch(this)" type="search" data-search>
+        </form>
+    </div>
+    <div class="search__results search__results--abs" data-search-suggest>
+    </div>
+</div>
+
+{% case section.settings.type %}
+    {% when 'inline' %}
+     {% render 'header__default' with section as section %}
+    {% when 'sidebar' %}
+     {% render 'header__sidebar' with section as section %}
+    {% when 'inline-search' %}
+     {% render 'header__inline-search' with section as section %}
+    {% when 'logo-top' %}
+     {% render 'header__logo-top' with section as section %}
+{% endcase %}
+
+{% if template == 'product' %}
+{% form "product", product %}
+<div class="product__atc--sticky max-width">
+    <style>
+    .atc--sticky__image {
+        max-width: 80px;
+    }
+    </style>
+    <div class="product__atc--sticky__info">
+        {% render 'image', src: product.featured_image, class: 'atc--sticky__image' size: '80x' %}
+        <div class="product__atc--sticky__info--text">
+            {% assign currvariant = product.selected_or_first_available_variant %}
+            <span class="product__atc--sticky--vendor">{{product.vendor}}</span>
+            <span>{{product.title}}</span>
+            <span class="product__atc--sticky--price jsPrice">{{currvariant.price | money | strip_html}}</span>
+            <span class="product__atc--sticky--discount jsPrice">{% if currvariant.compare_at_price > 0 %}{{currvariant.compare_at_price | money | strip_html}}{% endif %}</span>
+        </div>
+    </div>
+    {% if product.available %}
+    <div class="product__selector--sticky">
+        {% render 'product__selector' with product as product %}
+        <div class="quantity--input">
+            <button class="quantity--input__button quantity--input__incr" onclick="boosterCart.quantityHandler(event, false, false)">-</button><!--
+            --><input class="quantity--input__input" value="1" data-qty-input type="number" name="quantity" min="1"><!--
+            --><button class="quantity--input__button quantity--input__decr" onclick="boosterCart.quantityHandler(event, true, false)">+</button>
+        </div>
+        {% render 'add-to-cart-button', type: 'secondary', price: product.price %}
+    </div>
+    {% else %}
+        {% render 'sold-out-button', disabled: 'disabled' %}
+    {%endif%}
+</div>
+{% endform %}
+{% endif %}
+
+{% schema %}
+{
+  "name": {
+    "en": "Landing Header settings"
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458159291)"
+    },
+    {
+        "type": "header",
+        "content": "Global header settings"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Section layout",
+      "options": [
+        {"value": "default", "label": "Global default"},
+        {"value": "boxed", "label": "Boxed"},
+        {"value": "stretchBg", "label": "Full width background"},
+        {"value": "stretchContent", "label": "Full width"}
+      ],
+      "default": "default"
+    },
+    {
+        "type": "select",
+        "id": "type",
+        "label": "Header type",
+        "options": [
+            {"value": "inline", "label": "Standard inline"},
+            {"value": "inline-search", "label": "Logo top, inline search"},
+            {"value": "logo-top", "label": "Logo top, search icon"},
+            {"value": "sidebar", "label": "Sidebar"}
+        ],
+        "default": "inline"
+    },
+    {
+        "type": "range",
+        "label": "Height",
+        "id": "minHeight",
+        "min": 0,
+        "max": 150,
+        "step": 5,
+        "unit": "px",
+        "default": 0
+    },
+    {
+        "type": "range",
+        "label": "Border radius",
+        "id": "borderRadius",
+        "min": 0,
+        "max": 50,
+        "step": 1,
+        "unit": "px",
+        "default": 0
+    },
+    {
+        "type": "checkbox",
+        "id": "shadow",
+        "label": "Enable shadow",
+        "default": true
+    },
+    {
+        "type": "link_list",
+        "id": "menuLinks",
+        "label": "Menu links"
+    },
+    {
+        "type": "checkbox",
+        "id": "megamenu",
+        "label": "Enable megamenu",
+        "default": true
+    },
+    {
+        "type": "range",
+        "label": "Logo width",
+        "id": "logoWidth",
+        "min": 50,
+        "max": 300,
+        "step": 5,
+        "unit": "px",
+        "default": 260
+    },
+    {
+        "type": "range",
+        "label": "Logo height",
+        "id": "logoHeight",
+        "min": 0,
+        "max": 500,
+        "step": 5,
+        "unit": "px",
+        "default": 0,
+        "info": "Maximum logo height. If set to 0 (zero) it will take up as much space as needed."
+    },
+    {
+        "type": "checkbox",
+        "id": "sticky",
+        "label": "Make the header stick to top",
+        "default": true
+    },
+    {
+        "type": "checkbox",
+        "id": "overlap",
+        "label": "Overlay header over content",
+        "default": false,
+        "info": "If selected header will overlap over content. Automatically selected if a 'Transparent header' is activated."
+    },
+    {
+        "type": "range",
+        "label": "Content margin",
+        "id": "contentMargin",
+        "min": 0,
+        "max": 200,
+        "step": 5,
+        "unit": "px",
+        "default": 0
+    },
+    {
+        "type": "header",
+        "content": "Header buttons"
+    },
+    {
+        "type": "radio",
+        "id": "headerUtility",
+        "options": [
+            {"value": "none", "label": "Disable"},
+            {"value": "buttons", "label": "Show buttons"},
+            {"value": "checkout", "label": "Quick Checkout"}
+        ],
+        "label": "Header buttons",
+        "default": "buttons"
+    },
+    {
+        "type": "product",
+        "label": "Quick checkout product",
+        "id": "quickProduct"
+    },
+    {
+        "type": "header",
+        "content": "Transparent header settings"
+    },
+    {
+        "type": "checkbox",
+        "id": "transparent",
+        "label": "Make the header transparent",
+        "default": false
+    },
+    {
+        "type": "color",
+        "id": "transparentContentColor",
+        "label": "Transparent text color",
+        "default": "#000000"
+    },
+    {
+        "type": "header",
+        "content": "Link style"
+    },
+    {
+        "type": "color",
+        "id": "barContentColor",
+        "label": "Text color",
+        "default": "#000000"
+    },
+    {
+        "type": "color",
+        "id": "activeFillColor",
+        "label": "Active text accent color",
+        "default": "#000000"
+    },
+    {
+       "type": "color",
+       "id": "activeContentColor",
+       "label": "Active text color",
+        "default": "#FFFFFF"
+    },
+    {
+        "type": "select",
+        "id": "hoverStyle",
+        "label": "Hover style",
+        "options": [
+            {"value": "fill", "label": "Fill"},
+            {"value": "underline", "label": "Underline"},
+            {"value": "opacity", "label": "Opacity"},
+            {"value": "strikethrough", "label": "Line through text"},
+            {"value": "dotBelow", "label": "Dot below"},
+            {"value": "dotAbove", "label": "Dot above"}
+        ],
+        "default": "fill"
+    },
+    {
+        "id": "fontSize",
+        "type": "select",
+        "label": "Font size",
+        "options": [
+            {"value": "small", "label": "Small"},
+            {"value": "base", "label": "Base"},
+            {"value": "medium", "label": "Medium"},
+            {"value": "big", "label": "Big"}
+        ],
+        "default": "base"
+    },
+    {
+        "type": "checkbox",
+        "label": "Use a custom font family",
+        "id": "customFont",
+        "default": false
+    },
+    {
+        "id": "fontFamily",
+        "label": "Font Family",
+        "type": "font_picker",
+        "default": "work_sans_n6"
+    },
+    {
+        "type": "header",
+        "content": "Inline/Bottom header settings"
+    },
+    {
+        "type": "radio",
+        "id": "logoPosition",
+        "label": "Logo position",
+        "default": "left",
+        "options": [
+            {"value": "left", "label": "Left"},
+            {"value": "center", "label": "Center"}   
+        ]
+    },
+    {
+       "type": "color",
+       "id": "barFillColor",
+       "label": "Background color",
+        "default": "#FFFFFF"
+    },
+    {
+        "type": "header",
+        "content": "Logo top header settings"
+    },
+    {
+       "type": "color",
+       "id": "topBarFillColor",
+       "label": "Top part background color",
+        "default": "#FFFFFF"
+    },
+    {
+        "type": "color",
+        "id": "topBarContentColor",
+        "label": "Top part text color",
+        "default": "#000000"
+    },
+    {
+        "type": "paragraph",
+        "content": "'Top part' settings apply only when the logo is positioned on 'top' and represents colors of that part of the header."
+    },
+    {
+        "type": "select",
+        "id": "linksAlignment",
+        "label": "Links alignment (left to right)",
+        "options": [
+            {"value": "start", "label": "Left"},
+            {"value": "center", "label": "Center"},
+            {"value": "end", "label": "Right"}
+        ],
+        "default": "center"
+    },
+    {
+        "type": "header",
+        "content": "Inline Search"
+    },
+    {
+        "type": "color",
+        "label": "Content color",
+        "id": "searchContent",
+        "default": "rgba(0,0,0,0)"
+    },
+    {
+        "type": "color",
+        "label": "Background color",
+        "id": "searchFill",
+        "default": "rgba(0,0,0,0)"
+    },
+    {
+        "type": "header",
+        "content": "Cart"
+    },
+    {
+        "type": "select",
+        "label": "Cart icon",
+        "id": "cartIcon",
+        "options": [
+            {"value": "shopping-bag", "label": "Bag"},
+            {"value": "shopping-cart", "label": "Cart"},
+            {"value": "shopping-basket", "label": "Basket"}
+        ],
+        "default": "shopping-cart"
+    }
+  ]
+}
+{% endschema %}

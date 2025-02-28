@@ -1,0 +1,6 @@
+{%- if settings.storeEmail != blank and block.settings.showEmail -%}
+   <a class="margin__horizontal" href="mailto:{{settings.storeEmail}}">E-mail us</a> 
+{%- endif -%}
+{%- if settings.storePhone != blank and block.settings.showPhone -%}
+    <a class="margin__horizontal" href="tel:{{settings.storePhone}}"> {{ settings.storePhone }}</a>
+{%- endif -%}

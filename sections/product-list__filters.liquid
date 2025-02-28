@@ -1,0 +1,292 @@
+{% if section.settings.filter %}
+
+<input type="checkbox" id="filterToggle" class="hide">
+<label for="filterToggle" class="overlay filter__overlay"></label>
+<div id="filterSidebar" class="disable-select">
+<div data-current-filters="[]" class="filter__current-filters">
+</div>
+{% assign customColors = settings.swatchCustomColors | downcase | split: ',' %}
+{% for group in section.blocks %}
+{% case group.type %}
+  {% when 'filter' %}
+    <input id="{{group.id}}{{forloop.index}}" {% if group.settings.expanded %}checked{%endif%} type="checkbox" class="hide filter__toggle">
+    <div id="{{group.id}}" class="filter__group">
+        <label for="{{group.id}}{{forloop.index}}" class="filter__group-title">{{group.settings.name}}</label>
+        {% assign tags = group.settings.tags | replace: ' ', '' | split: ',' %}
+        {% for tag in tags %}
+            {% assign style = '' %}
+            {% assign tag = tag | strip_newlines | escape %}
+            {% if group.settings.style == 'color' %}
+                {% assign replaceValue = tag | downcase %}
+                {% assign style = 'style="background: {{color}};" data-color="{{color}}"' %}
+                {% for color in customColors %}
+                    {% if color contains replaceValue %}
+                        {% assign temp = color | split: ':' %}
+                        {% assign replaceValue = temp[1] %}
+                        {% break %}
+                    {% endif %}
+                {% endfor %}
+                {% assign style = style | replace: '{{color}}', replaceValue %}
+            {% endif %}
+            <span {{style}} class="filter__tag filter__tag--{{-group.settings.style-}}" id="{{-group.id-}}-{{forloop.index}}" data-parent="{{group.id}}" data-filter="{{-tag-}}"><span>{{-tag-}}</span></span>
+        {% endfor %}
+    </div>
+  {% when 'collectionList' %}
+    <input id="{{group.id}}{{forloop.index}}" {% if group.settings.expanded %}checked{%endif%} type="checkbox" class="hide filter__toggle">
+    <div id="{{group.id}}" class="filter__group">
+        <label for="{{group.id}}{{forloop.index}}" class="filter__group-title">{{group.settings.name}}</label>
+        {% if collection.url != routes.all_products_collection_url %}
+          <a href="{{ routes.all_products_collection_url }}" class="filter__tag filter__tag--text filter__collection">{{'collection_page.sidebar.all_products' | t }}</a>
+          <span class="filter__tag filter__tag--text filter__collection filter__collection--current">{{collection.title}}</span>
+        {% else %}
+          <span class="filter__tag filter__tag--text filter__collection filter__collection--current">{{'collection_page.sidebar.all_products' | t }}</span>
+        {% endif %}
+        {% for coll in collections %}
+          {% unless coll.url == collection.url %}
+            <a class="filter__tag filter__tag--text filter__collection" href="{{coll.url}}">{{coll.title}}</a>
+          {% endunless %}
+        {% endfor %}
+    </div>
+
+  {% when 'brandList' %}
+    <input id="{{group.id}}{{forloop.index}}" {% if group.settings.expanded %}checked{%endif%} type="checkbox" class="hide filter__toggle">
+    <div id="{{group.id}}" class="filter__group">
+        <label for="{{group.id}}{{forloop.index}}" class="filter__group-title">{{group.settings.name}}</label>
+        {% if collection.current_vendor %}
+            <a href="{{ routes.all_products_collection_url }}" class="filter__tag filter__tag--text filter__vendor filter__vendor--back">{% render 'get-icon', icon: 'arrow-left' %} {{'collection_page.sidebar.back_to_all' | t }}</a>
+            <span class="filter__tag filter__tag--text filter__vendor filter__vendor--current">{{collection.current_vendor}}</span>
+        {% else %}
+          {% for vendor in collection.all_vendors %}
+            <a href="{{vendor | url_for_vendor}}" class="filter__tag filter__tag--text filter__vendor">{{-vendor-}}</a>
+          {% endfor %}
+        {% endif %}
+    </div>
+
+  {% when 'typeList' %}
+    <input id="{{group.id}}{{forloop.index}}" {% if group.settings.expanded %}checked{%endif%} type="checkbox" class="hide filter__toggle">
+    <div id="{{group.id}}" class="filter__group">
+        <label for="{{group.id}}{{forloop.index}}" class="filter__group-title">{{group.settings.name}}</label>
+        {% if collection.current_type %}
+            <a href="{{ routes.all_products_collection_url }}" class="filter__tag filter__tag--text filter__vendor filter__vendor--back">{% render 'get-icon', icon: 'arrow-left' %} {{'collection_page.sidebar.back_to_all' | t }}</a>
+            <span class="filter__tag filter__tag--text filter__vendor filter__vendor--current">{{collection.current_type}}</span>
+        {% else %}
+          {% for type in collection.all_types %}
+            <a href="{{type | url_for_type}}" class="filter__tag filter__tag--text filter__vendor">{{-type-}}</a>
+          {% endfor %}
+        {% endif %}
+    </div>
+  
+  {% when 'image' %}
+    <input id="{{group.id}}{{forloop.index}}" checked type="checkbox" class="hide filter__toggle">
+    <div id="{{group.id}}" class="filter__group">
+        <label for="{{group.id}}{{forloop.index}}" class="filter__group-title">{{group.settings.name}}</label>
+        {% if group.settings.url != blank %}
+          <a href="{{group.settings.url}}">{% render 'image', src: group.settings.image, size: '720x', class: 'filter__image' %}</a>
+        {% else %}
+          {% render 'image', src: group.settings.image, size: '720x', class: 'filter__image' %}
+        {% endif %}
+    </div>
+
+  {% when 'text' %}
+    <input id="{{group.id}}{{forloop.index}}" checked type="checkbox" class="hide filter__toggle">
+    <div id="{{group.id}}" class="filter__group">
+        <label for="{{group.id}}{{forloop.index}}" class="filter__group-title">{{group.settings.name}}</label>
+        <div class="filter__text">{{group.settings.text}}</div>
+    </div>
+  {% endcase %}
+{% endfor %}
+</div>
+<label for="filterToggle" class="filter__mobile--button hide-desktop"><i class="uil uil-filter"></i><span class="filter__mobile--current">0</span></label>
+
+<style>
+@media only screen and (min-width: 768px) {
+    .product__list, .filter__bar {
+        max-width: 75%;
+        flex-basis: 75%;
+    }
+
+    .filter__overlay {
+        display: none;
+    }
+
+    #filterSidebar {
+        display: block;
+    }
+}
+</style>
+
+{% endif %}
+
+{% schema %}
+  {
+    "name": "Sidebar & Filters",
+    "class": "col-12 col-md-3 unflex",
+    "settings": [
+      {
+            "type": "header",
+            "content": "Help"
+        },
+        {
+        "type": "paragraph",
+        "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458187513)"
+        },
+      {
+        "id": "filter",
+        "type": "checkbox",
+        "label": "Enable sidebar",
+        "default": false
+      }
+    ],
+    "blocks": [
+      {
+        "type": "collectionList",
+        "name": "Collection list",
+        "limit": 1,
+        "settings": [
+          {
+                "type": "checkbox",
+                "id": "expanded",
+                "label": "Show this group by default",
+                "default": true
+          },
+          {
+            "id": "name",
+            "label": "Filter group name",
+            "type": "text",
+            "default": "Collections"
+          }
+        ]
+      },
+      {
+        "type": "typeList",
+        "name": "Type list",
+        "limit": 1,
+        "settings": [
+          {
+                "type": "checkbox",
+                "id": "expanded",
+                "label": "Show this group by default",
+                "default": true
+          },
+          {
+            "id": "name",
+            "label": "Filter group name",
+            "type": "text",
+            "default": "Types"
+          }
+        ]
+      },
+      {
+        "type": "brandList",
+        "name": "Brand list",
+        "limit": 1,
+        "settings": [
+          {
+                "type": "checkbox",
+                "id": "expanded",
+                "label": "Show this group by default",
+                "default": true
+          },
+          {
+            "id": "name",
+            "label": "Filter group name",
+            "type": "text",
+            "default": "Vendors"
+          }
+        ]
+      },
+      {
+        "type": "filter",
+        "name": "Filter group",
+        "settings": [
+            {
+                "type": "header",
+                "content": "Style"
+            },
+            {
+                "type": "checkbox",
+                "id": "expanded",
+                "label": "Show this group by default",
+                "default": true
+            },
+          {
+            "id": "style",
+            "type": "select",
+            "label": "Design",
+            "options": [
+              {"value": "color", "label": "Color swatch"},
+              {"value": "swatch", "label": "Text swatch"},
+              {"value": "text", "label": "Text"},
+              {"value": "tag", "label": "Tag (text in row)"}
+            ],
+            "default": "text"
+          },
+          {
+                "type": "header",
+                "content": "Tags"
+          },
+          {
+            "id": "name",
+            "label": "Filter group name",
+            "type": "text",
+            "default": "Filter group"
+          },
+          {
+            "id": "tags",
+            "label": "Tags list",
+            "type": "textarea",
+            "default": "tag1, tag2, tag3",
+            "info": "Tag list, comma separated (,)"
+          },
+          {
+            "type": "paragraph",
+            "content": "In order to provide optimized results our filter uses 'TAGS' instead of variant options."
+          },
+          {
+            "type": "paragraph",
+            "content": "Enter your desired filter options in the form of tags in the above text field."
+          }
+        ]
+      },
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "id": "name",
+            "label": "Title",
+            "type": "text",
+            "default": "Image"
+          },
+          {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+          },
+          {
+            "type": "url",
+            "label": "Image URL",
+            "id": "url"
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "name": "Text",
+        "settings": [
+          {
+            "id": "name",
+            "label": "Title",
+            "type": "text",
+            "default": "Look at this"
+          },
+          {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema%}

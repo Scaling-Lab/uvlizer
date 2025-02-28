@@ -1,0 +1,11 @@
+<div class="{{block.settings.horizontalAlignment-}}">
+{%- if block.settings.heading != blank -%}<span class="footer__title">{{block.settings.heading}}</span>{%-endif-%}
+{% if block.settings.customIcons %}
+{% assign types = block.settings.icons | remove: ' ' | split: ',' %}
+{% else %}
+{% assign types = enabled_payment_types %}
+{% endif %}
+{% for type in types %}
+{{ type | payment_type_svg_tag: class: 'icon icon-color'}}
+{% endfor %}
+</div>

@@ -1,0 +1,11 @@
+<div>
+{%- if block.settings.heading != blank -%}<span class="footer__title">{{block.settings.heading}}</span>{%-endif-%}
+{%- assign socialMedia = 'Facebook,Instagram,Twitter,Whatsapp,We,Youtube,Snapchat,Viber,VK,DA,TikTok,Twitch,Linkedin,Pinterest' | split: ',' -%}
+{%- for social in socialMedia -%}
+    {%- assign prop = social | prepend: 's' -%}
+    {%- if settings[prop] != blank -%}
+        {%- assign name = social | downcase -%}
+        <a class="icon-link" href="{{settings[prop]}}">{% render 'get-icon' with name as icon %}</a>
+    {%- endif -%}
+{%- endfor -%}
+</div>

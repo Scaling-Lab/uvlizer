@@ -1,0 +1,158 @@
+{{ 'leadgen-banner-v1.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  main {
+    background: {{ section.settings.background_color }};
+  }
+
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background: {{ section.settings.background_color }};
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+
+  .leadgen {
+    background: {{ section.settings.background_color_banner }};
+  }
+
+{%- endstyle -%}
+
+<div class="section-{{ section.id }}-padding leadgen__wrapper">
+  <div class="leadgen">
+    {% if section.settings.title != blank%}
+        <h1 class="leadgen__title">
+            {{ section.settings.title }}
+        </h1>
+    {% endif %}
+    <div class="leadgen__content">
+        <div class="leadgen__left">
+            <div class="leadgen__text">
+                {{ section.settings.sub_text }}
+                <div class="leadgen__image mobile">
+                    <img
+                      src="{{ section.settings.image | image_url: width: 240 }}"
+                      alt="top banner image"
+                      width="240"
+                      height="240"
+                    >
+                </div>
+                <p class="desktop">
+                    Put your email address below to join and be the first to enjoy our exclusive promos
+                </p>
+                <em class="desktop">
+                    <strong class="leadgen__text--red">Only 100 spots available:</strong> Sign up within the next 24 hours to secure your spot!
+                </em>
+            </div>
+            <div class="klaviyo-form-XZPJgy desktop"></div>
+            <p class="leaden__disclaimer desktop">
+                (Don’t worry we’ll sned exclusive deals and gifts only – no unwanted emails.)
+            </p>
+        </div>
+        <div class="leadgen__image desktop">
+            <img
+            src="{{ section.settings.image | image_url: width: 240 }}"
+            alt="top banner image"
+            width="240"
+            height="240"
+            >
+        </div>
+        <p class="mobile">
+            Put your email address below to join and be the first to enjoy our exclusive promos
+        </p>
+        <em class="mobile">
+            <strong class="leadgen__text--red">Only 100 spots available:</strong> Sign up within the next 24 hours to secure your spot!
+        </em>
+        <div class="klaviyo-form-XZPJgy mobile"></div>
+        <p class="leaden__disclaimer mobile">
+            (Don’t worry we’ll sned exclusive deals and gifts only – no unwanted emails.)
+        </p>
+    </div>
+  </div>
+</div>
+
+<script>
+    window._klOnsite = window._klOnsite || [];
+    window._klOnsite.push(['openForm', 'YikKPq']);
+</script>
+
+{% schema %}
+{
+  "name": "Leadgen v1",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Top image"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "default": "Early Black Friday: BIGGEST SALE THIS YEAR",
+      "label": "Heading text"
+    },
+    {
+      "type": "richtext",
+      "id": "sub_text",
+      "label": "Sub text"
+    },
+    {
+      "type": "text",
+      "id": "button",
+      "default": "YES! I WANT IN",
+      "label": "Button CTA"
+    },
+    {
+      "type": "color",
+      "id": "background_color_banner",
+      "label": "Banner background color",
+      "default": "#EEF6F8"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Page background color",
+      "default": "#EEF6F8"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 36
+    },
+    {
+      "type": "checkbox",
+      "id": "show_title",
+      "label": "Show title",
+      "default": true
+    }
+  ],
+  "presets":[{"name":"Leadgen banner v1"}]
+}
+{% endschema %}

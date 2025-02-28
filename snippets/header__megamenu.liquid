@@ -1,0 +1,50 @@
+<div class="submenu--holder megamenu fancy-scroll">
+    {% assign col = 'col-md' %}
+    {% if submenu.size > 5 %}
+    {% assign col = 'col-md-3 col-lg-1-5' %}
+    {% endif %}
+    <div class="submenu">
+        {% for childlink in submenu %}
+        <div class="col-12 {{col}} submenu__holder">
+            {% if childlink.links != empty %}
+                <span class="link"><a class="header__link submenu__title" href="{{ childlink.url }}">{{ childlink.title | escape }}</a></span>
+                {% assign plist = childlink.links | where: 'type', 'product_link' %}
+                {% if plist.size == childlink.links.size %}
+                {% assign textlinks = '' %}
+                <div class="header__plist rich-link">
+                    {% for deeplink in childlink.links %}
+                    {% assign prdt = deeplink.object %}
+                    <div class="header__plist--item">
+                        <a href="{{prdt.url}}"><img data-swift-lazy="1" loading="lazy" src="{{prdt.featured_image | img_url: '80x'}}" class="header__plist--image"></a>
+                        <div class="header__plist--info">
+                            <a href="{{prdt.url}}" class="header__plist--name">{{prdt.title}}</a>
+                            <span class="header__plist--price">{{prdt.price | money | strip_html}}</span>
+                        </div>
+                    </div>
+                    {% capture totext %}<span class="link text-link {% if deeplink.child_active or deeplink.active %}active{%endif%}"><a class="header__link" href="{{ deeplink.url }}">{{ deeplink.title | escape }}</a></span>{% endcapture %}
+                    {% assign textlinks = textlinks | append: totext %}
+                    {% endfor %}
+                </div>
+                {{textlinks}}
+                {% else %}
+                    {% for deeplink in childlink.links %}
+                    <span class="link {% if deeplink.child_active or deeplink.active %}active{%endif%}"><a class="header__link" href="{{ deeplink.url }}">{{ deeplink.title | escape }}</a></span>
+                    {% endfor %}
+                {% endif %}
+            {% else %}
+            <div class="rich-link">
+            {% case childlink.type %}
+                {% when 'product_link' %}
+                    {% render 'product-card-no-button', product: childlink.object, dsize: '3' %}
+                {% when 'collection_link' %}
+                    {% render 'collection-card' with childlink.object as collection %}
+                {% else %}
+                <span class="link {% if childlink.child_active or childlink.active %}active{%endif%}"><a class="header__link" href="{{ childlink.url }}">{{ childlink.title | escape }}</a></span>
+            {%endcase%}
+            </div>
+            <span class="link text-link {% if childlink.child_active or childlink.active %}active{%endif%}"><a class="header__link" href="{{ childlink.url }}">{{ childlink.title | escape }}</a></span>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+</div>

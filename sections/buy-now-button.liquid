@@ -1,0 +1,89 @@
+<!-- buy-now-button.liquid -->
+<section class="buy-now-section">
+    <div class="buy-now-wrapper">
+        {% if section.settings.button_type == 'product' %}
+            {% if section.settings.product != blank %}
+                <form action="/cart/add" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="{{ section.settings.product.variants.first.id }}">
+                    <button type="submit" class="buy-now-btn">{{ section.settings.button_text | default: 'BUY NOW' }}</button>
+                </form>
+            {% else %}
+                <p>Please select a product in the section settings into admin panel.</p>
+            {% endif %}
+        {% else %}
+            {% if section.settings.button_link != blank %}
+                <a href="{{ section.settings.button_link }}" class="buy-now-btn">{{ section.settings.button_text | default: 'BUY NOW' }}</a>
+            {% else %}
+                <p>Please add a link in the section settings into admin panel.</p>
+            {% endif %}
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .buy-now-wrapper {
+        text-align: center;
+    }
+    .buy-now-btn {
+        padding: 15px 20px;
+        color: white;
+        border: none;
+        cursor: pointer;
+        font-size: 16px;
+        border-radius: 5px;
+        background: #D53600;
+        max-width: 358px;
+        width: 100%;
+        font-weight: 700;
+        text-decoration: none;
+        display: inline-block;
+    }
+    .buy-now-btn:hover {
+        background-color: #ff3300;
+    }
+</style>
+
+{% schema %}
+{
+  "name": "Buy Now Button - Valerii",
+  "settings": [
+    {
+      "type": "select",
+      "id": "button_type",
+      "label": "Button Type",
+      "options": [
+        {
+          "value": "product",
+          "label": "Product Button"
+        },
+        {
+          "value": "link",
+          "label": "Custom Link"
+        }
+      ],
+      "default": "product"
+    },
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Select Product"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "BUY NOW"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Buy Now Section - Valerii"
+    }
+  ]
+}
+{% endschema %}

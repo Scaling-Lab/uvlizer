@@ -1,0 +1,45 @@
+{%- comment -%}
+value - current color we're searching for
+product - ProductDrop
+variantImages - array of images by color
+colorImages - variant featured_images COLOR#SRC
+{%- endcomment -%}
+{% assign customColors = settings.swatchCustomColors | downcase | replace: ' ', '' | split: ',' %}
+{%- assign currentColor = value | downcase | trim |  replace: ' ', '' -%}
+{%- assign handle = product.title | handleize -%}
+{%- assign featuredURL = false -%}
+
+{%- assign images = colorImages | split: ',' -%}
+{%- for image in images -%}
+{%- assign splitImage = image | split: '##' -%}
+{%- if splitImage[0] == currentColor -%}
+{%- assign featuredURL = splitImage[1] -%}
+{%- break -%}
+{%- endif -%}
+{%endfor%}
+
+{% assign ext = '.' | append: settings.swatchFileExt %}
+
+{%- assign productSpecificImage = handle | append: '-' | append: currentColor | append: ext -%}
+{%- assign psURL = productSpecificImage | file_img_url: '100x100' -%}
+{%- assign colorSpecificImage = currentColor | append: ext -%}
+{%- assign csURL = colorSpecificImage | file_img_url: '100x100' -%}
+
+{%- assign color = currentColor -%}
+{%- for customColor in customColors -%}
+    {% assign customColorName = customColor | split: ':' | first %}
+    {{ customColorName }} - 7{{ currentColor }}7
+    {%- if customColorName == currentColor -%}
+        {%- assign tempValue = customColor | split: ':' |  last -%}
+        {%- assign color = tempValue | trim -%}
+        {%- break -%}
+    {%- endif -%}
+{%- endfor -%}
+
+{% assign allowed_color_swatches_array = product.metafields.custom.allowed_color_swatches | downcase | trim %}
+
+{% if allowed_color_swatches_array contains currentColor %}
+    {%- if featuredURL -%}style="background-image: url({{featuredURL}}); background: {{color}}; "{%else%}style="background-image:url({{psURL}}), url({{csURL}}); background-color: {{color}};"{%- endif -%}
+{% else %}
+    {%- if featuredURL -%}style="background-color: {{color}}; background-image: url({{featuredURL}});"{%else%}style="background-color: {{color}}; background-image:url({{psURL}}), url({{csURL}});"{%- endif -%}
+{% endif %}

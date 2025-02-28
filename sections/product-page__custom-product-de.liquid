@@ -1,0 +1,1570 @@
+<script type="application/ld+json">
+  {
+        "@context": "https://schema.org/",
+        "@type": "Product",
+        "name": "{{product.title}}",
+  {% if product.featured_image != nil %}
+      "image": [
+        "https:{{product.featured_image | img_url: '960x960'}}",
+        "https:{{product.featured_image | img_url: '960x720'}}",
+        "https:{{product.featured_image | img_url: '960x540'}}"
+       ],
+      {% endif %}
+  "description": "{{product.description | strip_html}}",
+      "brand": {
+        "@type": "Brand",
+        "name": "{{product.vendor}}"
+      },
+      "offers" : {
+        "@type" : "Offer",
+        "availability" : "{% if product.available %}https://schema.org/InStock{%else%}https://schema.org/SoldOut{%endif%}",
+        "price" : "{{product.price | money_without_currency }}",
+        "priceCurrency": "{{shop.currency}}",
+        "url" : "{{ shop.url }}{{routes.root_url}}{{product.url}}"
+      }
+}
+</script>
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+{% assign featured_image = product.featured_image %}
+
+<style>
+  {% if section.settings.galleryPosition == "right" %}
+  .product__row {
+    flex-direction: row-reverse;
+  }
+  {% endif %}
+
+  .gallery__vertical img {
+    width: 100%;
+    object-fit: {{section.settings.galleryImageFit}};
+  }
+
+  .gallery__vertical {
+    flex-wrap: wrap;
+    align-items: flex-start;
+    align-content: flex-start;
+    margin: 0px -{{section.settings.galleryImageGap | divided_by: 2}}px;
+  }
+
+  .gallery__vertical .col-12 {
+    padding: 0px {{section.settings.galleryImageGap | divided_by: 2}}px;
+    margin-top: {{section.settings.galleryImageGap}}px;
+  }
+
+  .gallery__default {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .gallery__default .swiper-button-next::after,
+  .gallery__default .swiper-button-prev::after {
+    color: black;
+  }
+  @media screen and (max-width: 768px) {
+    .correct-amount {
+      padding: 25px 35px;
+    }
+  }
+
+  #colorcode {};
+</style>
+
+{% if section.settings.view == "marketplace" %}
+  {% assign size = 'col-md' %}
+{% else %}
+  {% assign size = 'col-md-6' %}
+{% endif %}
+{%- comment -%}
+Product row container
+{%- endcomment -%}
+<div data-product-holder class="row product__row {{section.settings.layout}} product__row--{{-section.settings.view}}">
+  {%- comment -%}
+  Default gallery with thumbnails (always rendered - used for mobile, featured products, modals in case another gallery type is selected)
+  {%- endcomment -%}
+  <div class="product-left">
+    <div class="gallery__default {% if section.settings.galleryStyle != 'default' %}hide-desktop{% endif %}">
+      <div class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/offer-page-top-image-min.png?v=1698868145" alt="Product">
+          </div>
+          {% for image in product.images %}
+            <div class="swiper-slide">
+              {% render 'image', size: '900x', src: image.src, alt: image.alt %}
+            </div>
+          {% endfor %}
+        </div>
+        <!-- Add Pagination -->
+        <div class="swiper-pagination"></div>
+        <!-- Add Navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+      </div>
+    </div>
+    {% for block in section.blocks %}
+      {% if block.type == "imageInfos" %}
+        <div class="product-info-items">
+          <div class="info-item">
+            <img src="{{ block.settings.icon1 | image_url }}">
+            <h4>{{ block.settings.title1 }}</h4>
+          </div>
+          <div class="info-item">
+            <img src="{{ block.settings.icon2 | image_url }}">
+            <h4>{{ block.settings.title2 }}</h4>
+          </div>
+          <div class="info-item">
+            <img src="{{ block.settings.icon3 | image_url }}">
+            <h4>{{ block.settings.title3 }}</h4>
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+    <div class="product-reviews">
+      <h3>Was Kunden über Uvlizer sagen</h3>
+      <div class="product-reviews-items">
+        <div class="review-item">
+          <img src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/offer-page-review.png?v=1699185037" alt="review" loading="lazy">
+          <div class="review-content">
+            <span class="review-title">-Sabine B.</span>
+            <p>"Ich bin begeistert von Uvlizer! Nach nur wenigen Wochen haben sich meine Allergiesymptome merklich verbessert und ich wache nicht mehr mit einer verstopften Nase auf. Sehr empfehlenswert!"</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <img src="{{ 'review2.png' | asset_url }}" alt="review" loading="lazy">
+          <div class="review-content">
+            <span class="review-title">- William M.</span>
+            <p>Ich verwende das Produkt jetzt seit ein paar Wochen und spüre bereits einen Unterschied bei meiner Atmung und der Luftqualität in unserem Haus. Vor dem Kauf war ich skeptisch, ich habe es wegen der 90-Tage-Garantie gekauft. Aber jetzt bin ich überzeugt. Ich empfehle das Produkt jedem, der an Allergien leidet.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <img src="{{ 'review3.png' | asset_url }}" alt="review" loading="lazy">
+          <div class="review-content">
+            <span class="review-title">- Annette D.</span>
+            <p>Meine Allergiesymptome haben seit der Verwendung in den letzten Wochen stark abgenommen. Auch mein Schlaf hat sich deutlich verbessert und ich wache nachts nicht mehr mit Husten und Juckreiz auf.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <img src="{{ 'review4.png' | asset_url }}" alt="review" loading="lazy">
+          <div class="review-content">
+            <span class="review-title">- Annette D.</span>
+            <p>Ich habe den Uvilizer jetzt seit ein paar Wochen und benutze ihn etwa einmal pro Woche. Schon beim ersten Mal habe ich festgestellt, dass er Restgerüche beseitigt, die ich selbst mit Teppichreinigung und frischer Bettwäsche nicht loswerden konnte. Ich habe vom ersten Tag an besser geschlafen, wahrscheinlich, weil keine Schimmelsporen usw. mehr im Zimmer waren. Ich liebe ihn. Lüften Sie das Zimmer nach der Benutzung jedoch gut und öffnen Sie die Fenster ein paar Stunden nach Ablauf des Timers.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <img src="{{ 'review5.png' | asset_url }}" alt="review" loading="lazy">
+          <div class="review-content">
+            <span class="review-title">- Sharon L.</span>
+            <p>Ich habe zwei davon gekauft, sie wurden in weniger als einer Woche geliefert. Bisher habe ich sie nur zweimal benutzt, in meinem Hauptschlafzimmer und Gästezimmer, die Räume hatten einen sauberen Geruch.</p>
+          </div>
+        </div>
+        <div class="review-item">
+          <img src="{{ 'review6.png' | asset_url }}" alt="review" loading="lazy">
+          <div class="review-content">
+            <span class="review-title">- Tom S.</span>
+            <p>Habe seit mehreren Jahren einen ... habe ihn während der Pandemie zum Desinfizieren unserer Lebensmittel und Versandhandelsprodukte verwendet ... nachdem wir das Licht angemacht haben, lüften wir den Raum zur zusätzlichen Sicherheit 10–15 Minuten lang ... die Luft riecht wirklich sauber/klar ... </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%- comment -%}
+  /Default gallery with thumbnails
+  {% endcomment %}
+
+  {%- comment -%}
+  Checking for vertical gallery styles (additional gallery styles can be added here)
+  {%- endcomment -%}
+  {% case section.settings.galleryStyle %}
+    {% when 'verticalSingle' %}
+      <div data-gallery-type="vSingle" class="col-12 {{size}} gallery__vertical hide-mobile">
+        {% for image in product.images %}
+          <div data-variants="{% for var in image.variants %}{{var.id}}|{% endfor %}" class="col-12">
+            {% render 'image', size: '900x', src: image.src, alt: image.alt %}
+          </div>
+        {% endfor %}
+        {% for media in product.media %}
+          {% case media.media_type %}
+            {% when 'image' %}
+              {% continue %}
+            {% when 'external_video' %}
+              <div class="col-12">
+                <div class="external__holder" data-media-holder="{{media.id}}" style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100}}%;">
+                  {% capture med %}{{ media | external_video_tag: class: 'gallery__external lazyload' }}{% endcapture %}
+                  {{med | replace_first: 'src', 'data-src'}}
+                </div>
+              </div>
+            {% when 'video' %}
+              <div class="col-12">
+                <div class="video__holder" data-media-holder="{{media.id}}">
+                  {% capture med %}{{ media | video_tag: class: 'gallery__video lazyload' }}{% endcapture %}
+                  {{med | replace_first: 'src', 'data-src' | replace_first: 'poster=', 'controls=true poster='}}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    {% when 'verticalDouble' %}
+      <div data-gallery-type="vDouble" class="col-12 {{size}} gallery__vertical hide-mobile">
+        {% for image in product.images %}
+          <div data-variants="{% for var in image.variants %}{{var.id}}|{% endfor %}" {% if forloop.first %}class="col-12 col-md-12"{%else%}class="col-12 col-md-6"{%endif%}>
+            {% render 'image', size: '900x', src: image.src, alt: image.alt %}
+          </div>
+        {% endfor %}
+        {% for media in product.media %}
+          {% case media.media_type %}
+            {% when 'image' %}
+              {% continue %}
+            {% when 'external_video' %}
+              <div class="col-12 col-md-6">
+                <div class="external__holder" data-media-holder="{{media.id}}" style="padding-top: {{ 1 | divided_by: media.aspect_ratio | times: 100}}%;">
+                  {% capture med %}{{ media | external_video_tag: class: 'gallery__external lazyload' }}{% endcapture %}
+                  {{med | replace_first: 'src', 'data-src'}}
+                </div>
+              </div>
+            {% when 'video' %}
+              <div class="col-12 col-md-6">
+                <div class="video__holder" data-media-holder="{{media.id}}">
+                  {% capture med %}{{ media | video_tag: class: 'gallery__video lazyload' }}{% endcapture %}
+                  {{med | replace_first: 'src', 'data-src' | replace_first: 'poster=', 'controls=true poster='}}
+                </div>
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+  {% endcase %}
+  {%- comment -%}
+  /Checking for vertical gallery styles
+  {%- endcomment -%}
+
+  {%- comment -%}
+  Rendering according to the view (default, marketplace)
+  {%- endcomment -%}
+  {% if section.settings.view == 'default' %}
+    <div class="product__page--info " id="product--page">
+      {% comment %} PRODUCT FORM 1 of 2 // Edit SSDC{% endcomment %}
+      {% form "product", product %}
+        {% assign firstTab = true %}
+        {% for block in section.blocks %}
+          {% if block.type == 'starsText' %}
+            <span class="stars-text">
+          <img src="{{ 'stars.svg' | asset_url }}">
+          {{ block.settings.text }}
+        </span>
+          {% endif %}
+          {% if block.type == 'productCustomTitle' %}
+            <div class="custom-title">
+              <h1>{{ block.settings.title }}</h1>
+              {{ block.settings.description }}
+            </div>
+          {% endif %}
+          {% if block.type == 'doctorReview' %}
+            <div class="doctor-review">
+              <span class="title">{{ block.settings.title }}</span>
+              {{ block.settings.description }}
+              <span>{{ block.settings.doctor_name }}</span>
+              <img src="{{ block.settings.image | image_url }}">
+            </div>
+          {% endif %}
+          {% if block.type == 'productBundle' %}
+            <div class="product-bundle">
+              <h4>{{ block.settings.text }}</h4>
+              {{ form | payment_terms }}
+              <div class="bundle-products">
+                {% if block.settings.product1 %}
+                  {% assign bundle_product = block.settings.product1 %}
+                  <div class="bundle-product-item active" data-id="{{ bundle_product.first_available_variant.id }}">
+                    <div class="img-wrapper">
+                      {% render 'image', size: '100x', src: block.settings.product1_img.src, alt: '' %}
+                    </div>
+                    <div class="product-item-body">
+                      <h4 class="product-title">{{ block.settings.product_title1 }}</h4>
+                      <span class="price">
+                    <del>{{ bundle_product.compare_at_price | money }}</del>
+                    <ins>{{ bundle_product.price | money }}</ins>
+                  </span>
+                      <span class="discount">
+                    {{ bundle_product.compare_at_price_max | minus: bundle_product.price | times: 100.0 | divided_by: bundle_product.compare_at_price_max | money_without_currency | times: 100 | remove: '.0'}}% off
+                  </span>
+                    </div>
+                  </div>
+                {% endif %}
+                {% if block.settings.product2 %}
+                  {% assign bundle_product = block.settings.product2 %}
+                  <div class="bundle-product-item" data-id="{{ bundle_product.first_available_variant.id }}">
+                    <div class="img-wrapper">
+                      {% render 'image', size: '100x', src: block.settings.product2_img.src, alt: '' %}
+                    </div>
+                    <div class="product-item-body">
+                      <h4 class="product-title">{{ block.settings.product_title2 }}</h4>
+                      <span class="price">
+                    <del>{{ bundle_product.compare_at_price | money }}</del>
+                    <ins>{{ bundle_product.price | money }}</ins>
+                  </span>
+                      <span class="discount">
+                    {{ bundle_product.compare_at_price_max | minus: bundle_product.price | times: 100.0 | divided_by: bundle_product.compare_at_price_max | money_without_currency | times: 100 | remove: '.0'}}% off
+                  </span>
+                    </div>
+                  </div>
+                {% endif %}
+                {% if block.settings.product3 %}
+                  {% assign bundle_product = block.settings.product3 %}
+                  <div class="bundle-product-item" data-id="{{ bundle_product.first_available_variant.id }}">
+                    <div class="img-wrapper">
+                      {% render 'image', size: '100x', src: block.settings.product3_img.src, alt: '' %}
+                    </div>
+                    <div class="product-item-body">
+                      <h4 class="product-title">{{ block.settings.product_title3 }}</h4>
+                      <span class="price">
+                    <del>{{ bundle_product.compare_at_price | money }}</del>
+                    <ins>{{ bundle_product.price | money }}</ins>
+                  </span>
+                      <span class="discount">
+                    {{ bundle_product.compare_at_price_max | minus: bundle_product.price | times: 100.0 | divided_by: bundle_product.compare_at_price_max | money_without_currency | times: 100 | remove: '.0'}}% off
+                  </span>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+            <a class="correct-amount" href="javascript: void(0);">
+              Sehen Sie sich den korrekten Betrag für Ihr Haus an
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"> <path d="M9.16675 14.166H10.8334V9.16602H9.16675V14.166ZM10.0001 7.49935C10.2362 7.49935 10.4342 7.41935 10.5942 7.25935C10.7542 7.09935 10.834 6.90157 10.8334 6.66602C10.8334 6.4299 10.7534 6.23185 10.5934 6.07185C10.4334 5.91185 10.2356 5.83213 10.0001 5.83268C9.76397 5.83268 9.56591 5.91268 9.40591 6.07268C9.24591 6.23268 9.16619 6.43046 9.16675 6.66602C9.16675 6.90213 9.24675 7.10018 9.40675 7.26018C9.56675 7.42018 9.76453 7.4999 10.0001 7.49935ZM10.0001 18.3327C8.8473 18.3327 7.76397 18.1138 6.75008 17.676C5.73619 17.2382 4.85425 16.6446 4.10425 15.8952C3.35425 15.1452 2.76064 14.2632 2.32341 13.2493C1.88619 12.2355 1.6673 11.1521 1.66675 9.99935C1.66675 8.84657 1.88564 7.76324 2.32341 6.74935C2.76119 5.73546 3.3548 4.85352 4.10425 4.10352C4.85425 3.35352 5.73619 2.7599 6.75008 2.32268C7.76397 1.88546 8.8473 1.66657 10.0001 1.66602C11.1529 1.66602 12.2362 1.8849 13.2501 2.32268C14.264 2.76046 15.1459 3.35407 15.8959 4.10352C16.6459 4.85352 17.2398 5.73546 17.6776 6.74935C18.1154 7.76324 18.334 8.84657 18.3334 9.99935C18.3334 11.1521 18.1145 12.2355 17.6767 13.2493C17.239 14.2632 16.6454 15.1452 15.8959 15.8952C15.1459 16.6452 14.264 17.2391 13.2501 17.6768C12.2362 18.1146 11.1529 18.3332 10.0001 18.3327Z" fill="#00436C"/> </svg>
+            </a>
+            <div class="product-popup">
+              <div class="popup-inner">
+                <a class="popup-close" href="javascript: void(0);">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none"> <path d="M12.0857 10L20 17.9143V20H17.9143L10 12.0857L2.08571 20H0V17.9143L7.91429 10L0 2.08571V0H2.08571L10 7.91429L17.9143 0H20V2.08571L12.0857 10Z" fill="#00436C"/> </svg>
+                </a>
+                <h3>Für optimale Ergebnisse empfehlen wir Ihnen, die nachstehenden Hinweise zu beachten...</h3>
+                <div class="popup-products">
+                  <div class="popup-product-item">
+                    <img src="{{ 'product1.png' | asset_url }}" loading="lazy">
+                    <span class="product-title">
+          Nur 1 Zimmer
+          <span>(9-23 m²)</span>
+        </span>
+                    <span class="infos" style="margin: 10px 0;">1 Erwachsener</span>
+                    <span class="infos">1 UVO-Lampe</span>
+                    <span class="infos">Beseitigen Sie Allergene in 1 Zimmer</span>
+                  </div>
+                  <div class="popup-product-item">
+                    <img src="{{ 'product2.png' | asset_url }}" loading="lazy">
+                    <span class="product-title">
+          1-Zimmer-Wohnung
+          <span>(23-70 m²)</span>
+        </span>
+                    <span class="infos" style="margin: 10px 0;">2 Erwachsene</span>
+                    <span class="infos">2 UVO-Lampen</span>
+                    <span class="infos">Beseitigen Sie Allergene in Ihrem Haus, aber desinfizieren Sie einen Raum nach dem anderen</span>
+                  </div>
+                  <div class="popup-product-item">
+                    <img src="{{ 'product3.png' | asset_url }}" loading="lazy">
+                    <span class="product-title">
+          2-Zimmer-Wohnung
+          <span>(70-93+ m²)</span>
+        </span>
+                    <span class="infos" style="margin: 10px 0;">2-3 Erwachsene</span>
+                    <span class="infos">3 UVO-Lampen</span>
+                    <span class="infos">Desinfizieren Sie Ihr Haus gleichzeitig und halbieren Sie die Desinfektionszeit</span>
+                  </div>
+                </div>
+                <p class="popup-button">Wöchentliche/Zweiwöchentliche Anwendung für optimale Vorteile</p>
+              </div>
+            </div>
+          {% endif %}
+          {% if block.type == 'customDescription' %}
+            <div class="custom-description">
+              {{ block.settings.description }}
+            </div>
+          {% endif %}
+          {% if block.type == 'extraBundles' %}
+            <div class="extra-bundles">
+              <h4>Add extras to your Bundle</h4>
+              <div class="swiper bundleSwiper">
+                <div class="swiper-wrapper">
+                  {% assign collection = block.settings.collection %}
+                  {% for product in collection.products %}
+                    <div class="swiper-slide">
+                      <div class="bundle-product-item" data-id="{{ product.first_available_variant.id }}">
+                        <div class="img-wrapper">
+                          {% render 'image', size: '100x', src: product.featured_image.src, alt: '' %}
+                        </div>
+                        <div class="product-item-body">
+                          <h4 class="product-title">{{ product.title }}</h4>
+                          <span class="price">
+                        <ins>{{ product.price | money }}</ins>
+                      </span>
+                        </div>
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+              <div class="swiper-button-next"></div>
+              <div class="swiper-button-prev"></div>
+            </div>
+          {% endif %}
+          {% if block.type == 'formTexts' %}
+            <div class="form-texts">
+              <div class="form-text-item">
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M3 1.75C3 2.41675 3.08633 2.5 3.77778 2.5H4.55556V4.508C4.55556 6.80675 4.96078 7.9775 6.17515 9.1875L6.99052 10L6.17515 10.8125C4.96078 12.0225 4.55556 13.1933 4.55556 15.492V17.5H3.77778C3.08633 17.5 3 17.5833 3 18.25V19H10H17V18.25C17 17.5833 16.9137 17.5 16.2222 17.5H15.4444V15.492C15.4444 13.1933 15.0392 12.0225 13.8249 10.8125L13.0095 10L13.8249 9.1875C15.0392 7.9775 15.4444 6.80675 15.4444 4.508V2.5H16.2222C16.9137 2.5 17 2.41675 17 1.75V1H10H3V1.75ZM6.11111 4.296C6.11111 6.69925 6.759 8.02375 8.28267 8.735C9.66893 9.382 10.3311 9.382 11.7173 8.735C13.241 8.02375 13.8889 6.69925 13.8889 4.296V2.5H10H6.11111V4.296ZM6.88889 5.149C6.88889 7.08925 8.19841 8.5 10 8.5C11.8016 8.5 13.1111 7.08925 13.1111 5.149V4H10H6.88889V5.149ZM8.26322 11.27C6.75563 11.9895 6.11111 13.3175 6.11111 15.704V17.5H10H13.8889V15.704C13.8889 13.3008 13.241 11.9763 11.7173 11.265C10.328 10.6165 9.6303 10.6175 8.26322 11.27Z" fill="#00436C"/>
+              </svg>
+              <span class="rqty" style="margin: 0; margin-right: 5px;"></span>336 / 10,000 <strong>Reduzierte Stücke übrig</strong>
+            </span>
+                <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <circle cx="6" cy="6" r="6" fill="#1CA33A"/>
+              </svg>
+              {% assign today = 'now' | date: "%s" | plus: 86400 %}
+                  {% assign dayOfWeek = today | date: "%a" %}
+                  {% assign daysToAdd = 1 %}
+
+                  {% if dayOfWeek == "Fri" %}
+                    {% assign daysToAdd = 3 %}
+                  {% elsif dayOfWeek == "Sat" %}
+                    {% assign daysToAdd = 2 %}
+                  {% endif %}
+
+                  {% assign nextBusinessDay = today | date: "%s" | plus: daysToAdd | date: "%a, %b %d" %}
+
+              Versand bis <strong class="ship-date">{{ nextBusinessDay }}</strong>
+            </span>
+              </div>
+              <img src="{{ block.settings.button_icons.src | image_url }}">
+            </div>
+          {% endif %}
+
+          {% if block.type == 'productPageTab' %}
+            {% if block.settings.showInline and firstTab %}
+              {% assign firstTab = false %}
+              {% assign tabs = section.blocks | where: 'type', 'productPageTab' %}
+              {% if tabs.size > 0 %}
+                <div class="col-12 {{section.settings.layout}} unflex tab__container tab__container--product no-gap">
+                  <div class="tab__holder">
+                    {% assign first = true %}
+                    {% for tab in tabs %}
+                      {% if tab.settings.showInline %}
+                        <span class="tab--product {% if first %}tab--active{% endif -%}" onclick="boosterTheme.toggleTab(this, 'tab--{{-tab.id}}')">{{tab.settings.heading}}</span>
+                        {% assign first = false %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  {% assign first = true %}
+                  {% for tab in tabs %}
+                    {% if tab.settings.showInline %}
+                      {% render 'get-block', block: tab, section: section, first: first, product: product %}
+                      {% assign first = false %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% else %}
+              {% continue %}
+            {% endif %}
+          {% endif %}
+          {% render 'get-block', block: block, product: product, form: form %}
+        {% endfor %}
+      {% endform %}
+      {% comment %} END PRODUCT FORM {% endcomment %}
+      {% for block in section.blocks %}
+        {% if block.type == "imageInfos" %}
+          <div class="product-info-items">
+            <div class="info-item">
+              <img src="{{ block.settings.icon1 | image_url }}" loading="lazy">
+              <h4>{{ block.settings.title1 }}</h4>
+            </div>
+            <div class="info-item">
+              <img src="{{ block.settings.icon2 | image_url }}" loading="lazy">
+              <h4>{{ block.settings.title2 }}</h4>
+            </div>
+            <div class="info-item">
+              <img src="{{ block.settings.icon3 | image_url }}" loading="lazy">
+              <h4>{{ block.settings.title3 }}</h4>
+            </div>
+          </div>
+        {% endif %}
+      {% endfor %}
+      <div class="product-reviews">
+        <h3>Was Kunden über Uvlizer sagen</h3>
+        <div class="product-reviews-items swiper reviewSwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide review-item">
+              <img src="{{ 'review1.png' | asset_url }}" alt="review" loading="lazy">
+              <div class="review-content">
+                <span class="review-title">-Sabine B.</span>
+                <p>"Ich bin begeistert von Uvlizer! Nach nur wenigen Wochen haben sich meine Allergiesymptome merklich verbessert und ich wache nicht mehr mit einer verstopften Nase auf. Sehr empfehlenswert!"</p>
+              </div>
+            </div>
+            <div class="swiper-slide review-item">
+              <img src="{{ 'review2.png' | asset_url }}" alt="review" loading="lazy">
+              <div class="review-content">
+                <span class="review-title">- William M.</span>
+                <p>Ich verwende das Produkt jetzt seit ein paar Wochen und spüre bereits einen Unterschied bei meiner Atmung und der Luftqualität in unserem Haus. Vor dem Kauf war ich skeptisch, ich habe es wegen der 90-Tage-Garantie gekauft. Aber jetzt bin ich überzeugt. Ich empfehle das Produkt jedem, der an Allergien leidet.</p>
+              </div>
+            </div>
+            <div class="swiper-slide review-item">
+              <img src="{{ 'review3.png' | asset_url }}" alt="review" loading="lazy">
+              <div class="review-content">
+                <span class="review-title">- Annette D.</span>
+                <p>Meine Allergiesymptome haben seit der Verwendung in den letzten Wochen stark abgenommen. Auch mein Schlaf hat sich deutlich verbessert und ich wache nachts nicht mehr mit Husten und Juckreiz auf.</p>
+              </div>
+            </div>
+            <div class="swiper-slide review-item">
+              <img src="{{ 'review4.png' | asset_url }}" alt="review" loading="lazy">
+              <div class="review-content">
+                <span class="review-title">- Annette D.</span>
+                <p>Ich habe den Uvilizer jetzt seit ein paar Wochen und benutze ihn etwa einmal pro Woche. Schon beim ersten Mal habe ich festgestellt, dass er Restgerüche beseitigt, die ich selbst mit Teppichreinigung und frischer Bettwäsche nicht loswerden konnte. Ich habe vom ersten Tag an besser geschlafen, wahrscheinlich, weil keine Schimmelsporen usw. mehr im Zimmer waren. Ich liebe ihn. Lüften Sie das Zimmer nach der Benutzung jedoch gut und öffnen Sie die Fenster ein paar Stunden nach Ablauf des Timers.</p>
+              </div>
+            </div>
+            <div class="swiper-slide review-item">
+              <img src="{{ 'review5.png' | asset_url }}" alt="review" loading="lazy">
+              <div class="review-content">
+                <span class="review-title">- Sharon L.</span>
+                <p>Ich habe zwei davon gekauft, sie wurden in weniger als einer Woche geliefert. Bisher habe ich sie nur zweimal benutzt, in meinem Hauptschlafzimmer und Gästezimmer, die Räume hatten einen sauberen Geruch.</p>
+              </div>
+            </div>
+            <div class="swiper-slide review-item">
+              <img src="{{ 'review6.png' | asset_url }}" alt="review" loading="lazy">
+              <div class="review-content">
+                <span class="review-title">- Tom S.</span>
+                <p>Habe seit mehreren Jahren einen ... habe ihn während der Pandemie zum Desinfizieren unserer Lebensmittel und Versandhandelsprodukte verwendet ... nachdem wir das Licht angemacht haben, lüften wir den Raum zur zusätzlichen Sicherheit 10–15 Minuten lang ... die Luft riecht wirklich sauber/klar ... </p>
+              </div>
+            </div>
+          </div>
+          <div class="swiper-pagination"></div>
+        </div>
+      </div>
+    </div>
+
+
+  {% else %}
+    <div class="col-12 {{size}} unflex product__page--info">
+      <h1 class="product__title b  margin__bottom--reduced">{{ product.title }}</h1>
+      {% render 'judgeme_widgets', widget_type: 'judgeme_preview_badge', jm_style: '', concierge_install: true, product: product %}
+
+      <div class="product__price--holder">
+
+
+        {% if product.compare_at_price_min > 0 %}
+          <span class="product__price product__price--sale jsPrice " >{{ current_variant.price | money | strip_html }}</span>
+          <span class="product__price--old jsPrice ">{{ product.compare_at_price_max | money | strip_html }}</span>
+
+        {% else %}
+          <span class="product__price jsPrice">{{ current_variant.price | money | strip_html }}</span>
+
+        {% endif %}
+
+      </div>
+
+
+
+
+      <div class="product__description">
+        <span class="product__description--title">PRODUCT DETAILS</span>
+        <div class="booster--revert">{{ product.description }}</div>
+      </div>
+    </div>
+
+    <div class="col-12 {{size}} product__page--info unflex  fancy-scroll" id="product--page">
+      {% comment %} PRODUCT FORM 2 of 2{% endcomment %}
+      {% form "product", product %}
+        {% assign firstTab = true %}
+        {% for block in section.blocks %}
+          {% if block.type == 'productPageTab' %}
+            {% if block.settings.showInline and firstTab %}
+              {% assign firstTab = false %}
+              {% assign tabs = section.blocks | where: 'type', 'productPageTab' %}
+              {% if tabs.size > 0 %}
+                <div class="col-12 {{section.settings.layout}} unflex tab__container tab__container--product no-gap">
+                  <div class="tab__holder">
+                    {% assign first = true %}
+                    {% for tab in tabs %}
+                      {% if tab.settings.showInline %}
+                        <span class="tab--product {% if first %}tab--active{% endif -%}" onclick="boosterTheme.toggleTab(this, 'tab--{{-tab.id}}')">{{tab.settings.heading}}</span>
+                        {% assign first = false %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  {% assign first = true %}
+                  {% for tab in tabs %}
+                    {% if tab.settings.showInline %}
+                      {% render 'get-block', block: tab, section: section, first: first, product: product %}
+                      {% assign first = false %}
+                    {% endif %}
+                  {% endfor %}
+                </div>
+              {% endif %}
+            {% else %}
+              {% continue %}
+            {% endif %}
+          {% endif %}
+          {% render 'get-block', block: block, product: product, form: form %}
+        {% endfor %}
+      {% endform %}
+      {% comment %} END PRODUCT FORM {% endcomment %}
+    </div>
+  {% endif %}
+
+  {%- comment -%}
+  /Rendering according to the view
+  {%- endcomment -%}
+</div>
+{%- comment -%}
+/Product container row
+{%- endcomment -%}
+
+{% assign tabs = section.blocks | where: 'type', 'productPageTab' %}
+{% if tabs.size > 0 %}
+  <div class="col-12 {{section.settings.layout}} unflex tab__container tab__container--product">
+    <div class="tab__holder">
+      {% for tab in tabs %}
+        {% if tab.settings.showInline %}
+          {% continue %}
+        {% endif %}
+        <span class="tab--product {% if forloop.first %}tab--active{% endif -%}" onclick="boosterTheme.toggleTab(this, 'tab--{{-tab.id}}')">{{tab.settings.heading}}</span>
+      {% endfor %}
+    </div>
+    {% for tab in tabs %}
+      {% if tab.settings.showInline %}
+        {% continue %}
+      {% endif %}
+      {% render 'get-block', block: tab, section: section, first: forloop.first, product: product %}
+    {% endfor %}
+  </div>
+{% endif %}
+
+{% comment %}
+marketplace view - failover title (.hide-mobile)
+marketplace view - failover price (.hide-mobile)
+gallery failover for quickbuy modal/modals
+{% endcomment %}
+
+{% if section.settings.productNavigation %}
+  {% render 'block__product-page--next__prev' %}
+{% endif %}
+
+<script>
+  (()=>{
+
+    let header = document.getElementById('shopify-section-header');
+    let hstyle = getComputedStyle(header);
+
+    if(hstyle.position == 'sticky'){
+      let stickies = document.querySelectorAll('.product__page--info');
+      let offsetTop = header.clientHeight + 24 + 'px';
+      for(let sticky of stickies){
+        sticky.style.top = offsetTop;
+      }
+    }
+
+    let gallery = document.querySelector('.gallery__default')
+    if(gallery.classList.value.includes('hide-desktop') && window.innerWidth > 768){
+      return;
+    }
+
+    const stickyATC = document.querySelector('.product__atc--sticky');
+    let productATC = document.querySelector('.product__atc');
+    const ATCInitialTop = productATC.offsetTop + productATC.offsetHeight;
+    window.addEventListener("scroll", ()=>{
+      if (window.scrollY > ATCInitialTop) {
+        stickyATC.style.display = 'flex';
+      } else {
+        stickyATC.style.display = 'none';
+      }
+    }, {passive: true})})();
+</script>
+
+<script>
+  const addToCartButton = document.querySelector('button[data-buy-button] span[data-button-text]');
+
+  if (addToCartButton) {
+    addToCartButton.textContent = 'In den Warenkorb';
+  }
+</script>
+
+{% schema %}
+{
+  "name": {
+    "en": "Product page content-DE"
+  },
+  "settings": [
+    {
+      "type" : "header",
+      "content": "Instructions"
+    },
+    {
+      "type": "paragraph",
+      "content": "Blocks marked with * MUST be included in order for the page to work."
+    },
+    {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458187257)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "view",
+      "label": "Product page type",
+      "options": [
+        {"value": "marketplace", "label": "Marketplace"},
+        {"value": "default", "label": "Default"}
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Page width",
+      "options": [
+        {"value": "max-width", "label": "Boxed"},
+        {"value": "full-width", "label": "Full width"}
+      ],
+      "default": "max-width"
+    },
+    {
+      "type": "header",
+      "content": "Gallery"
+    },
+    {
+      "type": "select",
+      "id": "galleryStyle",
+      "label": "Gallery Style",
+      "options": [
+        {"value": "default", "label": "Default"},
+        {"value": "verticalDouble", "label": "Vertical list (2 column)"},
+        {"value": "verticalSingle", "label": "Vertical list (1 column)"}
+      ],
+      "default": "default"
+    },
+    {
+      "type": "select",
+      "id": "galleryPosition",
+      "label": "Gallery Position",
+      "options": [
+        {"value": "left", "label": "Left"},
+        {"value": "right", "label": "Right"}
+      ],
+      "default": "left"
+    },
+    {
+      "type": "checkbox",
+      "label": "Zoom image on hover",
+      "id": "autoZoom",
+      "info": "If enabled, hovering over an image will zoom it in. Otherwise works on click only.",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "label": "Change image on hover",
+      "id": "autoChange",
+      "info": "If enabled, hovering a thumbnail will change the image. Otherwise works on click only.",
+      "default": false
+    },
+    {
+      "type": "select",
+      "label": "Verical gallery image fit",
+      "id": "galleryImageFit",
+      "options": [
+        {"value": "contain", "label": "Preserve ratio"},
+        {"value": "cover", "label": "Adjust ratio to fill empty space - crop image"}
+      ],
+      "default": "cover",
+      "info": "In case your product's image doesn't fit the image ratio you've selected below, the image can either: "
+    },
+    {
+      "type": "range",
+      "label": "Gap between vertical gallery images",
+      "id": "galleryImageGap",
+      "unit": "px",
+      "min": 0,
+      "max": 50,
+      "default": 16,
+      "info": "Vertical gap between vertical gallery images."
+    },
+    {
+      "type": "paragraph",
+      "content": "Preserve ratio - the whole image will be shown in its original dimensions, but may cause empty/white space to appear"
+    },
+    {
+      "type": "paragraph",
+      "content": "Adjust the ratio to fill empty space - if the image doesn't fit the ratio, it will be cropped and adjusted to fill the space - no empty/white space"
+    },
+    {
+      "type": "header",
+      "content": "Navigation"
+    },
+    {
+      "type": "checkbox",
+      "id": "productNavigation",
+      "label": "Enable previous/next product",
+      "info": "Previews next and previous product links. Only works inside collections.",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "productPageCountdown",
+      "name": "Offer countdown",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "select",
+          "label": "Style",
+          "id": "style",
+          "default": "compact",
+          "options": [
+            {"value": "compact", "label": "Compact"},
+            {"value": "doublecolumn", "label": "Two columns"}
+          ]
+        },
+        {
+          "id": "title",
+          "label": "Countdown title",
+          "type": "text",
+          "default": "LIMITED TIME OFFER"
+        },
+        {
+          "id": "text",
+          "type": "text",
+          "label": "Warning text",
+          "default": "The price of this item will revert back to %price% at the end of this countdown.",
+          "info": "%price% will get replace by the products original price."
+        }
+      ]
+    },
+    {
+      "type": "productPageTitle",
+      "name": "Product title",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "id": "color",
+          "type": "color",
+          "label": "Custom color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "id": "fontFamily",
+          "label": "Font family",
+          "type": "select",
+          "options": [
+            {"value": "base", "label": "Base"},
+            {"value": "title", "label": "Title"}
+          ],
+          "default": "base"
+        },
+        {
+          "id": "fontSize",
+          "label": "Font size",
+          "type": "select",
+          "options": [
+            {"value": "small", "label": "Small"},
+            {"value": "base", "label": "Base"},
+            {"value": "medium", "label": "Medium"},
+            {"value": "big", "label": "Big"}
+          ],
+          "default": "medium"
+        }
+      ]
+    },
+    {
+      "type": "productPagePrice",
+      "name": "Product price",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "header",
+          "content": "Style"
+        },
+        {
+          "id": "color",
+          "type": "color",
+          "label": "Custom color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "id": "newPriceColor",
+          "type": "color",
+          "label": "Reduced price color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "id": "oldPriceColor",
+          "type": "color",
+          "label": "Old price color",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "id": "fontFamily",
+          "label": "Font family",
+          "type": "select",
+          "options": [
+            {"value": "base", "label": "Base"},
+            {"value": "title", "label": "Title"}
+          ],
+          "default": "base"
+        },
+        {
+          "id": "fontSize",
+          "type": "select",
+          "label": "Font size",
+          "options": [
+            {"value": "small", "label": "Small"},
+            {"value": "base", "label": "Base"},
+            {"value": "medium", "label": "Medium"},
+            {"value": "big", "label": "Big"}
+          ],
+          "default": "medium"
+        },
+        {
+          "type": "header",
+          "content": "Sale"
+        },
+        {
+          "type": "select",
+          "id": "saleType",
+          "label": "Show sale badge as",
+          "options": [
+            {"value": "percent", "label": "Percent (%)"},
+            {"value": "amount", "label": "Money amount"},
+            {"value": "text", "label": "Only 'SALE' text"},
+            {"value": "none", "label": "Hide the sale badge"}
+          ],
+          "default": "percent"
+        }
+      ]
+    },
+    {
+      "type": "productPageSwatch",
+      "name": "Product variants (*)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        }
+      ]
+    },
+    {
+      "type": "productPageBadge",
+      "name": "Image/Badges",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "image_picker",
+          "label": "Badge image",
+          "id": "badge"
+        }
+      ]
+    },
+    {
+      "type": "productPageStock",
+      "name": "Product stock",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "select",
+          "label": "Max product stock",
+          "id": "stockLeft",
+          "options": [
+            {"value": "10", "label": "10"},
+            {"value": "100", "label": "100"},
+            {"value": "1000", "label": "1000"},
+            {"value": "inventory", "label": "Use real stock"}
+          ],
+          "default": "10"
+        },
+        {
+          "type": "range",
+          "id": "reduce",
+          "label": "Reduce inventory every",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "unit": "s",
+          "info": "If set above 0, the stock amount will be reduced by 1 in the set interval. Doesn't work with real stock inventory. If you want to disable it, set it to 0.",
+          "default": 8
+        }
+      ]
+    },
+    {
+      "type": "productPageDelivery",
+      "name": "Icon + Text (Delivery)",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "text",
+          "label": "Icon",
+          "info": "Icon name copied over from Unicons icon library. You can find the list over at [Unicons](https://iconscout.com/unicons/explore/line).",
+          "id": "icon"
+        },
+        {
+          "type": "color",
+          "id": "iconColor",
+          "label": "Icon Color (optional)",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "type": "richtext",
+          "label": "Delivery text",
+          "default": "<p>Products are usually delivered in 3-7 days.</p>",
+          "id": "text"
+        },
+        {
+          "type": "color",
+          "id": "textColor",
+          "label": "Text Color (optional)",
+          "default": "rgba(0,0,0,0)"
+        }
+      ]
+    },
+    {
+      "type": "productPageWatching",
+      "name": "Watching product",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "select",
+          "label": "Max people",
+          "id": "max",
+          "options": [
+            {"value": "10", "label": "10"},
+            {"value": "100", "label": "100"},
+            {"value": "1000", "label": "1000"}
+          ],
+          "default": "100"
+        },
+        {
+          "type": "text",
+          "label": "Custom Max People",
+          "id": "customMax",
+          "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+        },
+        {
+          "type": "range",
+          "id": "interval",
+          "label": "Update the number every",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "unit": "s",
+          "default": 8
+        },
+        {
+          "type": "color",
+          "id": "iconColor",
+          "label": "Icon Color (optional)",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "type": "color",
+          "id": "textColor",
+          "label": "Text Color (optional)",
+          "default": "rgba(0,0,0,0)"
+        }
+      ]
+    },
+    {
+      "type": "productPageInCart",
+      "name": "Product in cart",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "select",
+          "label": "Max people",
+          "id": "max",
+          "options": [
+            {"value": "10", "label": "10"},
+            {"value": "100", "label": "100"},
+            {"value": "1000", "label": "1000"}
+          ],
+          "default": "100"
+        },
+        {
+          "type": "text",
+          "label": "Custom Max People",
+          "id": "customMax",
+          "info": "This MUST be a number. It is optional. If left blank, the above value will be used."
+        },
+        {
+          "type": "range",
+          "id": "interval",
+          "label": "Update the number every",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "unit": "s",
+          "default": 8
+        },
+        {
+          "type": "color",
+          "id": "iconColor",
+          "label": "Icon Color (optional)",
+          "default": "rgba(0,0,0,0)"
+        },
+        {
+          "type": "color",
+          "id": "textColor",
+          "label": "Text Color (optional)",
+          "default": "rgba(0,0,0,0)"
+        }
+      ]
+    },
+    {
+      "type": "productPageDescription",
+      "name": "Product description",
+      "settings": [
+        {
+          "id": "heading",
+          "label": "Description title",
+          "default": "Product description",
+          "type": "text"
+        },
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        }
+      ]
+    },
+    {
+      "type": "productPageAccordion",
+      "name": "Accordion",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Accordion heading",
+          "default": "Description"
+        },
+        {
+          "type": "radio",
+          "label": "Accordion content",
+          "id": "content",
+          "options": [
+            {"value": "description", "label": "Description"},
+            {"value": "reviews", "label": "Reviews"},
+            {"value": "metafield", "label": "Metafield"},
+            {"value":"page", "label": "Page"},
+            {"value": "productPage", "label": "Product specific page"},
+            {"value": "custom", "label": "Custom content"}
+          ],
+          "default": "description"
+        },
+        {
+          "type": "header",
+          "content": "Metafield"
+        },
+        {
+          "type": "text",
+          "id": "metafieldNS",
+          "label": "Metafield namespace",
+          "default": "global"
+        },
+        {
+          "type": "text",
+          "id": "metafieldKey",
+          "label": "Metafield key"
+        },
+        {
+          "type": "header",
+          "content": "Page"
+        },
+        {
+          "type": "page",
+          "label": "Page to show",
+          "id": "page"
+        },
+        {
+          "type": "header",
+          "content": "Custom content"
+        },
+        {
+          "type": "html",
+          "id": "customContent",
+          "label": "Custom content",
+          "default": "<p>Add custom content here!</p>"
+        }
+      ]
+    },
+    {
+      "type": "productPageTab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "checkbox",
+          "label": "Show this tab inline",
+          "info": "Will place this tag on the side of the product, instead of below everything",
+          "default": false,
+          "id": "showInline"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Tab heading",
+          "default": "Description"
+        },
+        {
+          "type": "radio",
+          "label": "Tab content",
+          "id": "content",
+          "options": [
+            {"value": "description", "label": "Description"},
+            {"value": "reviews", "label": "Reviews"},
+            {"value": "metafield", "label": "Metafield"},
+            {"value": "page", "label": "Page"},
+            {"value": "productPage", "label": "Product specific page"},
+            {"value": "custom", "label": "Custom content"}
+          ],
+          "default": "description"
+        },
+        {
+          "type": "header",
+          "content": "Metafield"
+        },
+        {
+          "type": "text",
+          "id": "metafieldNS",
+          "label": "Metafield namespace",
+          "default": "global"
+        },
+        {
+          "type": "text",
+          "id": "metafieldKey",
+          "label": "Metafield key"
+        },
+        {
+          "type": "header",
+          "content": "Page"
+        },
+        {
+          "type": "page",
+          "label": "Page to show",
+          "id": "page"
+        },
+        {
+          "type": "header",
+          "content": "Custom content"
+        },
+        {
+          "type": "html",
+          "id": "customContent",
+          "label": "Custom content",
+          "default": "<p>Add custom content here!</p>"
+        }
+      ]
+    },
+    {
+      "type": "productPageReviewStars",
+      "name": "Review stars",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "paragraph",
+          "content": "Make sure to save the settings in order to initialize reviews."
+        }
+      ]
+    },
+    {
+      "type": "imageInfos",
+      "name": "Image Info's",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon1",
+          "label": "Icon 1"
+        },
+        {
+          "type": "text",
+          "id": "title1",
+          "label": "Title 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon2",
+          "label": "Icon 2"
+        },
+        {
+          "type": "text",
+          "id": "title2",
+          "label": "Title 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "icon3",
+          "label": "Icon 3"
+        },
+        {
+          "type": "text",
+          "id": "title3",
+          "label": "Title 3"
+        }
+      ]
+    },
+    {
+      "type": "starsText",
+      "name": "Stars Text",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Star Text"
+        }
+      ]
+    },
+    {
+      "type": "productCustomTitle",
+      "name": "Custom Title",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "doctorReview",
+      "name": "Doctor Review",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "text",
+          "id": "doctor_name",
+          "label": "Doctor Name"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Doctor Image"
+        }
+      ]
+    },
+    {
+      "type": "productBundle",
+      "name": "Product Bundles",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Title"
+        },
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        },
+        {
+          "type": "product",
+          "id": "product1",
+          "label": "Product 1"
+        },
+        {
+          "type": "image_picker",
+          "id": "product1_img",
+          "label": "Product 1 Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title1",
+          "label": "Product 1 Title"
+        },
+        {
+          "type": "product",
+          "id": "product2",
+          "label": "Product 2"
+        },
+        {
+          "type": "image_picker",
+          "id": "product2_img",
+          "label": "Product 2 Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title2",
+          "label": "Product 2 Title"
+        },
+        {
+          "type": "product",
+          "id": "product3",
+          "label": "Product 3"
+        },
+        {
+          "type": "image_picker",
+          "id": "product3_img",
+          "label": "Product 3 Image"
+        },
+        {
+          "type": "text",
+          "id": "product_title3",
+          "label": "Product 3 Title"
+        }
+      ]
+    },
+    {
+      "type": "customDescription",
+      "name": "Custom Description",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "extraBundles",
+      "name": "Extra Bundles",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        }
+      ]
+    },
+    {
+      "type": "formTexts",
+      "name": "Form Texts",
+      "settings": [
+        {
+          "type": "text",
+          "id": "pieces",
+          "label": "How many Pieces Left?"
+        },
+        {
+          "type": "text",
+          "id": "ships",
+          "label": "Ships"
+        },
+        {
+          "type": "image_picker",
+          "id": "button_icons",
+          "label": "Icons"
+        }
+      ]
+    },
+    {
+      "type": "productPageTags",
+      "name": "Tags",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "options": [
+            {"value": "swatch", "label": "Swatch"},
+            {"value": "text", "label": "Text"}
+          ],
+          "label": "Tag style"
+        },
+        {
+          "type": "textarea",
+          "label": "Tags to exclude",
+          "id": "exclude",
+          "info": "Comma (,) separated list of tags to exclude. bstr-tag-* tags are excluded automatically."
+        }
+      ]
+    },
+    {
+      "type": "productPageATC",
+      "name": "Add to cart (*)",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "noMargin",
+          "label": "Remove bottom space"
+        },
+        {
+          "type": "checkbox",
+          "label": "Show Sticky ATC on Desktop",
+          "id": "stickyDesktop",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "label": "Show Sticky ATC on Mobile",
+          "id": "stickyMobile",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

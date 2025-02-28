@@ -1,0 +1,79 @@
+<style>
+@media screen and (min-width: 768px){
+.container {
+    margin-left: 25%;
+    width: 75%;
+}
+}
+</style>
+
+<nav class="inherit row header header--default header--{{section.settings.type}} middle logo--{{section.settings.logoPosition}}">
+    <input type="checkbox" id="menuToggle" class="hide">
+    <label for="menuToggle" class="hide-desktop close">{% render 'get-icon', icon: 'close' %}</label>
+    <label for="menuToggle" class="overlay"></label>
+
+    <label class="col-min hide-desktop {% if section.settings.menuLinks == blank %}hide-mobile{% endif %}" for="menuToggle">{% render 'get-icon', icon: 'menu' %}</label>
+    <div class="col-min col-md-12 logo">{% render 'logo' %}</div>
+
+    <div class="col col-md-12 middle nav__utils">
+        <span class="search__icon hide-mobile" onclick="openSearch(false)">{% render 'get-icon', icon: 'search' %}</span>
+        {% render 'header__general--utility' %}
+    </div>
+
+    <div class="col-12 links {{section.settings.linksAlignment}} links__hover--{{-section.settings.hoverStyle-}}">
+    {% for link in linklists[section.settings.menuLinks].links %}
+        {% if link.links != empty %}
+            <span class="link {% if link.child_active or link.active %}active{%endif%}"><a class="header__link" href="{{ link.url }}">{{ link.title }}</a>
+            <input class="submenu__toggle" type="checkbox" id="{{link.title | handleize | append: forloop.index}}">
+            <label class="hide-desktop submenu__toggle--open" for="{{link.title | handleize | append: forloop.index}}">+</label>
+            {% assign submenu = link.links %}
+            {% render 'header__submenu' with submenu as submenu %}
+            </span>
+        {% else %}
+            <span class="link"><a class="header__link" href="{{ link.url }}">{{ link.title }}</a></span>
+        {% endif %}
+    {% else %}
+        {% if settings.demo %}
+            <span class="link"><a class="header__link" href="{{routes.root_url}}">Home</a></span>
+            <span class="link"><a class="header__link" href="{{routes.all_products_collection_url}}">All products</a></span>
+            <span class="link"><a class="header__link" href="#">About us</a></span>
+            <span class="link"><a class="header__link" href="#">Contact</a></span>
+        {% endif %}
+    {% endfor %}
+    </div>
+</nav>
+
+{% if template == 'index' and section.settings.transparent %}
+    <style>
+    @media screen and (max-width: 767px){
+        main {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: -1;
+        }
+    }
+    </style>
+    {% if section.settings.sticky %}
+        <script>
+        const headerElement = document.querySelector('#shopify-section-{{section.id}} nav');
+        window.addEventListener('scroll', ()=>{
+            if(window.innerWidth > 768){
+                return;
+            }
+            if (window.scrollY > 50){
+                headerElement.style.position = 'fixed';
+                headerElement.style.width = '100%';
+                headerElement.style.top = '0px';
+                if(headerElement.classList.contains('header--transparent')){
+                    headerElement.classList.remove('header--transparent');
+                }
+            }else if(!headerElement.classList.contains('header--transparent')){
+                headerElement.style.position = 'relative';
+                headerElement.classList.add('header--transparent')
+            }
+        }, {passive: true});
+        </script>
+    {%endif%}    
+{% endif %}

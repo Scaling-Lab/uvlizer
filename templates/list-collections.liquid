@@ -1,0 +1,12 @@
+{% section 'banner--collection-list' %}
+
+<div class="row row__collection-list max-width">
+{% paginate collections by 15 %}
+  {% for collection in collections %}
+    <div class="col-12 col-md-3 card--holder">
+    {% render 'collection-card' with collection as collection %}
+    </div>
+  {% endfor %}
+  {% render 'pagination', paginate: paginate, type: 'links' %}
+{% endpaginate%}
+</div>

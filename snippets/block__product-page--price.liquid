@@ -1,0 +1,122 @@
+<style>
+{%- unless block.settings.color contains "rgba(0,0,0,0)" -%}
+.product__price--{{block.id}} .product__price {
+    color: {{block.settings.color}};
+}
+{%- endunless -%}
+
+{%- unless block.settings.newPriceColor contains "rgba(0,0,0,0)" -%}
+.product__price--{{block.id}} .product__price.product__price--sale {
+    color: {{block.settings.newPriceColor}};
+}
+{%- endunless -%}
+
+{%- unless block.settings.oldPriceColor contains "rgba(0,0,0,0)" -%}
+.product__price--{{block.id}} .product__price--old {
+    color: {{block.settings.oldPriceColor}};
+}
+{%- endunless -%}
+</style>
+
+{% assign current_variant = product.selected_or_first_available_variant %}
+<div 
+class="product__price--holder product__price--{{block.id}}
+font__family--{{-block.settings.fontFamily}} font__size--{{-block.settings.fontSize}} 
+{% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}" {{block.shopify_attributes}}>
+{% if product.compare_at_price_min > 0 %}
+{% assign sale = true %}
+{% if current_variant.compare_at_price > 0 %}
+{% assign currsale = true %}
+{% else %}
+{% assign currsale = false %}
+{% endif %}
+{% else %}
+{% assign sale = false %}
+{% assign currsale = false %}
+{% endif %}
+<span data-product-price class="product__price {% if currsale %} product__price--sale {% endif %} jsPrice igPrice" data-product-id="{{product.id}}"   data-variant-id="{{current_variant.id}}"  >{{ current_variant.price | money | strip_html }}</span>
+<span data-product-price-sale class="product__price--old jsPrice igComparePrice" data-product-id="{{product.id}}"   data-variant-id="{{current_variant.id}}">{% if currsale %}{{ current_variant.compare_at_price | money | strip_html }}{% endif %}</span>
+{% if sale %}
+{%- unless block.settings.saleType == 'none' or sale == false %}
+<span data-tag-type="{{block.settings.saleType}}" class="tag tag--sale {% unless currsale %}hide{% endunless %}">
+{% if currsale %}
+    {%- case block.settings.saleType %}
+        {% when 'percent' %}
+            {{ current_variant.price | minus: current_variant.compare_at_price | times: 100 | divided_by: current_variant.compare_at_price }}% OFF
+        {% when 'amount' %}
+            - <span class="jsPrice">{{ current_variant.compare_at_price | minus: current_variant.price | money | strip_html }}</span> OFF
+        {% when 'text' %}
+            {{'general.tags.sale' | t}}
+    {%- endcase -%}
+{% endif %}
+</span>
+{%- endunless -%}
+{% endif %}
+
+</div>
+
+{% form 'product', product %}
+  {{ form | payment_terms }}
+ <br>
+{% endform %}
+
+{% comment %}
+<div  style="margin-bottom: 20px; text-align: inherit; color: inherit; font-family: inherit; cursor: pointer;" 
+ data-splitit="true"  >
+  <div style="padding: 0px; margin: 0px; display:inline-flex">
+  <span class="-splitit--text -splitit--text-text" 
+  style="padding: 0px; margin: 0px 3px 0px 0px; line-height: 28px;">From</span>
+  <span class="-splitit--text -splitit--text-price ""
+  style="padding: 0px; margin: 0px 3px 0px 0px; line-height: 28px;">
+  <span class="igPrice" data-price="{{ current_variant.price | money | strip_html }}" 
+   data-product-id="{{product.id}}"  data-variant-id="{{current_variant.id}}" 
+  data-price-multiplier="0.3333"
+  >{{ current_variant.price | times: 0.3333 | money   | strip_html }}</span></span>
+  <span class="-splitit--text -splitit--text-text" 
+  style="padding: 0px; margin: 0px 3px 0px 0px; line-height: 28px;">/month with</span><span class="-splitit--logo" 
+style="cursor: pointer; padding: 0px; margin: 0px;"><img src="//upstream.production.splitit.com/v1/img/logo/logo-purple.svg?v=1.3.35" 
+  alt="Splitit ™" height="28" loading="lazy" style="height: 28px; padding: 0px; margin: -4px 5px 0px; vertical-align: middle;">
+  </span><a class="-splitit--learn-more"  id="mybtn"    
+           style="padding: 0px; margin-left:20px !important; margin: 0px; font-size: 0.9em; top: -0.05em; position: relative; text-decoration: none;">
+    Learn more</a></div></div>
+{% endcomment %}
+
+<!--
+<div   style="margin-bottom:20px;" id="splitit-container"
+     data-splitit="true"  data-price-multiplier="0.3333"
+   data-product-id="{{product.id}}"  data-variant-id="{{current_variant.id}}" 
+     data-splitit-amount="{{ current_variant.price | divided_by: 100.0 | json }}"
+     data-splitit-num-installments="3"
+     data-splitit-type="product-description">
+</div>
+-->
+
+
+  <style>
+
+    span.product__price.product__price--sale.jsPrice.igPrice span {
+    background: transparent !important;
+    color: #989697 !important;
+}
+
+span.product__price.product__price--sale.jsPrice.igPrice {
+    background: transparent !important;
+}
+
+  span.product__price--old.jsPrice.igComparePrice span {
+    background: transparent !important;
+    color: #989697 !important;
+}
+
+span.product__price--old.jsPrice.igComparePrice {
+    background: transparent !important;
+}
+
+    span.-splitit--text.-splitit--text-price {
+    background: transparent !important;
+}
+
+span.-splitit--text.-splitit--text-price span {
+    background: transparent !important;
+}
+  </style>

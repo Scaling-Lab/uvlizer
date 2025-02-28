@@ -1,0 +1,118 @@
+<link rel="preload" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+{% style %}
+  section.brands-p3 {
+  background: transparent;
+  margin: 32px 0 50px 0;
+  }
+  section.brands-p3 .product-container {
+  padding: 0;
+  overflow: hidden;
+  margin: 0 -15px;
+  }
+  .brands-p3Swiper .swiper-wrapper {
+  align-items: center;
+  transition-timing-function: linear !important;
+  }
+  .brands-p3 img.hover-img {
+  display:none;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9;
+  box-shadow: 0px 0px 71px 61px #ecf5f7;
+  background: #ecf5f7;
+  pointer-events: none;
+  }
+  .brands-p3.marquee {
+  /*   overflow: hidden; */
+  }
+  .brands-p3 .marquee-content {
+  display: flex;
+  align-items: center;
+  animation: scrolling 120s linear infinite; /* Adjusted for 3 loops */
+  width: max-content;
+  gap: 1px;
+  }
+  .brands-p3 .marquee-item {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  overflow: auto;
+  margin-right: 5px;
+  }
+  .brands-p3 .marquee-item img {
+  display: block;
+  width: max-content;
+  max-height: 155px;
+  object-fit: contain;
+  }
+  @keyframes scrolling {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-33.33%); } /* Adjusted for 3 loops */
+  }
+{% endstyle %}
+
+<section class="brands-p3">
+  <div class="product-container">
+    <div class="marquee">
+      <div class="marquee-content">
+        {% for block in section.blocks %}
+          <div class="marquee-item">
+            <img src="{{ block.settings.image.src | image_url }}">
+          </div>
+        {% endfor %}
+        {% for block in section.blocks %}
+          <div class="marquee-item">
+            <img src="{{ block.settings.image.src | image_url }}">
+          </div>
+        {% endfor %}
+        {% for block in section.blocks %}
+          <div class="marquee-item">
+            <img src="{{ block.settings.image.src | image_url }}">
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <img class="hover-img" src="{{ section.settings.image.src | image_url }}">
+</section>
+
+<script>
+  if (document.querySelectorAll('.marquee').length > 0) {
+    var marqueeContent = document.querySelector('.marquee-content');
+    var marqueeItems = marqueeContent.innerHTML;
+
+    for (var i = 0; i < 9; i++) {
+      marqueeContent.innerHTML += marqueeItems;
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Brands-p3",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hover Image"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand-p3",
+      "name": "Brand-p3",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

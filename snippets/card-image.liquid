@@ -1,0 +1,37 @@
+{%- assign sizes = '375,410,520,576,768,992,1024,1280' | split: ',' -%}
+{%- assign max = maxWidth | default: 1280 -%}
+{%- capture bgset -%}
+{%- for size in sizes -%}
+{%- assign intsize = size | plus: 0 -%}
+{%- if intsize > max -%}
+{%- break -%}
+{%- endif -%}
+{%- assign xvalue = size | append: 'x' -%}
+{{image | img_url: xvalue}} {{size}}w,
+{%- endfor -%}
+{%- endcapture -%}
+{%- assign bgset = bgset | strip_newlines | strip -%}
+{%- assign strlen = bgset.size | minus: 1 -%}
+
+{%- assign mobile = mobile | default: settings.cardMobile -%}
+
+{%- if mobile == "6" -%}
+{%- assign mobileSize = "50vw" -%}
+{%- else -%}
+{%- assign mobileSize = "100vw" -%}
+{%- endif -%}
+
+{%- assign desktop = desktop | default: settings.cardDesktop -%}
+
+{%- case desktop -%}
+{%- when '1-5' -%}
+{%- assign desktopSize = "20vw" -%}
+{%- when '3' -%}
+{%- assign desktopSize = "25vw" -%}
+{%- when '4' -%}
+{%- assign desktopSize = "33vw" -%}
+{%- endcase -%}
+
+<img loading="lazy" src="{{image | img_url: '10x'}}" 
+data-srcset="{{bgset | slice: 0, strlen }}" data-sizes="(max-width: 767px) {{mobileSize}}, {{desktopSize}}" 
+alt="{{alt}}" class="lazyload {{class}}">

@@ -1,0 +1,43 @@
+{% form "product", product %}
+<div class="product__atc {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}" {{block.shopify_attributes}}>
+    {% if product.available %}
+        <input style="display: none;" name="id" data-variant-id="{{product.selected_or_first_available_variant.id}}" value="{{product.selected_or_first_available_variant.id}}">
+        <div class="quantity--input">
+            <button class="quantity--input__button quantity--input__incr" onclick="boosterCart.quantityHandler(event, false, false)">-</button><!--
+            --><input class="quantity--input__input" value="1" data-qty-input type="number" name="quantity" min="1"><!--
+            --><button class="quantity--input__button quantity--input__decr" onclick="boosterCart.quantityHandler(event, true, false)">+</button>
+        </div>
+        {% render 'add-to-cart-button', type: 'secondary', price: product.price %}
+        {% if settings.dynamicCheckout %}
+            <div  class="col-12 no-gap checkout--dynamic">
+           
+            {% comment %} {% if additional_checkout_buttons %}
+           {{ form | payment_button }}
+                {{ content_for_additional_checkout_buttons }}
+            {% endif %} {% endcomment %}
+            </div>
+        {% endif %}
+    {% else %}
+        {% render 'sold-out-button', disabled: 'disabled' %}
+    {%endif%}
+</div>
+{% endform %}
+
+
+
+<style>
+{% if block.settings.stickyMobile == false %}
+@media screen and (max-width: 767px){
+    .product__atc--sticky {
+        display: none !important;
+    }
+}
+{% endif %}
+{% if block.settings.stickyDesktop == false %}
+@media screen and (min-width: 768px){
+    .product__atc--sticky {
+        display: none !important;
+    }
+}
+{% endif %}
+</style>

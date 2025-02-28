@@ -1,0 +1,88 @@
+{% if shop.customer_accounts_enabled %}
+<div class="user__button">
+    <label for="user__button">{% render 'get-icon', icon: 'user' %}</label>
+    <input type="checkbox" class="hide" id="user__button">
+    <div class="user__holder">
+        {% if customer %}
+            <a class="user__link" href="{{ routes.account_url }}">{% render 'get-icon', icon: 'user' %}Account</a>
+            <a class="user__link" href="{{ routes.account_logout_url }}">{% render 'get-icon', icon: 'signout' %}Log out</a>
+        {% else %}
+            <a class="user__link" href="{{ routes.account_login_url }}">{% render 'get-icon', icon: 'signin' %}Sign In</a>
+            <a class="user__link" href="{{ routes.account_register_url }}">{% render 'get-icon', icon: 'signup' %}Register</a>
+        {% endif %}
+        <a class="user__link" href="{{ routes.cart_url }}">{% render 'get-icon', icon: 'shopping-bag' %}{{'general.buttons.view_cart' | t}}</a>
+    </div>
+    <label class="overlay" for="user__button"></label>
+</div>
+{% endif %}
+
+<span class="search__icon hide-desktop" onclick="openSearch(false)">{% render 'get-icon', icon: 'search' %}</span>
+{% unless settings.cartStyle == 'none' %}
+<div class="minicart__button minicart__button--{{section.settings.cartIcon}}">
+    <input type="checkbox" id="minicart__button">
+    <label class="overlay" for="minicart__button"></label>
+    <label class="minicart__label" for="minicart__button" data-cart-settings="count" data-cart-container>
+        {% render 'get-icon', icon: section.settings.cartIcon %}<span class="item__count" data-count>0</span>
+    </label>
+    <div class="minicart__holder minicart--{{-settings.cartStyle}}" data-cart-settings="product-list" data-cart-container><div data-product-list class=""></div></div>
+</div>
+{% else %}
+<div class="minicart__button minicart__button--{{section.settings.cartIcon}}">
+    <a href="{{routes.cart_url}}" class="minicart__label" for="minicart__button" data-cart-settings="count" data-cart-container>
+        {% render 'get-icon', icon: section.settings.cartIcon %}<span class="item__count" data-count>0</span>
+    </a>
+</div>
+{% endunless %}
+{% if settings.shopCurrency != 'none' or shop.enabled_locales.size > 1 and settings.multilanguage %}
+<div class="i18n__button">
+    <label for="i18n__button">{% render 'get-icon', icon: 'i18n' %}</label>
+    <input type="checkbox" class="hide" id="i18n__button">
+    <div class="i18n__holder">
+        {% if shop.enabled_locales.size > 1 and settings.multilanguage %}
+            <span class="i18n__title">{{'i18n.language' | t}}</span>
+            {% for locale in shop.enabled_locales %}
+                <a 
+                {% unless locale.primary %}
+                    href="{{locale.root_url}}{{ request.path | replace: request.locale.iso_code, '' | replace_first: '//', '/'}}"
+                {% else %}
+                    href="{{ request.path | replace: request.locale.iso_code, '' | replace_first: '//', '/' | default: '/'}}"
+                {% endunless %}
+                class="i18n__language {% if locale.iso_code == request.locale.iso_code %}i18n__language--active{% endif %}">
+                    {{ locale.name }} ({{locale.endonym_name}})
+                </a>
+            {% endfor %}
+        {% endif %}
+        {% unless settings.shopCurrency == 'none' %}
+            <span class="i18n__title">{{'i18n.currency' | t }}</span>
+            <div class="i18n__currencies fancy-scroll">
+                {% if settings.shopCurrency == 'convert' %}
+                    {% assign currencyArr = settings.enabledCurrencies | upcase | replace: ' ', '' | split: ',' %}
+                    {% unless currencyArr contains shop.currency %}
+                    <span data-convert-currency="{{shop.currency}}"
+                    class="i18n__language">
+                        {{shop.currency}}
+                    </span>
+                    {% endunless %}
+                    {% for currency in currencyArr %}
+                    <span data-convert-currency="{{currency}}"
+                    class="i18n__language">
+                        {{currency}}
+                    </span>
+                    {% endfor %}
+                {% else %}
+                    {% form 'currency' %}
+                    <input class="hide" name="currency" id="setCurrency">
+                        {% for currency in shop.enabled_currencies %}
+                            <span data-cart-currency="{{currency.iso_code}}"
+                            class="i18n__language {% if currency == cart.currency %}i18n__language--active{% endif %}">
+                                {{currency.iso_code}} ({{currency.symbol}})
+                            </span>
+                        {% endfor %}
+                    {% endform %}
+                {% endif %}
+            </div>
+        {% endunless %}
+    </div>
+    <label class="overlay" for="i18n__button"></label>
+</div>
+{% endif %}

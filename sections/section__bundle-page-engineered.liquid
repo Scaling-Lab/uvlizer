@@ -1,0 +1,174 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+    background: {{ section.settings.background_color }}
+  }
+
+  .engineered__wrapper .engineered__text .engineered__text-title p {
+    color: {{ section.settings.text_color }};
+    font-family: Poppins, sans-serif;
+    font-size: {{ section.settings.text_size_mobile }}px;
+    line-height: 130%;
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .engineered__wrapper .engineered__text .engineered__text-title p {
+      font-size: {{ section.settings.text_size_tablet }}px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .engineered__wrapper .engineered__text .engineered__text-title p {
+      font-size: {{ section.settings.text_size }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+    .engineered__wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      background: url('https://cdn.shopify.com/s/files/1/0519/0238/2231/files/engineered-mobile.png?v=1702045946') center/cover no-repeat;
+      min-height: 692px;
+    }
+
+    .engineered__text {
+      width: 100%;
+      max-width: 671px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 0 16px;
+    }
+
+    .engineered__text-text p {
+      font-size: 16px;
+      color: #576980;
+    }
+
+    @media screen and (min-width: 1024px) {
+      .engineered__wrapper {
+        background-image: url('https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Group_2700_1.png?v=1738312703');
+        /*background-image: url('https://cdn.shopify.com/s/files/1/0519/0238/2231/files/engineered-desktop.png?v=1702045947');*/
+        min-height: 774px;
+      }
+
+      .engineered__text {
+        gap: 24px;
+        margin-right: 200px;
+        padding: 0;
+      }
+
+      .engineered__text-text p {
+        font-size: 18px;
+      }
+    }
+</style>
+
+<div class="isolate">
+  <div class="section-{{ section.id }}-padding">
+    <div class="engineered__wrapper">
+        <div class="engineered__text">
+            <div class="engineered__text-title">
+              {{ section.settings.heading }}
+            </div>
+            <div class="engineered__text-text">
+              {{ section.settings.text }}
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle page engineered",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Text"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "default": 96,
+      "min": 16,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "default": 40,
+      "min": 12,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_tablet",
+      "label": "Text size tablet",
+      "default": 60,
+      "min": 12,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#004587"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFF"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 50
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle page engineered"
+    }
+  ]
+}
+{% endschema %}

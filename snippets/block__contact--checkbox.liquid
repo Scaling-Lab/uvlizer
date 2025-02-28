@@ -1,0 +1,1 @@
+<label class="contact__checkbox"><input {%if block.settings.required%}required{%endif%} {% if block.settings.checked %}checked{% endif %} name="contact[{{i}}-{{block.settings.name | handleize}}]" type="checkbox" value="{{block.settings.name}}">{{block.settings.name}} {% unless block.settings.required %}(optional){% endunless -%}</label>

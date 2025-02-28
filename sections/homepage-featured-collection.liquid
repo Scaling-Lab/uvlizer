@@ -1,0 +1,183 @@
+<style>
+    .featured-collection{
+        padding: 100px 0;
+    }
+
+    .featured-collection--container{
+        max-width: 1440px;
+        width: 100%;
+        margin: auto;
+        padding: 0 15px;
+    }
+
+    .featured-collection h2{
+        color: #00436C;
+        text-align: center;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%; /* 48px */
+        text-transform: capitalize;
+        margin-bottom: 40px !important;
+    }
+
+    .featured-collection__products{
+        display: flex;
+        column-gap: 25px;
+        row-gap: 25px;
+        flex-wrap: wrap;
+    }
+
+    .collection-product{
+        width: calc(25% - 25px);
+        display: flex;
+        flex-direction: column;
+        row-gap: 15px;
+    }
+
+    .collection-product img {
+        border-radius: 10px;
+    }
+
+    .collection-product h2{
+        color: #1F1F1F;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 120%; /* 21.6px */
+    }
+
+    .collection-product--price {
+        margin-top: auto;
+    }
+
+    .collection-product--price .curr-price {
+        color: #1F1F1F;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+
+    .collection-product--price .comp-price{
+        color: #718399;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+        text-decoration: line-through;
+    }
+
+    form {
+        margin: 0;
+    }
+
+    .collection-product .addcart.btn-add-to-cart.button {
+        width: 100%;
+        font-size: 20px;
+        border-radius: 5px;
+        height: 56px;
+        font-weight: 600;
+        margin-bottom: 0;
+    }
+
+    @media screen and (max-width: 767px) {
+        .featured-collection{
+            padding: 50px 0;
+        }
+
+        .featured-collection h2{
+            font-size: 24px;
+            margin-bottom: 24px !important;
+        }
+
+        .collection-product{
+            width: calc(50% - 12.5px);
+        }
+
+        .collection-product h2{
+            font-size: 16px;
+        }
+
+        .collection-product--price .curr-price {
+            font-size: 16px;
+        }
+
+        .collection-product--price .comp-price{
+            font-size: 13px;
+        }
+
+        .collection-product .addcart.btn-add-to-cart.button {
+            font-size: 14px;
+            height: 40px;
+        }
+    }
+</style>
+
+<section class="featured-collection">
+    <div class="featured-collection--container">
+        <h2>{{ section.settings.title }}</h2>
+        <div class="featured-collection__products">
+            {% for block in section.blocks %}
+                {%- assign product = block.settings.product -%}
+
+                <div class="collection-product">
+
+                    <img src="{{ product.featured_image.src | img_url: 'medium' }}" alt="">
+
+                    <h3>{{ product.title }}</h3>
+
+                    <!-- Start of Judge.me code -->
+                    <div style='{{ jm_style }}' class='jdgm-widget jdgm-preview-badge' data-id='{{ product.id }}' data-auto-install='false'>
+                        {{ product.metafields.judgeme.badge }}
+                    </div>
+                    <!-- End of Judge.me code -->
+
+                    <div class="collection-product--price">
+                        <span class="curr-price">{{ product.price | money }}</span> <span class="comp-price">{{ product.compare_at_price | money }}</span>
+                    </div>
+
+                    <button  v_qty="1" v_id="{{ product.variants.first.id }}" class="addcart btn-add-to-cart button">
+                        Shop Now
+                    </button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+{% schema %}
+{
+    "name": "Featured collection",
+    "settings": [
+        {
+            "type": "text",
+            "id": "title",
+            "label": "Title"
+        }
+    ],
+    "blocks": [
+        {
+            "type": "product",
+            "name": "product",
+            "settings": [
+                {
+                    "type": "product",
+                    "id": "product",
+                    "label": "Product"
+                }
+            ]
+        }
+    ],
+    "presets": [
+        {
+            "name": "Products",
+            "settings": {
+            },
+            "blocks": [
+            ]
+        }
+    ]
+}
+{% endschema %}

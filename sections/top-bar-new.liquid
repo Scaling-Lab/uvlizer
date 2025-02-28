@@ -1,0 +1,281 @@
+{% unless section.settings.enabled == false and section.settings.enabledMobile == false %}
+
+{% capture layoutConfig %}{% render 'common-layout' with section as section %}{% endcapture %}
+
+<div class="layout__{{-layoutConfig}}
+{% unless section.settings.enabledMobile%}hide-mobile{%endunless%} {% unless section.settings.enabled%}hide-desktop{%endunless%}
+{% unless section.settings.colorCombo == 'customCombo' %}{{ section.settings.colorCombo}}{% endunless %}
+colorCombo
+{{section.settings.fontSize}} info-bar" 
+style="{% if section.settings.colorCombo == 'customCombo' %}background-color: {{section.settings.customFillColor}}; color: {{section.settings.customContentColor}};{% endif %} padding-top: 2px; padding-bottom: 2px;"
+>
+  <div class="inherit middle row layout__content">
+  {% if section.blocks.size > 0 %}
+  {%- for block in section.blocks -%}
+    <div class="{%- unless block.settings.enabledMobile%}hide-mobile{%endunless%} {% unless block.settings.enabled%}hide-desktop{%endunless%} 
+    col-12 col-md middle center 
+    {% if forloop.length > 1 and block.settings.align == 'auto' %}
+    {% if forloop.first %}
+    start-md
+    {% elsif forloop.last %}
+    end-md
+    {% endif %}
+    {% else %}
+    {{block.settings.align}}-md
+    {% endif %}"
+    {% unless block.type == 'barTextMarquee' %}
+    style="flex-wrap: wrap; line-height: {{section.settings.height}}px; overflow: hidden; min-height: {{section.settings.height}}px;"
+    {% else %}
+    style="height: {{section.settings.height}}px; line-height: {{section.settings.height}}px; overflow: hidden;"
+    {% endunless -%}>
+      {% render 'get-block', block: block, section: section %}
+      </div>
+  {%- endfor -%}
+  {% else %}
+  <div class="col-12" style="height: {{section.settings.height}}px; line-height: {{section.settings.height}}px; overflow: hidden;">
+  </div>
+  {% endif %}
+  </div>
+</div>
+{% endunless %}
+
+{% schema %}
+{
+  "name": {
+    "en": "Top bar"
+  },
+  "max_blocks": 3,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Help"
+    },
+    {
+      "type": "paragraph",
+      "content": "[Click here to follow an interactive Tutorial](https://vimeo.com/458159216)"
+    },
+    {
+      "type": "header",
+      "content": "Enable/Disable"
+    },
+    {
+      "type": "checkbox",
+      "id": "enabled",
+      "label": "Enable for Desktop",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enabledMobile",
+      "label": "Enable for mobile",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Section layout",
+      "options": [
+        {"value": "default", "label": "Global default"},
+        {"value": "boxed", "label": "Boxed"},
+        {"value": "stretchBg", "label": "Full width background"},
+        {"value": "stretchContent", "label": "Full width"}
+      ],
+      "default": "default"
+    },
+    {
+      "type": "range",
+      "id": "height",
+      "label": "Height",
+      "default": 30,
+      "min": 10,
+      "max": 100,
+      "step": 5,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "label": "Font size",
+      "id": "fontSize",
+      "options": [
+        {"value": "font__size--small", "label": "Small"},
+        {"value": "font__size--base", "label": "Base"},
+        {"value": "font__size--medium", "label": "Medium"}
+      ],
+      "default": "font__size--small"
+    },
+    {
+        "type": "radio",
+        "id": "colorCombo",
+        "label": "Color combination",
+        "default": "primaryCombo",
+        "options": [
+            { "value": "primaryCombo", "label": "Primary combination" },
+            { "value": "secondaryCombo", "label": "Secondary combination" },
+            { "value": "customCombo", "label": "Custom combination"}
+        ]
+    },
+    {
+      "type": "color",
+      "id": "customFillColor",
+      "label": "Custom fill color",
+      "default": "rgba(0,0,0,0)"
+    },
+    {
+      "type": "color",
+      "id": "customContentColor",
+      "label": "Custom content color",
+      "default": "rgba(0,0,0,0)"
+    }
+  ],
+  "blocks": [
+      {
+        "type": "social",
+        "name": "Social media",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Show for desktop",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "enabledMobile",
+            "label": "Show for mobile",
+            "default": true
+          },
+          {
+            "id": "align",
+            "label": "Alignment",
+            "type": "select",
+            "options": [
+              {"value": "auto", "label": "Auto"},
+              {"value": "start", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "end", "label": "Right"}
+            ],
+            "default": "auto"
+          }
+        ]
+      },
+      {
+        "type": "barTextMarquee",
+        "name": "Scrolling messages",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Show for desktop",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "enabledMobile",
+            "label": "Show for mobile",
+            "default": true
+          },
+          {
+            "id": "align",
+            "label": "Alignment",
+            "type": "select",
+            "options": [
+              {"value": "auto", "label": "Auto"},
+              {"value": "start", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "end", "label": "Right"}
+            ],
+            "default": "auto"
+          },
+          {
+            "id": "messages",
+            "type": "richtext",
+            "label": "Messages to scroll",
+            "info": "Separate messages with enter/return (new line)",
+            "default": "<p>This is one message</p><p>This is another one</p>"
+          }
+        ]
+      },
+      {
+        "type": "linkList",
+        "name": "Links",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Show for desktop",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "enabledMobile",
+            "label": "Show for mobile",
+            "default": true
+          },
+          {
+            "id": "align",
+            "label": "Alignment",
+            "type": "select",
+            "options": [
+              {"value": "auto", "label": "Auto"},
+              {"value": "start", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "end", "label": "Right"}
+            ],
+            "default": "auto"
+          },
+          {
+            "id": "links",
+            "label": "Link list",
+            "type": "link_list"
+          }
+        ]
+      },
+      {
+        "type": "contact",
+        "name": "Contact",
+        "settings": [
+          {
+            "type": "checkbox",
+            "id": "enabled",
+            "label": "Show for desktop",
+            "default": true
+          },
+          {
+            "type": "checkbox",
+            "id": "enabledMobile",
+            "label": "Show for mobile",
+            "default": true
+          },
+          {
+            "id": "align",
+            "label": "Alignment",
+            "type": "select",
+            "options": [
+              {"value": "auto", "label": "Auto"},
+              {"value": "start", "label": "Left"},
+              {"value": "center", "label": "Center"},
+              {"value": "end", "label": "Right"}
+            ],
+            "default": "auto"
+          },
+          {
+            "id": "showPhone",
+            "label": "Show phone",
+            "type": "checkbox",
+            "default": true
+          },
+          {
+            "id": "showEmail",
+            "label": "Show email",
+            "type": "checkbox",
+            "default": true
+          }
+        ]
+      }
+    ]
+}
+{% endschema %}

@@ -1,0 +1,10 @@
+<div class="footer__links {{block.settings.horizontalAlignment-}}">
+{%- if block.settings.heading != blank -%}<span class="footer__title">{{block.settings.heading}}</span>{%-endif-%}
+{% for link in linklists[block.settings.links].links %}
+<a href="{{ link.url }}">{{ link.title }}</a>
+{% else %}
+    {% for i in (1..4) %}
+        <a href="#">Footer link {{i}}</a>
+    {% endfor %}
+{% endfor %}
+</div>

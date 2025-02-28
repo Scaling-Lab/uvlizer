@@ -1,0 +1,121 @@
+{% style %}
+  .tika {
+     display: inline-flex;
+}
+  div#countdown {
+    font-weight: bold;
+    margin-left: 7px;
+}
+{% endstyle %}
+{% if section.settings.onof %}
+<div class="main-abc" style="padding-top: 0px; width: 100%">
+    <div class="advertorial__promo-banner">
+    <span class="advertorial__text">
+      <b class="advertorial__text--red">{{ section.settings.red }} </b><b style="color: #00008B">{{ "now" | date: "%B %e, %Y" }}:</b><b>{{ section.settings.bold }}</b> &nbsp;
+    <br> <div class="tika"><p>{{ section.settings.countdown_message }} </p><div id="countdown"></div>!</div> {{ section.settings.regular }}<a href="{% if section.settings.link %}{{ section.settings.link }}{% else %}https://uvlizer.co/pages/uvlizer-home-disinfection-device-cyber-monday-retargeting{% endif %}" style="color: #0000FF"> {{ section.settings.linktext }} </a>&nbsp;{{ section.settings.text2 }}
+    </span>
+   </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdownElement = document.getElementById('countdown');
+    const countdownDuration = 48 * 60 * 60 * 1000; // 48 hours in milliseconds
+    const storageKey = "countdown_timer_end_time";
+
+    function initializeTimer() {
+      let endTime = localStorage.getItem(storageKey);
+
+      if (!endTime || Date.now() > parseInt(endTime)) {
+        // If no end time is saved or it's already passed, reset to 48 hours
+        endTime = Date.now() + countdownDuration;
+        localStorage.setItem(storageKey, endTime);
+      }
+
+      return parseInt(endTime);
+    }
+
+    let endTime = initializeTimer();
+
+    function updateCountdown() {
+      const now = Date.now();
+      const timeRemaining = endTime - now;
+
+      if (timeRemaining <= 0) {
+        // Reset timer when it reaches zero
+        endTime = Date.now() + countdownDuration;
+        localStorage.setItem(storageKey, endTime);
+      }
+
+      const totalHours = Math.floor(timeRemaining / (1000 * 60 * 60));
+      const minutes = Math.floor((timeRemaining / (1000 * 60)) % 60);
+      const seconds = Math.floor((timeRemaining / 1000) % 60);
+
+      countdownElement.innerHTML = `<span>${totalHours}h</span> <span>${minutes}m</span> <span>${seconds}s</span>`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000); // Update every second
+  });
+</script>
+  {% endif %}
+{% schema %}
+{
+  "name": "Advertorial",
+  "settings": [
+    {
+      "type": "text",
+      "id": "end_date",
+      "label": "End Date and Time (YYYY-MM-DD HH:MM:SS)",
+      "default": "2024-12-31 23:59:59"
+    },
+    {
+      "type": "text",
+      "id": "countdown_message",
+      "label": "Countdown Message",
+      "default": "Offer valid for"
+    },
+    {
+      "type": "checkbox",
+      "id": "onof",
+      "default": true,
+      "label": "Show / Hide Section"
+    },
+    {
+      "type": "text",
+      "id": "red",
+      "label": "Red text",
+      "default": "HOLIDAYS UPDATE "
+    },
+    {
+      "type": "text",
+      "id": "bold",
+      "label": "Bold text",
+      "default": " Your only chance to get 2 FREE UVO LAMPS!"
+    },
+    {
+      "type": "text",
+      "id": "regular",
+      "label": "Regular text 1",
+      "default": "The BIGGEST sale ever is now live on Uvlizer’s "
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "linktext",
+      "label": "Link text",
+      "default": "Website here"
+    },
+    {
+      "type": "text",
+      "id": "text2",
+      "label": "Regular text 2",
+      "default": "Limited stock."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,385 @@
+{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}
+
+{%- style -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+
+  .featured-product__{{ section.id }}.featured-product--left {
+    background: {{ section.settings.background_left }};
+  }
+
+  .featured-product__{{ section.id }}.featured-product--right {
+    background: {{ section.settings.background_right }};
+  }
+
+  .featured-product__{{ section.id }} .featured-product__text .featured-product__title p {
+    font-family: Poppins, sans-serif;
+    font-size: {{ section.settings.text_size_mobile }}px;
+    line-height: 130%;
+    margin: 0 0 10px;
+  }
+
+  .featured-product__{{ section.id }} .featured-product__text .featured-product__title--left p {
+    color: {{ section.settings.title_color_left }};
+  }
+
+  .featured-product__{{ section.id }} .featured-product__text .featured-product__title--right p {
+    color: {{ section.settings.title_color_right }};
+  }
+
+  .featured-product__{{ section.id }} .featured-product__text .featured-product__content--left p {
+    color: {{ section.settings.text_color_left }};
+  }
+
+  .featured-product__{{ section.id }} .featured-product__text .featured-product__content--right p {
+    color: {{ section.settings.text_color_right }};
+  }
+
+  @media screen and (min-width: 768px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+
+    .featured-product__{{ section.id }} .featured-product__text .featured-product__title p {
+      font-size: {{ section.settings.text_size_tablet }}px;
+    }
+  }
+
+  @media screen and (min-width: 1024px) {
+    .featured-product__{{ section.id }} .featured-product__text .featured-product__title p {
+      font-size: {{ section.settings.text_size }}px;
+    }
+  }
+{%- endstyle -%}
+
+<style>
+    .featured-product__wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .featured-product {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 46px 12px 46px 15px;
+    }
+
+    .featured-product.featured-product--right {
+      flex-direction: row-reverse;
+    }
+
+    .featured-product__text {
+      max-width: 191px;
+    }
+
+    .featured-product__text .featured-product__content p {
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+
+    .featured-product__button {
+      padding: 10px 40px;
+      text-decoration: none;
+      color: white;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 5px;
+      background: #D53600;
+      position: relative;
+    }
+
+    .featured-product__image {
+      max-width: 170px;
+    }
+
+    @media screen and (min-width: 768px) {
+      .featured-product__text {
+        max-width: 283px;
+        min-width: 201px;
+      }
+
+      .featured-product__image {
+        max-width: 375px;
+      }
+    }
+
+    @media screen and (min-width: 1024px) {
+      .featured-product__wrapper {
+        flex-direction: row;
+      }
+
+      .featured-product {
+        width: 50%;
+        padding: 62px 25px 62px 40px;
+      }
+
+      .featured-product.featured-product--right {
+        flex-direction: row;
+      }
+
+      .featured-product__text {
+        max-width: 375px;
+      }
+
+      .featured-product__text .featured-product__content p {
+        font-size: 18px;
+        margin-bottom: 25px;
+      }
+
+      .featured-product__button {
+        padding: 12px 60px;
+        font-size: 16px;
+      }
+
+      .featured-product__image {
+        max-width: 225px;
+      }
+    }
+
+    @media screen and (min-width: 1440px) {
+      .featured-product__image {
+        max-width: 275px;
+      }
+
+      .featured-product {
+        padding: 62px 42px 62px 63px;
+      }
+    }
+
+    @media screen and (min-width: 1920px) {
+      .featured-product__image {
+        max-width: unset;
+      }
+    }
+</style>
+
+<div class="isolate">
+  <div class="section-{{ section.id }}-padding">
+    <div class="featured-product__wrapper">
+      <div class="featured-product featured-product--left featured-product__{{ section.id }}">
+        <div class="featured-product__text">
+          {% if section.settings.title_left != blank %}
+            <h3 class="featured-product__title featured-product__title--left">
+              {{ section.settings.title_left }}
+            </h3>
+          {% endif %}
+          {% if section.settings.text_left != blank %}
+            <div class="featured-product__content featured-product__content--left">
+              {{ section.settings.text_left }}
+            </div>
+          {% endif %}
+          {% if section.settings.product_left != blank %}
+            <a class="featured-product__button" href="{{ section.settings.product_left.url }}">
+              {{ section.settings.button_left }}
+            </a>
+          {% endif %}
+        </div>
+
+        {% if section.settings.image_left != blank %}
+          {{
+            section.settings.image_left
+            | image_url: width: 3200
+            | image_tag:
+              loading: 'lazy',
+              widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+              sizes: sizes,
+              class: 'featured-product__image'
+          }}  
+        {% endif %}
+      </div>
+      <div class="featured-product featured-product--right featured-product__{{ section.id }}">
+        <div class="featured-product__text">
+          {% if section.settings.title_right != blank %}
+            <h3 class="featured-product__title featured-product__title--right">
+              {{ section.settings.title_right }}
+            </h3>
+          {% endif %}
+          {% if section.settings.text_right != blank %}
+            <div class="featured-product__content featured-product__content--right">
+              {{ section.settings.text_right }}
+            </div>
+          {% endif %}
+          {% if section.settings.product_right != blank %}
+            <a class="featured-product__button" href="{{ section.settings.product_right.url }}">
+              {{ section.settings.button_right }}
+            </a>
+          {% endif %}
+        </div>
+
+        {% if section.settings.image_right != blank %}
+          {{
+            section.settings.image_right
+            | image_url: width: 3200
+            | image_tag:
+              loading: 'lazy',
+              widths: '50, 75, 100, 150, 200, 300, 400, 500, 750, 1000, 1250, 1500, 1750, 2000, 2250, 2500, 2750, 3000, 3200',
+              sizes: sizes,
+              class: 'featured-product__image'
+          }}  
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Bundle page featured",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Left Section"
+    },
+    {
+      "type": "product",
+      "id": "product_left",
+      "label": "Product Left"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_left",
+      "label": "Image Left"
+    },
+    {
+      "type": "richtext",
+      "id": "title_left",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text_left",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_left",
+      "default": "Shop Now",
+      "label": "Button text"
+    },
+    {
+      "type": "color",
+      "id": "title_color_left",
+      "label": "Title Color"
+    },
+    {
+      "type": "color",
+      "id": "text_color_left",
+      "label": "Text Color"
+    },
+    {
+      "type": "color",
+      "id": "background_left",
+      "label": "Background Color"
+    },
+    {
+      "type": "header",
+      "content": "Right Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_right",
+      "label": "Image"
+    },
+    {
+      "type": "product",
+      "id": "product_right",
+      "label": "Product"
+    },
+    {
+      "type": "richtext",
+      "id": "title_right",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "text_right",
+      "label": "Text"
+    },
+    {
+      "type": "text",
+      "id": "button_right",
+      "default": "Shop Now",
+      "label": "Button text"
+    },
+    {
+      "type": "color",
+      "id": "title_color_right",
+      "label": "Title Color"
+    },
+    {
+      "type": "color",
+      "id": "text_color_right",
+      "label": "Text Color"
+    },
+    {
+      "type": "color",
+      "id": "background_right",
+      "label": "Background Color"
+    },
+    {
+      "type": "header",
+      "content": "General Settings"
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Text size",
+      "default": 24,
+      "min": 16,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_mobile",
+      "label": "Text size mobile",
+      "default": 15,
+      "min": 12,
+      "max": 60,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "text_size_tablet",
+      "label": "Text size tablet",
+      "default": 20,
+      "min": 12,
+      "max": 100,
+      "step": 1
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 2,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Bundle page featured"
+    }
+  ]
+}
+{% endschema %}

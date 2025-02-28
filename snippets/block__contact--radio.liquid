@@ -1,0 +1,8 @@
+<label class="contact__radio">{{block.settings.name}} {% unless block.settings.required %}(optional){% endunless -%}</label>
+{% assign options = block.settings.options | split: ',' %}
+<div class="contact__radio--options">
+{% for option in options %}
+<label><input type="radio" name="contact[{{i}}-{{block.settings.name | handleize}}]" value="{{option | handleize}}" {% if forloop.first %}checked{% endif %}>
+{{option}}</label>
+{% endfor %}
+</div>

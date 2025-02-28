@@ -1,0 +1,13 @@
+<div class="submenu--holder">
+    <div class="submenu">
+        {% for childlink in submenu %}
+            <span class="link {% if childlink.child_active or childlink.active %}active{%endif%}"><a class="header__link" href="{{ childlink.url }}">{{ childlink.title | escape }}</a>
+            {% if childlink.links != blank %}
+                <input class="submenu__toggle" type="checkbox" id="{{childlink.title | handleize | append: forloop.index}}">
+                <label class="hide-desktop submenu__toggle--open" for="{{childlink.title | handleize | append: forloop.index}}">+</label>
+                {% render 'header__submenu' with childlink.links as submenu %}
+            {% endif %}
+            </span>
+        {% endfor %}
+    </div>
+</div>

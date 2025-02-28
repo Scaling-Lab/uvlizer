@@ -1,0 +1,2 @@
+<label class="contact__textarea" for="{{block.id}}">{{block.settings.name}} {% unless block.settings.required %}(optional){% endunless -%}</label>
+<textarea {%if block.settings.required%}required{%endif%} id="{{block.id}}" name="contact[{{i}}-{{block.settings.name | handleize}}]" rows="5" placeholder="{{block.settings.placeholder}}"></textarea>

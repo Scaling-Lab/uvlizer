@@ -1,0 +1,121 @@
+{% if product.variants.size > 1 %}
+
+{% assign colorArray = settings.colorSwatches | downcase | split: ',' %}
+
+{% assign optionIndex = "none" %}
+{% for option in product.options %}
+{% assign tempOption = option | downcase %}
+{% if colorArray contains tempOption %}
+{% assign optionIndex = forloop.index0 %}
+{% break %}
+{% endif %}
+{% endfor %}
+
+{% if optionIndex != "none" %}
+{% assign colorOptions = true %}
+{% assign colorImages = "" %}
+{% endif %}
+
+{% capture vArray %}{ {%- for variant in product.variants -%}{%- if variant.featured_image != nil and colorOptions -%}
+{%- assign img = variant.featured_image | img_url: '100x100' -%}
+{%- assign option = variant.options[optionIndex] | downcase -%}
+{%- assign colorImages = colorImages | append: option | append: '##' | append: img | append: "," %}
+{%-endif-%}{{variant.title | json}}: {"available": {{variant.available | json}} ,"id": {{variant.id | json}}, "price": {{variant.price | money | strip_html | json}}, "sale": {{variant.compare_at_price | money | strip_html | json}}, "options": {{variant.options | json}} }{%- unless forloop.last -%},{% endunless -%}{%- endfor -%}}{%- endcapture %}
+
+<noscript id="{{product.id}}">
+{{vArray}}
+</noscript>
+
+<div data-swatch-id="{{product.id}}" class="swatch-container {% if block.settings.noMargin %}margin__bottom--reduced{%endif-%}" data-preselect-swatch="{% unless settings.preselectSwatch == 'custom' %}{{settings.preselectSwatch}}{% else %}{{settings.customPreselect}}{% endunless %}" data-swatch-container="false" data-total-swatches="{{product.options_with_values.size}}" data-current-swatches="[]" {{block.shopify_attributes}}>
+
+{% for product_option in product.options_with_values %}
+{% assign product_option_lc = product_option.name | downcase %}
+
+<div data-option-name="{{product_option_lc}}" class="swatch__container" data-selected-index="-1" data-swatch-options={{forloop.index0}}>
+    {% assign currentIndex = forloop.index0 %}
+    <span class="swatch__title">{{product_option.name}} <span class="swatch__current"></span>{% if forloop.first %}<span class="swatch__container--clear" onClick="boosterProductPage.resetSwatches(this.closest('[data-swatch-container]'))">Clear filters</span>{% endif %}</span>
+    {% if colorArray contains product_option_lc %}
+        {% for value in product_option.values %}
+            <label class="lazyload swatch__option color" {%-render 'swatch__custom-finder', value: value, colorImages: colorImages-%};>
+                <input type="radio" data-swatch-input class="hide" name="{{- product_option.name | downcase -}}" data-value="{{- value | url_escape -}}" data-option-index={{currentIndex}}>
+            </label>
+        {% endfor %}
+    {% else %}
+        {% for value in product_option.values %}
+            <label class="swatch__option">
+            {{- value -}}
+            <input type="radio" data-swatch-input class="hide" name="{{- product_option.name | downcase -}}" data-value="{{- value | url_escape -}}" data-option-index={{currentIndex}}>
+            </label>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endfor %}
+</div>
+
+{% endif %}
+
+{% comment %}Preselected script for choosing the size and color when loading the page{% endcomment %}
+{% if product.title == 'Natural Premium Bamboo Set' %}
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var swatchContainers = document.querySelectorAll('[data-option-name="natural premium bamboo"]');
+            var sizeSwatches, colorSwatches;
+
+            if (swatchContainers.length > 0) {
+                setTimeout(function() {
+                    sizeSwatches = document.querySelectorAll('[data-option-name="size"] .swatch__option input[type="radio"]');
+                    if (sizeSwatches.length > 0) {
+                        sizeSwatches[0].checked = true;
+                        sizeSwatches[0].parentNode.classList.add('active');
+                        sizeSwatches[0].click();
+                    }
+                }, 100);
+
+                setTimeout(function() {
+                    colorSwatches = document.querySelectorAll('[data-option-name="color"] .swatch__option input[type="radio"]');
+                    if (colorSwatches.length > 0) {
+                        colorSwatches[0].checked = true;
+                        colorSwatches[0].parentNode.classList.add('active');
+                        colorSwatches[0].click();
+                    }
+                }, 100);
+
+                for (var i = 0; i < swatchContainers.length; i++) {
+                    swatchContainers[i].addEventListener('click', function() {
+                        var selectedOption = this.querySelector('.swatch__option input[type="radio"]:checked').getAttribute('data-value');
+                        if (selectedOption === "Pillowcase%20Set") {
+
+                            sizeSwatches[2].checked = true;
+                            sizeSwatches[2].parentNode.classList.add('active');
+                            sizeSwatches[2].click();
+
+                            colorSwatches[3].checked = true;
+                            colorSwatches[3].parentNode.classList.add('active');
+                            colorSwatches[3].click();
+                        } else if (selectedOption === "Fitted%20Sheet") {
+
+                            sizeSwatches[0].checked = true;
+                            sizeSwatches[0].parentNode.classList.add('active');
+                            sizeSwatches[0].click();
+
+                            colorSwatches[3].checked = true;
+                            colorSwatches[3].parentNode.classList.add('active');
+                            colorSwatches[3].click();
+                        }
+                        else if (selectedOption === "Bundle%20(Pillowcase%20set%20+%20Fitted%20Sheet)") {
+
+                            sizeSwatches[0].checked = true;
+                            sizeSwatches[0].parentNode.classList.add('active');
+                            sizeSwatches[0].click();
+
+                            colorSwatches[0].checked = true;
+                            colorSwatches[0].parentNode.classList.add('active');
+                            colorSwatches[0].click();
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+{% endif %}

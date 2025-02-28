@@ -1,0 +1,199 @@
+<div class="feature-section" style="background-color: {{ section.settings.background_color }}">
+  <div class="feature-container">
+    <h1 class="feature-title">{{ section.settings.main_title }}</h1>
+    <p class="feature-subtitle">{{ section.settings.subtitle }}</p>
+
+    <div class="feature-content">
+      <div class="feature-text-column">
+        {{ section.settings.main_content }}
+
+        {% if section.settings.highlight_text != blank %}
+          <p class="highlight-text">{{ section.settings.highlight_text }}</p>
+        {% endif %}
+
+        {% if section.settings.testimonial_text != blank %}
+          <div class="testimonial">
+            {% if section.settings.testimonial_image %}
+              <div class="testimonial-image">
+                <img src="{{ section.settings.testimonial_image | img_url: '200x' }}"
+                     alt="{{ section.settings.testimonial_author }}"
+                     loading="lazy">
+              </div>
+            {% endif %}
+            <div class="testimonial-content">
+              <p class="testimonial-text">"{{ section.settings.testimonial_text }}"</p>
+              <p class="testimonial-author">- {{ section.settings.testimonial_author }}</p>
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="feature-image-column">
+        {% if section.settings.feature_image %}
+          <img src="{{ section.settings.feature_image | img_url: 'master' }}"
+               alt="{{ section.settings.main_title }}"
+               loading="lazy"
+               class="feature-image">
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .feature-section {
+    padding: 40px 20px;
+  }
+
+  .feature-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .feature-title {
+    text-align: center;
+    font-size: 34px !important;
+    padding-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .feature-subtitle {
+    text-align: center;
+    font-size: 18px;
+    padding-bottom: 60px;
+    color: #333;
+  }
+
+  .feature-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: center;
+  }
+
+  .feature-text-column {
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  .highlight-text {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 30px 0;
+    color: #333;
+  }
+
+  .testimonial {
+    margin-top: 40px;
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .testimonial-image img {
+    /*width: 80px;*/
+    /*height: 80px;*/
+    /*border-radius: 50%;*/
+    /*object-fit: cover;*/
+  }
+
+  .testimonial-text {
+    font-style: italic;
+    padding-bottom: 10px;
+  }
+
+  .testimonial-author {
+    font-weight: 600;
+    color: #333;
+  }
+
+  .feature-image-column img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .feature-section {
+      padding: 40px 20px;
+    }
+
+    .feature-content {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .feature-image-column {
+      order: -1;
+    }
+
+    .testimonial {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Feature Section-DE",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Title",
+      "default": "Chemical-free disinfection for a healthier home..."
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subtitle",
+      "default": "Protect your health - disinfection without harmful chemicals."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "image_picker",
+      "id": "feature_image",
+      "label": "Feature Image"
+    },
+    {
+      "type": "richtext",
+      "id": "main_content",
+      "label": "Main Content"
+    },
+    {
+      "type": "text",
+      "id": "highlight_text",
+      "label": "Highlighted Text"
+    },
+    {
+      "type": "image_picker",
+      "id": "testimonial_image",
+      "label": "Testimonial Author Image"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_text",
+      "label": "Testimonial Text"
+    },
+    {
+      "type": "text",
+      "id": "testimonial_author",
+      "label": "Testimonial Author Name"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Feature Section"
+    }
+  ]
+}
+{% endschema %}

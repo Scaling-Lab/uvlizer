@@ -1,0 +1,7 @@
+<label class="contact__dropdown" for="{{block.id}}">{{block.settings.name}} {% unless block.settings.required %}(optional){% endunless -%}</label>
+{% assign options = block.settings.options | split: ',' %}
+<select id="{{block.id}}" name="contact[{{i}}-{{block.settings.name | handleize}}]">
+    {% for option in options %}
+        <option value="{{option | handleize}}">{{option}}</option>
+    {% endfor %}
+</select>

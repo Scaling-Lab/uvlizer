@@ -1,0 +1,67 @@
+<div class="row">
+  <div class="col-12 breadcrumbs--default">
+    {% render 'breadcrumbs' %}
+  </div>
+  <div class="col-12 max-width">
+    {% section 'cart-page' %}
+  </div>
+  
+  <script>
+  let cartPage = {};
+  cartPage.removeItem = async (t, id)=>{
+    let res = await boosterCart.removeFromCart(false, id);
+    if(res === true){
+      cartPage.updateCart();
+    }
+  }
+
+  cartPage.updateCart = async ()=>{
+    let time = new Date().getTime();
+    let cartData = await fetch('/?section_id=cart-page', {headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache, no-store, must-revalidate', 'Expires': 0 }}).then((data)=> data.text());
+    let div = document.createElement('div');
+    let currentCart = document.getElementById('shopify-section-cart-page');
+    if(currentCart.dataset.lastUpdate > time){
+      return;
+    }
+    currentCart.innerHTML = cartData;
+    currentCart.dataset.lastUpdate = time;
+    boosterTheme.onNewContent();
+  }
+
+{% if settings.ajaxType == "api" %}
+  cartPage.quantityHandler = (event, req)=>{
+    let res = boosterCart.quantityHandler(event, req);
+    if(res === true){
+      cartPage.updateCart();
+    }
+  }
+
+  cartPage.updateQuantity = async (event)=>{
+    await boosterCart.updateQuantity(event);
+    cartPage.updateCart();
+  }
+{% else %}
+  cartPage.quantityHandler = (event, req)=>{
+    event.preventDefault();
+    let {target} = event;
+    let input = target.closest('.quantity--input').querySelector('.quantity--input__input');
+    let value = parseInt(input.value);
+    if(!req && value){
+      input.value = --value;
+    } else {
+      input.value = ++value;
+    }
+    cartPage.updateQuantity({target: input});
+  }
+
+  cartPage.updateQuantity = async (event)=>{
+    let {target} = event;
+    let key = target.dataset.variantId;
+    let inputs = target.closest('form').querySelectorAll(`[data-variant-id="${key}"]`);
+    for(let input of inputs){
+      input.value = target.value;
+    }
+  }
+{% endif %}
+  </script>
+</div>

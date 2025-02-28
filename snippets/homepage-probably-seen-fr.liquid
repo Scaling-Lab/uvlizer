@@ -1,0 +1,328 @@
+<style>
+    .slider-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .swiper-slide {
+        width: unset;
+    }
+
+    .homepage-probably-seen {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: linear-gradient(100deg, #004587 0%, #00629D 100%);
+        padding: 80px 0;
+    }
+
+    .probably-seen__title,
+    .probably-seen__reviews p {
+        color: #FFF;
+        text-align: center;
+        font-family: Poppins, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: normal;
+        margin-bottom: 0 !important;
+    }
+
+    .probably-seen__title {
+        font-style: normal;
+        font-weight: 700;
+        padding: 20px;
+    }
+
+    .probably-seen__reviews {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .probably-seen__reviews p {
+        font-size: 20px;
+        margin-bottom: 8px !important;
+    }
+
+    .probably-seen__reviews img {
+        max-width: 153px;
+        margin-bottom: 32px;
+    }
+
+    .probably-seen__cards {
+        padding: 0 16px 30px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .probably-seen__partners {
+        overflow: hidden;
+        margin: 16px 0;
+    }
+
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+        bottom: 0;
+    }
+
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: #CCD5D8;
+    }
+    
+    .swiper-pagination-bullet-active {
+        background: white;
+    }
+
+    .probably-seen__card {
+        display: flex;
+        flex-direction: column;  
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        border: 1.5px solid #FFF;
+        max-width: 358px;
+        padding: 24px 24px;
+    }
+
+    .probably-seen__card .probably-seen__person {
+        max-width: 80px;
+        margin-bottom: 16px;
+    }
+
+    .probably-seen__card img {
+        max-width: 122px;
+        margin-bottom: 12px;
+    }
+
+    .probably-seen__card .probably-seen__person-title {
+        color: #FFF;
+        text-align: center;
+        font-family: Poppins, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        margin-bottom: 0 !important;
+    }
+
+    .probably-seen__card p {
+        color: #FFF;
+        text-align: center;
+        font-family: Poppins, sans-serif;
+        font-size: 14px;
+        line-height: 19.6px;
+        margin-bottom: 8px !important;
+    }
+
+    .reviews {
+        display: flex;
+        align-items: center;
+        font-size: 20px;
+    }
+
+    .homepage-probably-seen .reviews-content {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding-bottom: 40px;
+    }
+
+    .stars {
+        color: #f4b600;
+        font-family: "FontAwesome6Free-Solid", sans-serif;
+    }
+
+    .reviews-text {
+        color: #FFF;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: normal;
+    }
+
+    p.bottom-text {
+        max-width: 722px;
+        color: #FFF;
+        text-align: center;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 140%;
+        margin: auto;
+        padding-top: 32px;
+    }
+
+    @media screen and (max-width: 768px) {
+        .reviews-text,
+        .stars {
+            font-size: 14px;
+        }
+        .hero-section h1 {
+            font-size: 28px;
+        }
+        .cta {
+            padding: 10px;
+        }
+        .guarantee-text {
+            font-size: 16px;
+        }
+        .guarantee-item:last-child {
+            margin-left: unset;
+        }
+        .hero-section {
+            min-height: auto;
+        }
+        p.bottom-text {
+            font-size: 18px;
+            padding: 15px 15px 0;
+        }
+    }
+
+    @media screen and (min-width: 768px) {
+        .homepage-probably-seen {
+            padding: 50px 0 74px;
+        }
+
+        .probably-seen__title,
+        .probably-seen__reviews p {
+            font-size: 32px;
+        }
+
+        .probably-seen__reviews img {
+            max-width: 235px;
+            margin-bottom: 48px;
+        }
+
+        .probably-seen__card {
+            max-width: 450px;
+            padding: 40px 24px;
+        }
+
+        .probably-seen__card .probably-seen__person {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .probably-seen__card img {
+            max-width: 153px;
+            margin-bottom: 12px;
+        }
+
+        .probably-seen__card .probably-seen__person-title {
+            font-size: 18px;
+        }
+
+        .probably-seen__card p {
+            color: #FFF;
+            text-align: center;
+            font-family: Poppins, sans-serif;
+            font-size: 16px;
+            line-height: 22.4px;
+            margin-bottom: 16px !important;
+        }
+
+        .probably-seen__partners {
+            margin: 20px 0;
+        }
+    }
+
+    @media screen and (min-width: 1100px) {
+        .probably-seen__partners .swiper-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    @media screen and (min-width: 1440px) {
+        .probably-seen__cards .swiper-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+    }
+</style>
+
+<section class="homepage-probably-seen">
+
+    <div class="probably-seen__reviews">
+        <p>
+            Des milliers de clients satisfaits
+        </p>
+        <div class="reviews">
+            <div class="reviews-content">
+                <span class="stars">★ ★ ★ ★ ★</span>
+                <span class="reviews-text">Plus de 20,000</span>
+            </div>
+        </div>
+        {% comment %}<img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">{% endcomment %}
+    </div>
+
+    <div class="slider-container probably-seen__cards">
+        <div class="swiper-wrapper">
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="{{ 'review-image-1.png' | asset_url }}" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <p>
+                    Depuis que j'utilise UVlizer, je me sens beaucoup plus en sécurité, surtout dans les lieux publics. Simple à utiliser et très pratique en déplacement.
+                </p>
+                <p class="probably-seen__person-title">
+                    – Marion D., Lyon
+                </p>
+            </div>
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="{{ 'review-image-2.png' | asset_url }}" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <p>
+                    Je recommande UVlizer à tous mes amis. En voyage ou à la maison, je l'ai toujours sur moi pour désinfecter en quelques secondes.
+                </p>
+                <p class="probably-seen__person-title">
+                    – Jérôme P., Paris
+                </p>
+            </div>
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="{{ 'review-image-3.png' | asset_url }}" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <p>
+                    I bought two of them, they were delivered in less than a week. Only used it twice so far, in my Master bedroom and guest bedroom, the rooms had a clean smell to them.
+                </p>
+                <p class="probably-seen__person-title">
+                    - Sharon L.
+                </p>
+            </div>
+        </div>
+
+        <div class="swiper-pagination"></div>
+    </div>
+
+    <p class="probably-seen__title">
+        Ils parlent de nous
+    </p>
+
+    <div class="slider-container probably-seen__partners">
+        <div class="swiper-wrapper">
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-1.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-2.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/Group_2672.png?v=1733837770" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-4.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-5.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-6.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-7.png' | asset_url }}" alt="Partners image">
+            </div>
+        </div>
+    </div>
+    <p class="bottom-text">“Je recommande UVlizer à tous mes amis. En voyage ou à la maison, je l'ai toujours sur moi pour désinfecter en quelques secondes.”</p>
+</section>

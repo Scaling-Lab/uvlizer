@@ -1,0 +1,315 @@
+<style>
+    #askquestion {
+        padding: 100px 0;
+        background-color: #FFF;
+    }
+
+
+    #askquestion h2 {
+        color: #00436C;
+        text-align: center;
+        font-size: 32px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 120%; /* 38.4px */
+        text-transform: capitalize;
+    }
+
+    #askquestion h2:before {
+        display: none;
+    }
+
+    .askquestion {
+        margin-top: 50px;
+    }
+    .question-wrap {
+        border-radius: 5px;
+        border: 1px solid #CEDCE4;
+        background: #FFF;
+    }
+    .askquestion .asked {
+        background-color: white;
+        border-radius: 8px;
+        padding: 15px 25px;
+        cursor: pointer;
+        position: relative;
+        display: flex;
+        align-items: center;
+        border: none;
+        box-shadow: none;
+    }
+    .asked .icon {
+        margin-right: 15px;
+    }
+    .askquestion .asked span.ficon {
+        position: absolute;
+        right: 20px;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        left: unset;
+    }
+    .askquestion .asked span.ficon:before {
+        content: "";
+        width: 100%;
+        height: 2px;
+        background-color: #032d49;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .askquestion .asked span.ficon:after {
+        content: "";
+        height: 100%;
+        width: 2px;
+        background-color: #032d49;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+    .askquestion .asked p {
+        margin: 0;
+        flex-grow: 1;
+        color: #1F1F1F;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+    }
+    .question-wrap.active .asked span.ficon:after {
+        opacity: 0;
+    }
+    .askquestion .answer {
+        border: none;
+        margin: 0;
+        padding: 0 25px;
+        display: none;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+    .askquestion .answer p {
+        margin: 0;
+        color: #1F1F1F;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .order-button {
+        display: block;
+        width: 100%;
+        max-width: 930px;
+        margin: 65px auto;
+        padding: 16px 24px;
+        text-align: center;
+        border: none;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        color: #FFF;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        border-radius: 5px;
+        background: #D53600;
+    }
+    .order-button:hover {
+        background: #A63A1E;
+    }
+    .subscription-section {
+        background: #EEF6F8;
+        padding: 60px 24px;
+        text-align: center;
+        border-radius: 12px;
+        margin-top: 60px;
+    }
+    .subscription-content {
+        max-width: 720px;
+        margin: 0 auto;
+    }
+    .subscription-title {
+        color: #1B4B79;
+        font-size: 24px;
+        line-height: 32px;
+        margin-bottom: 16px;
+    }
+    .subscription-text {
+        color: #4B5563;
+        font-size: 16px;
+        line-height: 24px;
+        padding-bottom: 20px;
+    }
+    .newsletter-title {
+        font-size: 18px;
+        line-height: 28px;
+        color: #111827;
+        margin-bottom: 8px;
+    }
+    .subscription-form {
+        display: flex;
+        gap: 12px;
+        max-width: 480px;
+        margin: 24px auto 0;
+    }
+    .subscription-form input[type="email"] {
+        flex: 1;
+        padding: 12px 16px;
+        background: #FFF;
+        color: #1F1F1F;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: normal;
+    }
+    .subscription-form button {
+        padding: 12px 24px;
+        border: none;
+        cursor: pointer;
+        white-space: nowrap;
+        color: #FFF;
+        text-align: center;
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: normal;
+        border-radius: 5px;
+        background: #D53600;
+    }
+    .subscription-form button:hover {
+        background: #A63A1E;
+    }
+    .form-success {
+        color: #059669;
+        background-color: #D1FAE5;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+    }
+    @media only screen and (max-width: 990px) {
+        .subscription-form {
+            flex-direction: column;
+        }
+        .subscription-form button {
+            width: 100%;
+        }
+        .subscription-section {
+            margin: 40px 20px;
+            padding: 32px 20px;
+        }
+    }
+
+    @media only screen and (max-width: 767px) {
+        #askquestion {
+            padding: 50px 0 50px;
+        }
+
+        .askquestion h2 {
+            padding: 0;
+        }
+
+        .subscription-section {
+            margin: 0;
+        }
+    }
+</style>
+
+<section id="askquestion">
+    <div class="containern">
+        <h2>FAQ</h2>
+        <div class="textcontainer askquestion">
+            <div class="question-wrap">
+                <div class="asked">
+                    <span class="ficon"></span>
+                    <p>Combien de temps dure la batterie d'UVlizer ?</p>
+                </div>
+                <div class="answer">
+                    <p>Une charge complète d'UVlizer vous permet plusieurs heures d'utilisation. Il est facilement rechargeable via USB.</p>
+                </div>
+            </div>
+            <div class="question-wrap">
+                <div class="asked">
+                    <span class="ficon"></span>
+                    <p>Es-ce-que le modèle UVO254tm est sûr ?</p>
+                </div>
+                <div class="answer">
+                    <p>La désinfection par UVO est parfaitement sûre si elle est utilisée correctement.</p>
+                </div>
+            </div>
+            <div class="question-wrap">
+                <div class="asked">
+                    <span class="ficon"></span>
+                    <p>Puis-je utiliser UVlizer sur des appareils électroniques ?</p>
+                </div>
+                <div class="answer">
+                    <p>Bien qu'il soit préférable d'utiliser notre UVBox, spécialement conçue à cet effet, vous pouvez également utiliser Uvlizer en créant une pièce de désinfection et en y plaçant tout ce que vous souhaitez désinfecter.</p>
+                </div>
+            </div>
+            <div class="question-wrap">
+                <div class="asked">
+                    <span class="ficon"></span>
+                    <p>Est-il sûr de désinfecter des objets pour les enfants ?</p>
+                </div>
+                <div class="answer">
+                    <p>Les lampes UVO254™ combinent les UV-C et l'ozone pour permettre un nettoyage de l'air et des surfaces dans toute la pièce.</p>
+                </div>
+            </div>
+        </div>
+
+        <button class="order-button cta">
+            Commandez dès maintenant et vivez enfin dans un espace pure grâce à UVlizer
+        </button>
+
+        <div class="subscription-section">
+            <div class="subscription-content">
+                <h2 class="subscription-title">À Propos D'UVlizer</h2>
+                <p class="subscription-text">
+                    Chez Uvlizer, notre mission est de permettre à toutes les personnes et aux familles de respirer librement et de vivre dans des espaces exempts d'allergènes et de contaminants. Nous croyons qu'une maison plus saine mène aussi à une vie plus saine.
+                </p>
+                <h3 class="newsletter-title">Ne manquez aucune actualité et rejoignez la newsletter UVlizer</h3>
+                <p>et faites de la propreté votre priorité!</p>
+
+                {%- form 'customer', class: 'subscription-form' -%}
+                    {{ form.errors | default_errors }}
+                    {%- if form.posted_successfully? -%}
+                        <div class="form-success">
+                            {{ 'Subscription successful'}}
+                        </div>
+                    {%- endif -%}
+                    <input type="hidden" name="contact[tags]" value="newsletter">
+                    <input type="email"
+                           name="contact[email]"
+                           id="Email"
+                           value="{% if customer %}{{ customer.email }}{% endif %}"
+                           placeholder="E-mail"
+                           required>
+                    <button type="submit" name="commit">Subscribe</button>
+                {%- endform -%}
+            </div>
+        </div>
+    </div>
+</section>
+
+<link rel="preload" as="script" href="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js">
+
+<script>
+    $(".question-wrap").click(function () {
+        $(this).toggleClass("active").siblings().removeClass("active");
+        $(this).children(".answer").slideToggle();
+        $(this).siblings().children(".answer").slideUp();
+    })
+    $(".pselection:first-child").addClass("selected");
+    $(".pselection").click(function () {
+        var qty = $(this).attr("data-qty");
+        var variant = $(this).attr("v_id");
+        $(".addcart").attr({
+            v_id: variant,
+            v_qty: qty
+        });
+    });
+</script>

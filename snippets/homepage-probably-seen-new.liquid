@@ -1,0 +1,292 @@
+<style>
+    .slider-container {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .swiper-slide {
+        width: unset;
+    }
+
+    .homepage-probably-seen {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: linear-gradient(100deg, #004587 0%, #00629D 100%);
+        padding: 80px 0;
+    }
+
+    .probably-seen__title,
+    .probably-seen__reviews p {
+        color: #FFF;
+        text-align: center;
+        font-family: Poppins, sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        line-height: normal;
+        margin-bottom: 0 !important;
+    }
+
+    .probably-seen__title {
+        font-style: italic;
+    }
+
+    .probably-seen__reviews {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .probably-seen__reviews p {
+        font-size: 20px;
+        margin-bottom: 8px !important;
+    }
+
+    .probably-seen__reviews img {
+        max-width: 153px;
+        margin-bottom: 32px;
+    }
+
+    .probably-seen__cards {
+        padding: 0 16px 30px;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .probably-seen__partners {
+        overflow: hidden;
+        margin: 16px 0 46px;
+    }
+
+    .swiper-horizontal>.swiper-pagination-bullets, .swiper-pagination-bullets.swiper-pagination-horizontal {
+        bottom: 0;
+    }
+
+    .swiper-pagination-bullet {
+        width: 8px;
+        height: 8px;
+        background: #CCD5D8;
+    }
+    
+    .swiper-pagination-bullet-active {
+        background: white;
+    }
+
+    .probably-seen__card {
+        display: flex;
+        flex-direction: column;  
+        justify-content: center;
+        align-items: center;
+        border-radius: 20px;
+        border: 1.5px solid #FFF;
+        max-width: 358px;
+        padding: 24px 24px;
+    }
+
+    .probably-seen__card .probably-seen__person {
+        max-width: 80px;
+        margin-bottom: 16px;
+        border-radius: 50%;
+    }
+
+    .probably-seen__card img {
+        max-width: 122px;
+        margin-bottom: 12px;
+    }
+
+    .probably-seen__card .probably-seen__person-title {
+        color: #FFF;
+        text-align: center;
+        font-family: Poppins, sans-serif;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: normal;
+        margin-bottom: 0 !important;
+    }
+
+    .probably-seen__card p {
+        color: #FFF;
+        text-align: center;
+        font-family: Poppins, sans-serif;
+        font-size: 14px;
+        line-height: 19.6px;
+        margin-bottom: 8px !important;
+    }
+
+    @media screen and (min-width: 768px) {
+        .homepage-probably-seen {
+            padding: 50px 0 74px;
+        }
+
+        .probably-seen__title,
+        .probably-seen__reviews p {
+            font-size: 32px;
+        }
+
+        .probably-seen__reviews img {
+            max-width: 235px;
+            margin-bottom: 48px;
+        }
+
+        .probably-seen__card {
+            max-width: 450px;
+            padding: 40px 24px;
+        }
+
+        .probably-seen__card .probably-seen__person {
+            max-width: 100px;
+            margin-bottom: 20px;
+        }
+
+        .probably-seen__card img {
+            max-width: 153px;
+            margin-bottom: 12px;
+        }
+
+        .probably-seen__card .probably-seen__person-title {
+            font-size: 18px;
+        }
+
+        .probably-seen__card p {
+            color: #FFF;
+            text-align: center;
+            font-family: Poppins, sans-serif;
+            font-size: 16px;
+            line-height: 22.4px;
+            margin-bottom: 16px !important;
+        }
+
+        .probably-seen__partners {
+            margin: 20px 0 64px;
+        }
+    }
+
+    @media screen and (min-width: 1100px) {
+        .probably-seen__partners .swiper-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (min-width: 1440px) {
+        .probably-seen__cards .swiper-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+    }
+</style>
+
+<section class="homepage-probably-seen">
+    <p class="probably-seen__title">
+        YOU'VE PROBABLY SEEN THIS TECHNOLOGY ON
+    </p>
+
+    <div class="slider-container probably-seen__partners">
+        <div class="swiper-wrapper">
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-1.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-2.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-3.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-4.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-5.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-6.png' | asset_url }}" alt="Partners image">
+            </div>
+            <div class="probably-seen__partners-card swiper-slide">
+                <img loading="lazy" class="probably-seen__partners-image" src="{{ 'partners-7.png' | asset_url }}" alt="Partners image">
+            </div>
+        </div>
+    </div>
+
+    <div class="probably-seen__reviews">
+        <p>
+            2000+ HAPPY CUSTOMERS
+        </p>
+        <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+    </div>
+
+    <div class="slider-container probably-seen__cards">
+        <div class="swiper-wrapper">
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/73x73_1.png?v=1738231076" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <i><p><strong>
+                            A Game-Changer in Home Cleanliness - The UVO254 Powered Home Disinfection Tower
+                        </strong></p>
+                    <p>
+                        I'm thoroughly impressed with the UVO254 Powered Home Disinfection Tower!
+                        This device has been a game-changer in maintaining a clean and germ-free environment in my home. From the sleek design to its high functionality, the UVO254 has surpassed my expectations.
+                    </p>
+                    <p class="probably-seen__person-title">
+                        - Barry
+                    </p>
+                </i>
+            </div>
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/73x73_2.png?v=1738231769" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <i><p><strong>
+                            I have purchased 6 Uvlizer units so far…
+                        </strong></p>
+                    <p>
+                        I have purchased 6 Uvlizer units so far . I love the way my house smells when I get home from work . I put one on my bed to work on dust mits and germs. Will be ordering more for every room in the house. I best thing is one remote works at turning on all units at one time.
+                    </p>
+                    <p class="probably-seen__person-title">
+                        - Robin Rodgers
+                    </p>
+                </i>
+            </div>
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/73x73_3.png?v=1738572463" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <i><p><strong>
+                            Best purchase ever
+                        </strong></p>
+                    <p>
+                        I have had the uviliser for a few weeks now, using it about once per week and from the very first go I found it cleared residual smells that i hadn't been able to clear even with carpet cleaning and fresh linen. I slept better from day one, probabaly because there wasn't any mould spores etc left in the room. I love it. Air the room well after use though, with windows open a couple of hours after timer finishes.
+                    </p>
+                    <p><strong>Date of experience:</strong> July 01, 2023</p>
+                    <p class="probably-seen__person-title">
+                        - Sue Kira
+                    </p>
+                </i>
+            </div>
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/9230519.png?v=1738572463" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <i><p><strong>
+                            The truth
+                        </strong></p>
+                    <p>
+                        In truth, the company is telling the absolute truth about its product. And, they are willing to back up their claims with a 90 day money back guarantee. I have never in the past bragged about any product that I have purchased to other people. But I do brag about the Uvilizer. And I have recommended it to other people. I have nothing to gain from my comments. The company is not paying me anything. I’m just stating the truth about my experience with the Uvilizer. It’s by far one of the best products I’ve ever purchased. I have used it in every room in my home. And will do the same,in my property in Dallas Texas.
+                    </p>
+                    <p><strong>Date of experience:</strong> July 19, 2024</p>
+                    <p class="probably-seen__person-title">
+                        - Gerald Dudly
+                    </p>
+                </i>
+            </div>
+            <div class="probably-seen__card swiper-slide">
+                <img loading="lazy" class="probably-seen__person" src="https://cdn.shopify.com/s/files/1/0519/0238/2231/files/download_8845ede0-751a-4570-8a28-a82dbac1f6b6.png?v=1738570998" alt="Reviews">
+                <img loading="lazy" src="{{ 'reviews-star.png' | asset_url }}" alt="Reviews">
+                <i><p>
+                        Tried many things for YEARS, had a musty smell and after Uvlizer treatment cleared the smell ! I recommend this inexpensive treatment completely.                    </p>
+                    <p class="probably-seen__person-title">
+                        - Anne F Bower
+                    </p>
+                </i>
+            </div>
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</section>
